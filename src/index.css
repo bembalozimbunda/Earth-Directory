@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #0d1210;
+  --panel: #141c19;
+  --line: #2a3a34;
+  --ink: #e8ede9;
+  --dim: #8ba59a;
+  --leaf: #5c9c6f;
+  --bark: #8a6a3f;
+  --sky: #4a7c8c;
+  --gold: #c9a24a;
+  --crown: #b8863c;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(ellipse at 50% 0%, #16211c 0%, var(--bg) 60%);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.wrap { max-width: 960px; margin: 0 auto; padding: 40px 22px 90px; }
+.eyebrow { font-family: 'Courier New', monospace; letter-spacing: .18em; text-transform: uppercase; font-size: 11px; color: var(--leaf); margin-bottom: 12px; }
+h1 { font-family: Georgia, 'Iowan Old Style', serif; font-weight: 400; font-size: clamp(26px, 4.2vw, 40px); margin: 0 0 10px; letter-spacing: -0.01em; }
+h1 em { font-style: italic; color: var(--gold); }
+.sub { color: var(--dim); font-size: 14px; max-width: 620px; line-height: 1.6; }
+.scope-note { font-size: 12px; color: var(--dim); background: rgba(92,156,111,0.08); border: 1px solid var(--line); border-radius: 6px; padding: 10px 14px; margin: 18px 0 28px; line-height: 1.6; }
+.scope-note b { color: var(--gold); font-weight: 600; }
+.crumbs { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 20px; font-size: 13px; }
+.crumb { color: var(--dim); cursor: pointer; padding: 5px 10px; border-radius: 5px; border: 1px solid transparent; transition: all .15s ease; }
+.crumb:hover { color: var(--ink); border-color: var(--line); }
+.crumb.active { color: var(--ink); background: var(--panel); border-color: var(--line); }
+.crumb-sep { color: var(--line); }
+.level-tag { font-family: 'Courier New', monospace; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); margin-bottom: 14px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 10px; }
+.node { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 16px 16px 14px; cursor: pointer; transition: border-color .15s ease, transform .15s ease; position: relative; overflow: hidden; text-align: left; }
+.node:hover { border-color: var(--leaf); transform: translateY(-2px); }
+.node .stem { position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--leaf); }
+.node.country .stem { background: var(--sky); }
+.node.region .stem { background: var(--bark); }
+.node.locality .stem { background: var(--gold); }
+.node-name { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+.node-row { font-size: 12px; color: var(--dim); line-height: 1.6; margin-bottom: 3px; }
+.node-row b { color: var(--ink); font-weight: 500; }
+.tag { display: inline-block; margin-top: 6px; margin-right: 5px; font-size: 10.5px; padding: 2px 7px; border-radius: 20px; }
+.tag-lang { color: var(--leaf); background: rgba(92,156,111,0.12); }
+.tag-leader { color: var(--sky); background: rgba(74,124,140,0.15); }
+.tag-crown { color: var(--crown); background: rgba(184,134,60,0.15); }
+.node-arrow { position: absolute; right: 14px; top: 16px; color: var(--dim); font-size: 13px; }
+.node.leaf .node-arrow { display: none; }
+.node.leaf { cursor: default; }
+.node.leaf:hover { border-color: var(--line); transform: none; }
+.node.deepenable { border-style: dashed; }
+.empty { color: var(--dim); font-size: 13px; padding: 30px 0; text-align: center; border: 1px dashed var(--line); border-radius: 8px; }
+footer { margin-top: 50px; padding-top: 18px; border-top: 1px solid var(--line); font-size: 12px; color: var(--dim); line-height: 1.7; }
+
+
