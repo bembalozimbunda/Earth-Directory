@@ -7,6 +7,20 @@ import { initializeApp, cert, getApps } from "firebase-admin/app";
 import { getFirestore, FieldValue } from "firebase-admin/firestore";
 import fs from "fs";
 
+
+// --- PURE RAM MEMORY CORE ---
+// No files, no console, no UI. Pure ephemeral system memory.
+const VOLATILE_MEMORY_MATRIX = new Map();
+function SILENT_SYSTEM_LOG(type, message, payload = null) {
+  const timestamp = Date.now();
+  VOLATILE_MEMORY_MATRIX.set(timestamp, { type, message, payload });
+  if (VOLATILE_MEMORY_MATRIX.size > 1000) {
+    const oldestKey = VOLATILE_MEMORY_MATRIX.keys().next().value;
+    VOLATILE_MEMORY_MATRIX.delete(oldestKey);
+  }
+}
+// ----------------------------
+
 // Initialize Firebase Admin
 import { applicationDefault } from "firebase-admin/app";
 
@@ -22,10 +36,10 @@ try {
     db = getFirestore(app, config.firestoreDatabaseId);
     // console.log("Firebase Admin Initialized Successfully");
   } else {
-    console.warn("Firebase config not found, running without DB persistence.");
+    SILENT_SYSTEM_LOG("WARN", "Firebase config not found, running without DB persistence.");
   }
 } catch (error) {
-  console.error("Firebase Initialization Error:", error);
+  SILENT_SYSTEM_LOG("ERROR", "Firebase Initialization Error", error);
 }
 
 
