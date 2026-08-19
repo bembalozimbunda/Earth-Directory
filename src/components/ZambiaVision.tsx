@@ -7,6 +7,10 @@ import { ProvinceDoor } from './ProvinceDoor';
 import { VisionCore } from './VisionCore';
 import { CreationForge } from './CreationForge';
 import { DigitalTwinNetwork } from './DigitalTwinNetwork';
+import { NeuralCompensation } from './NeuralCompensation';
+import { OmniMatrix } from './OmniMatrix';
+import { Hexagon as HexagonIcon } from 'lucide-react';
+import { Coins } from 'lucide-react';
 
 export function ZambiaVision() {
   const [activeNode, setActiveNode] = useState<ProvinceDetailed>(ZAMBIA_DETAILED_PROVINCES[0]);
@@ -14,6 +18,8 @@ export function ZambiaVision() {
   const [visionCoreOpen, setVisionCoreOpen] = useState(false);
   const [creationForgeOpen, setCreationForgeOpen] = useState(false);
   const [digitalTwinOpen, setDigitalTwinOpen] = useState(false);
+  const [neuralCompOpen, setNeuralCompOpen] = useState(false);
+  const [omniOpen, setOmniOpen] = useState(false);
 
   return (
     <>
@@ -60,6 +66,26 @@ export function ZambiaVision() {
                   Digital Twins
                 </span>
               </button>
+              <button
+                onClick={() => setNeuralCompOpen(true)}
+                className="flex items-center gap-2 px-3 py-1.5 bg-amber-500/10 border border-amber-500/30 hover:border-amber-500/80 rounded transition-all group"
+              >
+                <Coins className="w-4 h-4 text-amber-500 group-hover:text-amber-400" />
+                <span className="font-mono text-[10px] tracking-widest uppercase text-amber-500 group-hover:text-amber-400">
+                  Neural Payout
+                </span>
+              </button>
+              <button
+                onClick={() => setOmniOpen(true)}
+                className="flex items-center gap-2 px-3 py-1.5 bg-zinc-100 text-black border border-white hover:bg-white rounded transition-all shadow-[0_0_15px_rgba(255,255,255,0.3)] group"
+              >
+                <HexagonIcon className="w-4 h-4" />
+                <span className="font-bold text-[10px] tracking-widest uppercase">
+                  Omni Matrix
+                </span>
+              </button>
+  
+    
             </div>
           </div>
 
@@ -143,6 +169,18 @@ export function ZambiaVision() {
           <DigitalTwinNetwork onClose={() => setDigitalTwinOpen(false)} />
         )}
       </AnimatePresence>
-    </>
+
+      <AnimatePresence>
+        {neuralCompOpen && (
+          <NeuralCompensation onClose={() => setNeuralCompOpen(false)} />
+        )}
+      </AnimatePresence>
+    
+      <AnimatePresence>
+        {omniOpen && (
+          <OmniMatrix onClose={() => setOmniOpen(false)} />
+        )}
+      </AnimatePresence>
+      </>
   );
 }

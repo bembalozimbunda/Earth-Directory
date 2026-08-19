@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { TRUE_SUN_MEMORY } from './data/TrueSunMemory';
 import { motion, AnimatePresence } from 'motion/react';
+import { TimeSyncOverlay } from './components/TimeSyncOverlay';
 import { SynthesisCore } from './components/SynthesisCore';
 import { ContinentDoor } from './components/ContinentDoor';
 import { CONTINENTS, ContinentData } from './data/continents';

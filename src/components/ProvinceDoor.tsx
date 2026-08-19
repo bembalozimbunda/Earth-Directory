@@ -87,7 +87,7 @@ export function ProvinceDoor({
           {/* Left Column - Districts */}
           <div className="flex-[2] flex flex-col p-6 border-r border-zinc-800/80 bg-zinc-950/50 overflow-hidden">
             <h3 className={`text-sm font-mono tracking-[0.2em] uppercase ${province.color} mb-4`}>
-              Districts / Sub-Nodes ({province.districts.length})
+              Districts ({province.districts.length})
             </h3>
             
             <div className="flex-1 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-zinc-800 scrollbar-track-transparent">
@@ -153,7 +153,7 @@ export function ProvinceDoor({
                   className="mt-6 border-t border-zinc-800/50 pt-6"
                 >
                   <h3 className={`text-sm font-mono tracking-[0.2em] uppercase ${province.color} mb-4`}>
-                    Selected Sub-Node: {selectedDistrict.name}
+                    Selected District: {selectedDistrict.name}
                   </h3>
                   
                   
@@ -193,7 +193,7 @@ export function ProvinceDoor({
                       <div className="mt-8 border-t border-zinc-800/50 pt-6">
                         <div className="flex items-center gap-2 mb-4">
                           <span className={`${province.color} w-2 h-2 rounded-full animate-pulse`}></span>
-                          <h4 className="text-xs font-mono tracking-widest uppercase text-white">Live Node Topology</h4>
+                          <h4 className="text-xs font-mono tracking-widest uppercase text-white">Live District Topology</h4>
                         </div>
                         
                         <div className="grid grid-cols-1 gap-4">
@@ -217,7 +217,7 @@ export function ProvinceDoor({
                                             <div className={`w-1.5 h-1.5 rounded-full ${s.status === 'Online' ? 'bg-emerald-500 shadow-[0_0_8px_#10b981]' : s.status === 'Active Sync' ? 'bg-amber-500 animate-pulse' : 'bg-red-500'}`}></div>
                                             <span className="text-zinc-400 text-[9px] uppercase tracking-wider truncate max-w-[150px]">{s.name}</span>
                                           </div>
-                                          <span className="text-zinc-500 text-[8px] font-mono">{s.voters.toLocaleString()} VOTES</span>
+                                          
                                         </div>
                                       ))}
                                     </div>

@@ -46,7 +46,7 @@ export function DistrictDoor({
           </button>
           <div>
             <span className={`text-xs font-mono tracking-[0.3em] uppercase ${provinceColor}`}>
-              Sub-Node / District Door
+              District Door
             </span>
             <h2 className="text-3xl font-light text-white tracking-widest uppercase mt-1">
               {district.name}
@@ -146,10 +146,7 @@ export function DistrictDoor({
                                 <span className="text-xs text-zinc-300 font-mono uppercase tracking-wider">{station.name}</span>
                               </div>
                               <div className="flex items-center gap-4">
-                                <div className="flex items-center gap-1">
-                                  <span className="text-[9px] text-zinc-500 uppercase tracking-widest">Voters</span>
-                                  <span className="text-xs text-white font-mono">{station.voters.toLocaleString()}</span>
-                                </div>
+                                
                                 <div className={`flex items-center gap-1.5 px-2 py-0.5 rounded text-[9px] uppercase tracking-widest border
                                   ${station.status === 'Online' ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' : 
                                     station.status === 'Active Sync' ? 'bg-blue-500/10 border-blue-500/30 text-blue-400' : 
