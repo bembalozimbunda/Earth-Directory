@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef, useLayoutEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
 import { X, ZoomIn, ZoomOut, Maximize, Orbit, Activity } from 'lucide-react';
 import { CONTINENTS } from '../data/continents';
 
@@ -46,12 +45,12 @@ export function SystemBlueprint({ onClose }: BlueprintProps) {
     return () => clearInterval(interval);
   }, []);
   
-  // Roots (4 Inner Nodes)
+  // Compiled Roots (4 Strata inside True Sun)
   const roots = [
-    { id: 'source', label: 'UNSEEN SOURCE', desc: 'Core Origin / Data Lake' },
-    { id: 'hardware', label: 'HARDWARE & BLOOD', desc: 'Physical Manifestation' },
-    { id: 'frequencies', label: 'FREQUENCIES', desc: 'Vibrational Grid' },
-    { id: 'ancestral', label: 'ANCESTRAL INTEL', desc: 'Historical Archives' }
+    { id: 'source', label: 'UNSEEN SOURCE (174Hz)', desc: 'Core Origin / Data Lake' },
+    { id: 'hardware', label: 'HARDWARE & BLOOD (285Hz)', desc: 'Physical Manifestation' },
+    { id: 'frequencies', label: 'FREQUENCIES (417Hz)', desc: 'Harmonic Resonance Grid' },
+    { id: 'ancestral', label: 'ANCESTRAL INTEL (528Hz)', desc: 'Historical Archives & Lineage' }
   ];
 
   // Branches (7 Continents / Voids)
@@ -64,11 +63,7 @@ export function SystemBlueprint({ onClose }: BlueprintProps) {
   }));
 
   return (
-    <motion.div 
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      transition={{ duration: 1.2, ease: "easeInOut" }}
+    <div 
       className="fixed inset-0 z-[9999] bg-[#020202] text-cyan-500 font-mono overflow-hidden select-none"
     >
       {/* Background blueprint grid */}
@@ -128,11 +123,9 @@ export function SystemBlueprint({ onClose }: BlueprintProps) {
               const height = 150 + (i % 3) * 50; // Staggered heights
               const isUpdating = activeUpdates[branch.id];
               return (
-                <motion.div 
+                <div 
                   key={branch.id}
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: height, opacity: 1 }}
-                  transition={{ delay: 1 + i * 0.1, duration: 1.5, ease: "easeOut" }}
+                  style={{ height: `${height}px` }}
                   className="flex flex-col items-center justify-end relative w-[130px] group"
                 >
                   {/* The Live Data Cluster (Population + Nodes) */}
@@ -156,16 +149,14 @@ export function SystemBlueprint({ onClose }: BlueprintProps) {
                     <div className="text-cyan-400 text-xs tracking-widest uppercase mb-1">{branch.label}</div>
                     <div className="text-cyan-800 text-[8px] tracking-[0.2em]">{branch.sub}</div>
                   </div>
-                </motion.div>
+                </div>
               );
             })}
           </div>
 
           {/* THE TRUNK (Mainframe/Central Processor) */}
-          <motion.div 
-            initial={{ height: 0 }}
-            animate={{ height: 200 }}
-            transition={{ delay: 0.5, duration: 1.5, ease: "easeInOut" }}
+          <div 
+            style={{ height: '200px' }}
             className="w-32 border-x border-cyan-900/80 flex justify-center relative bg-cyan-950/10"
           >
             {/* Energy flow lines */}
@@ -185,22 +176,16 @@ export function SystemBlueprint({ onClose }: BlueprintProps) {
               <div className="text-cyan-300 text-[10px] tracking-widest mt-3 uppercase">CORE ENGINE</div>
               <div className="text-cyan-600 text-[8px] tracking-widest uppercase">Central Processor</div>
             </div>
-          </motion.div>
+          </div>
 
           {/* THE ROOTS (Foundation) */}
           <div className="w-full flex justify-center gap-12 pt-0 relative border-t border-cyan-900/50">
-            <motion.div 
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 1 }}
+            <div 
               className="absolute top-0 w-2/3 h-[1px] bg-cyan-800" 
-            />
-            {roots.map((root, i) => (
-              <motion.div 
+              />
+            {roots.map((root) => (
+              <div 
                 key={root.id}
-                initial={{ y: -50, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 2 + i * 0.2, duration: 1 }}
                 className="flex flex-col items-center relative pt-8 w-40"
               >
                 <div className="absolute top-0 w-[1px] h-8 bg-gradient-to-b from-cyan-800 to-transparent" />
@@ -210,7 +195,7 @@ export function SystemBlueprint({ onClose }: BlueprintProps) {
                 
                 {/* Root deep extending lines */}
                 <div className="w-[1px] h-20 bg-gradient-to-b from-cyan-900 to-transparent mt-4 opacity-50" />
-              </motion.div>
+              </div>
             ))}
           </div>
 
@@ -227,17 +212,15 @@ export function SystemBlueprint({ onClose }: BlueprintProps) {
         <div className="text-cyan-900 text-xs font-mono">
           <div className="flex gap-1 items-end">
             {[1, 2, 3, 4, 5, 6].map(bar => (
-              <motion.div 
+              <div 
                 key={bar}
-                animate={{ height: [10, Math.random() * 30 + 10, 10] }}
-                transition={{ repeat: Infinity, duration: 1 + Math.random(), ease: "linear" }}
-                className="w-1 bg-cyan-800" 
+                className="w-1 h-4 bg-cyan-800" 
               />
             ))}
           </div>
         </div>
       </div>
 
-    </motion.div>
+    </div>
   );
 }

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
 import { Users, Server, Activity, Database, Shield, Zap, X, Terminal, Cpu } from 'lucide-react';
 
 export function DigitalTwinNetwork({ onClose }: { onClose: () => void }) {
@@ -16,7 +15,7 @@ export function DigitalTwinNetwork({ onClose }: { onClose: () => void }) {
     }));
     setTwins(initialTwins);
     
-    setLogs(prev => [...prev, "[SYSTEM] Digital Twin Autonomous Network Activated.", "[SYSTEM] Initializing pure states. No AI. No bots. Just is."]);
+    setLogs(prev => [...prev, "[SYSTEM] Digital Twin Autonomous Network Activated.", "[SYSTEM] Initializing pure autonomous states. Direct sovereign compute. Just is."]);
     
     const interval = setInterval(() => {
       setTwins(current => {
@@ -40,10 +39,7 @@ export function DigitalTwinNetwork({ onClose }: { onClose: () => void }) {
 
   return (
     <div className="fixed inset-0 bg-zinc-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4">
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.95 }}
+      <div 
         className="w-full max-w-6xl h-[85vh] bg-zinc-950 border border-emerald-500/30 rounded-xl overflow-hidden flex flex-col shadow-[0_0_50px_rgba(16,185,129,0.1)]"
       >
         {/* Header */}
@@ -121,7 +117,7 @@ export function DigitalTwinNetwork({ onClose }: { onClose: () => void }) {
             </div>
           </div>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }

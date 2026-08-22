@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'motion/react';
 import { ShieldAlert } from 'lucide-react';
 import { ZambiaVision } from './ZambiaVision';
 
@@ -31,7 +30,7 @@ export function ZambiaGatekeeper() {
     const newInput = input + letter;
     if (TARGET_WORD === newInput) {
       setInput(newInput);
-      setTimeout(() => setUnlocked(true), 500);
+      setTimeout(() => setUnlocked(true), 200);
     } else if (TARGET_WORD.startsWith(newInput)) {
       setInput(newInput);
     } else {
@@ -41,7 +40,7 @@ export function ZambiaGatekeeper() {
       setTimeout(() => {
         setInput('');
         setErrorFlash(false);
-      }, 400);
+      }, 300);
     }
   };
 
@@ -55,9 +54,7 @@ export function ZambiaGatekeeper() {
 
   return (
     <div className="flex-1 flex flex-col items-center justify-center bg-zinc-950/80 p-6 rounded-lg border border-zinc-800/50 overflow-hidden relative z-10 min-h-[500px]">
-      <motion.div 
-        animate={errorFlash ? { x: [-10, 10, -10, 10, 0] } : {}}
-        transition={{ duration: 0.4 }}
+      <div 
         className="flex flex-col items-center justify-center w-full max-w-md gap-6"
       >
         <ShieldAlert className="w-12 h-12 text-red-500/80 mb-2" />
@@ -92,7 +89,7 @@ export function ZambiaGatekeeper() {
         >
           Clear
         </button>
-      </motion.div>
+      </div>
     </div>
   );
 }

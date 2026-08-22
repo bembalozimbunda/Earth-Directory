@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import { Brain, Coins, Activity, Fingerprint, Zap, ShieldCheck, ArrowRight, X } from 'lucide-react';
 
 interface NodeData {
@@ -44,10 +43,7 @@ export function NeuralCompensation({ onClose }: { onClose: () => void }) {
   };
 
   return (
-    <motion.div 
-      initial={{ opacity: 0 }} 
-      animate={{ opacity: 1 }} 
-      exit={{ opacity: 0 }}
+    <div 
       className="fixed inset-0 z-50 flex items-center justify-center p-4 lg:p-8 bg-black/95 backdrop-blur-xl"
     >
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -55,9 +51,7 @@ export function NeuralCompensation({ onClose }: { onClose: () => void }) {
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjQ1LCAxNTgsIDExLCAwLjA1KSIvPjwvc3ZnPg==')] opacity-30" />
       </div>
 
-      <motion.div 
-        initial={{ scale: 0.95, opacity: 0, y: 20 }}
-        animate={{ scale: 1, opacity: 1, y: 0 }}
+      <div 
         className="w-full max-w-5xl max-h-full flex flex-col bg-zinc-950/80 border border-amber-500/20 rounded-2xl overflow-hidden shadow-[0_0_100px_rgba(245,158,11,0.1)] relative z-10"
       >
         <div className="flex items-center justify-between p-4 border-b border-amber-500/20 bg-zinc-900/50">
@@ -142,12 +136,9 @@ export function NeuralCompensation({ onClose }: { onClose: () => void }) {
           <div className="space-y-3">
             <h3 className="text-xs text-zinc-500 font-mono tracking-widest uppercase border-b border-zinc-800 pb-2">Human Nodes Awaiting Compensation</h3>
             
-            {nodes.map((node, i) => (
-              <motion.div 
+            {nodes.map((node) => (
+              <div 
                 key={node.id}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.1 }}
                 className="flex flex-col md:flex-row items-start md:items-center justify-between p-4 bg-zinc-900/40 border border-zinc-800/50 rounded-xl hover:border-amber-500/30 transition-colors gap-4"
               >
                 <div className="flex items-center gap-4">
@@ -191,12 +182,12 @@ export function NeuralCompensation({ onClose }: { onClose: () => void }) {
                     )}
                   </div>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
 
         </div>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 }

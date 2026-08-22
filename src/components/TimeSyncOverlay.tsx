@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import { Clock, Globe, Network, MapPin } from 'lucide-react';
 
 export function TimeSyncOverlay() {
@@ -73,8 +72,28 @@ export function TimeSyncOverlay() {
               </div>
             </div>
         </div>
-{/* Android / IP Matrix */}
+        {/* Zambia Health & Crisis Support Indicator */}
         <div className="flex items-center gap-4">
+          <button
+            onClick={() => window.dispatchEvent(new CustomEvent('OPEN_HEALTH_SUPPORT'))}
+            className="flex items-center gap-2 px-3 py-1.5 bg-emerald-950/50 hover:bg-emerald-900/70 border border-emerald-800/60 hover:border-emerald-500 rounded text-left transition-colors group cursor-pointer shadow-[0_0_10px_rgba(16,185,129,0.1)]"
+            title="Open Zambia Health & Counseling Support Portal (116 / 933)"
+          >
+            <div className="flex flex-col items-center justify-center gap-0.5 w-2 h-3.5">
+              <div className="w-2 h-0.5 bg-emerald-400 rounded-full" />
+              <div className="w-2 h-0.5 bg-emerald-400 rounded-full" />
+              <div className="w-2 h-0.5 bg-emerald-400 rounded-full" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-[9px] text-emerald-400 font-mono uppercase tracking-widest font-bold group-hover:text-emerald-300">
+                Support: 116 / 933
+              </span>
+              <span className="text-[8px] text-zinc-400 font-mono hidden sm:inline">
+                Toll-Free Counseling
+              </span>
+            </div>
+          </button>
+
           <div className="flex items-center gap-2 text-right">
             <div className="flex flex-col">
               <span className="text-[10px] text-zinc-500 uppercase tracking-widest font-mono">Active Android Nodes (Geo-Sync)</span>

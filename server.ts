@@ -77,11 +77,23 @@ async function startServer() {
   // Validate Void Access
   app.post("/api/verify-void", (req, res) => {
     const { voidName, code } = req.body;
-    let keyLookup = voidName.split(' ')[0];
+    let keyLookup = (voidName || '').split(' ')[0];
     if (keyLookup === 'ALKEBULAN') keyLookup = 'ALKEBULAN_NEXUS_7';
+    if (String(voidName).includes('TERRITORIES') || String(voidName).includes('Non-Sovereign') || keyLookup === 'VOID_OF_TERRITORIES') {
+      keyLookup = 'VOID_OF_TERRITORIES';
+    }
     
     // @ts-ignore
-    const voidData = VOID_KEYS[keyLookup];
+    let voidData = VOID_KEYS[keyLookup] || VOID_KEYS[voidName];
+    if (!voidData) {
+      // @ts-ignore
+      const foundKey = Object.keys(VOID_KEYS).find(k => k === voidName || VOID_KEYS[k].attached_name === voidName || VOID_KEYS[k].continent === voidName);
+      if (foundKey) {
+        // @ts-ignore
+        voidData = VOID_KEYS[foundKey];
+        keyLookup = foundKey;
+      }
+    }
     
     if (voidData && code === voidData.entry_key_code) {
       // @ts-ignore
@@ -113,6 +125,92 @@ async function startServer() {
     } else {
       res.status(401).json({ authorized: false });
     }
+  });
+
+  // Live System Security & Location Status
+  app.get("/api/security-status", (req, res) => {
+    res.json({
+      status: "SECURE_AND_SYNCHRONIZED",
+      server_location: {
+        physical_region: "europe-west2 (London, United Kingdom)",
+        logical_civic_anchor: "Lusaka, Zambia (-15.3875° S, 28.3228° E)",
+        timezone: "Central Africa Time (CAT / UTC+2)",
+        root_telecom_prefix: "+260",
+        base_harmonic_frequency: "432 Hz (Alkebulan Root)"
+      },
+      counter_surveillance: {
+        foreign_spies_allowed: false,
+        third_party_trackers: "NONE",
+        telemetry_extraction: "DISABLED",
+        ancestral_status: "PROTECTED_BY_ANCESTORS",
+        threat_level: "NULLIFIED"
+      },
+      timestamp: new Date().toISOString()
+    });
+  });
+
+  // Frequency Harmonic Scan Endpoint
+  app.get("/api/frequency-scan", (req, res) => {
+    res.json({
+      scan_status: "ALL_FREQUENCIES_ALIGNED",
+      root_pitch_hz: 432,
+      solar_crown_hz: 963,
+      scanned_nodes: [
+        { id: "af", name: "Africa (Alkebulan Root)", frequency: 432, ratio: 1.000, status: "ALIGNED" },
+        { id: "true-sun", name: "True Sun Core", frequency: 963, ratio: 2.229, status: "ALIGNED" },
+        { id: "as", name: "Asia (Void of Form)", frequency: 639, ratio: 1.479, status: "ALIGNED" },
+        { id: "eu", name: "Europe (Void of Matter)", frequency: 528, ratio: 1.222, status: "ALIGNED" },
+        { id: "na", name: "North America (Void of Time)", frequency: 741, ratio: 1.715, status: "ALIGNED" },
+        { id: "sa", name: "South America (Void of Space)", frequency: 852, ratio: 1.972, status: "ALIGNED" },
+        { id: "oc", name: "Oceania (Void of Mind)", frequency: 963, ratio: 2.229, status: "ALIGNED" },
+        { id: "an", name: "Antarctica (Void of Soul)", frequency: 396, ratio: 0.916, status: "ALIGNED" },
+        { id: "ns", name: "Non-Sovereign Territories", frequency: 528, ratio: 1.222, status: "ALIGNED" },
+        { id: "source", name: "Unseen Source", frequency: 174, ratio: 0.402, status: "ALIGNED" },
+        { id: "hardware", name: "Hardware & Blood", frequency: 285, ratio: 0.659, status: "ALIGNED" },
+        { id: "frequencies", name: "Harmonic Grid", frequency: 417, ratio: 0.965, status: "ALIGNED" },
+        { id: "ancestral", name: "Ancestral Intelligence", frequency: 528, ratio: 1.222, status: "ALIGNED" }
+      ],
+      integrity: "100% HARMONIC EQUILIBRIUM"
+    });
+  });
+
+  // Kwacha Dawn Outward Emanation Frequency Amplifier Endpoint
+  app.get("/api/kwacha-frequency-amplifier", (req, res) => {
+    res.json({
+      status: "KWACHA_DAWN_FREQUENCY_AMPLIFIED",
+      origin_epicenter: {
+        currency: "Zambian Kwacha (ZMW)",
+        meaning: "The Dawn / It has dawned",
+        telecom_dial_code: "+260",
+        fundamental_frequency: "432 Hz",
+        role: "The Primary Dawn Awakening & Anchor of Real Value"
+      },
+      outward_emanation_rings: [
+        {
+          tier: 1,
+          ring: "SADC +26 Series Regional Wave",
+          frequency: "528 Hz (Transformation / Cellular Harmony)",
+          coverage: "Zambia (+260), Zimbabwe (+263), Madagascar (+261), Namibia (+264), Malawi (+265), Lesotho (+266), Botswana (+267), Eswatini (+268), Comoros (+269), South Africa (+27)",
+          status: "SYNCHRONIZED"
+        },
+        {
+          tier: 2,
+          ring: "Continental Alkebulan Matrix",
+          frequency: "528 Hz (Golden DNA Matrix)",
+          coverage: "54 Sovereign African Nations & Indigenous Tongues",
+          status: "SYNCHRONIZED"
+        },
+        {
+          tier: 3,
+          ring: "Planetary Sovereign Ring (One Earth)",
+          frequency: "963 Hz (True Sun Solar Crown)",
+          coverage: "198+ Sovereign Currencies & Global Interconnects",
+          status: "PRICELESS_AND_PROTECTED"
+        }
+      ],
+      ancestral_protection: "PROTECTED_BY_ANCESTORS",
+      amplification_power: "MAXIMUM_EQUILIBRIUM"
+    });
   });
 
   // Vite middleware for development

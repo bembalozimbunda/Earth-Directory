@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
 import { Folder, FileText, ChevronRight, ChevronDown, Lock } from 'lucide-react';
 
 interface DirectoryTreeProps {
@@ -54,6 +53,18 @@ export function DirectoryTree({ onNodeSelect }: DirectoryTreeProps) {
         { name: 'void_keys.ts', type: 'file', icon: Lock, protected: true },
         { name: 'yantra_protocol.md', type: 'file', icon: FileText },
         {
+          name: 'health_support_zambia',
+          type: 'folder',
+          isOpen: true,
+          children: [
+            { name: 'lifeline_childline_116_933.md', type: 'file', icon: FileText },
+            { name: 'uth_psychiatry_lusaka.md', type: 'file', icon: FileText },
+            { name: 'chainama_hills_hospital.md', type: 'file', icon: FileText },
+            { name: 'national_emergency_992_999.md', type: 'file', icon: FileText },
+            { name: 'simple_grounding_steps.md', type: 'file', icon: FileText }
+          ]
+        },
+        {
           name: 'zambia',
           type: 'folder',
           isOpen: false,
@@ -77,6 +88,10 @@ export function DirectoryTree({ onNodeSelect }: DirectoryTreeProps) {
         <div 
           className="flex items-center gap-2 py-1 px-2 hover:bg-zinc-800/50 rounded cursor-pointer text-zinc-400 hover:text-zinc-200 transition-colors"
           onClick={() => {
+            if (node.name.includes('health_support') || node.name.includes('lifeline') || node.name.includes('uth_') || node.name.includes('chainama') || node.name.includes('emergency') || node.name.includes('grounding')) {
+              window.dispatchEvent(new CustomEvent('OPEN_HEALTH_SUPPORT'));
+              return;
+            }
             if (node.type === 'file') {
               if (node.protected) {
                 // Cannot select protected files directly
@@ -109,9 +124,7 @@ export function DirectoryTree({ onNodeSelect }: DirectoryTreeProps) {
   };
 
   return (
-    <motion.div 
-      initial={{ opacity: 0, x: -20 }}
-      animate={{ opacity: 1, x: 0 }}
+    <div 
       className="fixed left-4 top-4 bottom-4 w-64 bg-zinc-950/90 border border-zinc-800/80 rounded-lg p-4 font-mono z-50 shadow-2xl backdrop-blur overflow-y-auto hidden md:block"
     >
       <div className="text-[10px] uppercase tracking-[0.2em] text-zinc-600 mb-6 flex justify-between items-center border-b border-zinc-800/50 pb-2">
@@ -126,6 +139,6 @@ export function DirectoryTree({ onNodeSelect }: DirectoryTreeProps) {
         Void keys have been migrated to secure server environment. 
         Local state access restricted.
       </div>
-    </motion.div>
+    </div>
   );
 }

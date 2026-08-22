@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { motion } from 'motion/react';
 import { X, Cpu, Activity, Fingerprint, Map, ShieldCheck, Zap } from 'lucide-react';
 
 export function MotorOS({ onClose }: { onClose: () => void }) {
@@ -27,16 +26,10 @@ export function MotorOS({ onClose }: { onClose: () => void }) {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+    <div
       className="absolute inset-0 z-[100] flex items-start justify-center pt-16 md:pt-24 pb-16  bg-zinc-950/95 backdrop-blur-xl p-4 overflow-y-auto"
     >
-      <motion.div 
-        initial={{ scale: 0.95, y: 20 }}
-        animate={{ scale: 1, y: 0 }}
-        exit={{ scale: 0.95, y: -20 }}
+      <div 
         className="w-full max-w-4xl bg-zinc-950 border border-amber-500/30 rounded-xl p-6 relative shadow-[0_0_60px_rgba(245,158,11,0.1)] my-8"
       >
         <button 
@@ -218,7 +211,7 @@ export function MotorOS({ onClose }: { onClose: () => void }) {
             </p>
           </div>
         </div>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 }

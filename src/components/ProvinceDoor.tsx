@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
 import { X, Hexagon, Database, Activity, Eye, ChevronLeft, Globe2 } from 'lucide-react';
 import { ProvinceDetailed, District } from '../data/zambiaDistricts';
 import { LivingCalculator } from './LivingCalculator';
@@ -17,17 +16,13 @@ export function ProvinceDoor({
   const [districtDoorOpen, setDistrictDoorOpen] = useState(false);
 
   return (
-    <motion.div 
-        layoutId={`province-card-${province.name}`}
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95 }}
-        className={`flex-1 w-full h-full bg-zinc-950 border ${province.border} rounded-xl relative shadow-[0_0_80px_rgba(var(--tw-colors-${province.bg.split('-')[1]}-500),0.1)] flex flex-col overflow-hidden`}
+    <div 
+        className={`flex-1 w-full h-full bg-zinc-950 border ${province.border} rounded-xl relative shadow-[0_0_80px_rgba(245,158,11,0.1)] flex flex-col overflow-hidden`}
       >
-        <div className={`absolute inset-0 opacity-5 bg-gradient-to-br from-zinc-950 via-zinc-950 to-${province.bg.split('-')[1]}-900`} />
+        <div className="absolute inset-0 opacity-5 bg-gradient-to-br from-zinc-950 via-zinc-950 to-amber-900" />
         
         <div className="absolute inset-0 pointer-events-none opacity-30">
-          <NetworkCanvas count={province.districts.length * 5} color={province.color.split('-')[1]} />
+          <NetworkCanvas count={province.districts.length * 5} color="amber" />
         </div>
 
         {/* Header */}
@@ -35,7 +30,7 @@ export function ProvinceDoor({
           <div className="flex items-center gap-4">
             <button 
               onClick={onClose}
-              className={`p-2 text-zinc-500 hover:${province.color} bg-zinc-900 border border-zinc-800 hover:${province.border} rounded transition-colors`}
+              className="p-2 text-zinc-500 hover:text-white bg-zinc-900 border border-zinc-800 hover:border-zinc-700 rounded transition-colors cursor-pointer"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
@@ -93,13 +88,10 @@ export function ProvinceDoor({
             <div className="flex-1 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-zinc-800 scrollbar-track-transparent">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
                 {province.districts.map((district, i) => (
-                  <motion.button
+                  <button
                     key={district.name}
                     onClick={() => { setSelectedDistrict(district); setDistrictDoorOpen(true); }}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.05 }}
-                    className={`flex flex-col gap-2 p-4 bg-zinc-900/50 border rounded-lg text-left transition-all group
+                    className={`flex flex-col gap-2 p-4 bg-zinc-900/50 border rounded-lg text-left transition-colors cursor-pointer group
                       ${selectedDistrict?.name === district.name 
                         ? `${province.border} bg-zinc-800/80 shadow-[0_0_15px_rgba(var(--tw-colors-${province.bg.split('-')[1]}-500),0.2)]` 
                         : 'border-zinc-800/50 hover:border-zinc-600 hover:bg-zinc-800/50'
@@ -120,7 +112,7 @@ export function ProvinceDoor({
                     <div className="text-[10px] uppercase tracking-wider text-zinc-500 font-mono mt-1">
                       {district.resource}
                     </div>
-                  </motion.button>
+                  </button>
                 ))}
               </div>
             </div>
@@ -143,15 +135,11 @@ export function ProvinceDoor({
 
             <LivingCalculator province={province} />
 
-            <AnimatePresence mode="wait">
-              {selectedDistrict && (
-                <motion.div
-                  key={selectedDistrict.name}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  className="mt-6 border-t border-zinc-800/50 pt-6"
-                >
+            {selectedDistrict && (
+              <div
+                key={selectedDistrict.name}
+                className="mt-6 border-t border-zinc-800/50 pt-6"
+              >
                   <h3 className={`text-sm font-mono tracking-[0.2em] uppercase ${province.color} mb-4`}>
                     Selected District: {selectedDistrict.name}
                   </h3>
@@ -177,11 +165,9 @@ export function ProvinceDoor({
                             <span className={`${province.color} font-mono text-xs`}>{selectedDistrict.efficiency}%</span>
                           </div>
                           <div className="w-full h-1.5 bg-zinc-800 rounded-full overflow-hidden">
-                            <motion.div 
+                            <div 
                               className={`h-full ${province.bg}`}
-                              initial={{ width: 0 }}
-                              animate={{ width: `${selectedDistrict.efficiency}%` }}
-                              transition={{ duration: 1 }}
+                              style={{ width: `${selectedDistrict.efficiency}%` }}
                             />
                           </div>
                         </div>
@@ -230,13 +216,12 @@ export function ProvinceDoor({
                       </div>
                     )}
 
-                  </motion.div>
+                </div>
               )}
-            </AnimatePresence>
 
           </div>
         </div>
-      </motion.div>
+      </div>
     
   );
 }

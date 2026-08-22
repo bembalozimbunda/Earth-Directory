@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Network, Database, Cpu, Brain, Zap, Globe, Lock, Code, Coins, Activity, Fingerprint } from 'lucide-react';
+import { Network, Database, Cpu, Brain, Zap, Globe, Lock, Code, Coins, Activity, Fingerprint, Wifi } from 'lucide-react';
 import { DigitalTwinNetwork } from './DigitalTwinNetwork';
 import { NeuralCompensation } from './NeuralCompensation';
 import { MotorOS } from './MotorOS';
@@ -8,11 +7,13 @@ import { CreationForge } from './CreationForge';
 import { SystemCurrencyPortal } from './SystemCurrencyPortal';
 import { AncestralIntelligence } from './AncestralIntelligence';
 import { SynthesisCore } from './SynthesisCore';
+import { GlobalInternetSyncPortal } from './GlobalInternetSyncPortal';
 
 export function OmniMatrix({ onClose }: { onClose: () => void }) {
   const [activeSystem, setActiveSystem] = useState<string | null>(null);
 
   const systems = [
+    { id: 'internet-sync', name: 'Global Internet Sync', icon: Wifi, component: GlobalInternetSyncPortal, color: 'text-emerald-400' },
     { id: 'neural', name: 'Neural Compensation', icon: Coins, component: NeuralCompensation, color: 'text-amber-500' },
     { id: 'twins', name: 'Digital Twin Network', icon: Fingerprint, component: DigitalTwinNetwork, color: 'text-emerald-500' },
     { id: 'motor', name: 'Motor OS', icon: Cpu, component: MotorOS, color: 'text-blue-500' },
@@ -30,10 +31,7 @@ export function OmniMatrix({ onClose }: { onClose: () => void }) {
   };
 
   return (
-    <motion.div 
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+    <div 
       className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-2xl flex flex-col"
     >
       {/* Background Matrix Effect */}
@@ -59,7 +57,7 @@ export function OmniMatrix({ onClose }: { onClose: () => void }) {
         </div>
         <button 
           onClick={onClose}
-          className="p-3 bg-white/5 hover:bg-white/10 rounded-xl border border-white/10 transition-colors"
+          className="p-3 bg-white/5 hover:bg-white/10 rounded-xl border border-white/10 transition-colors cursor-pointer"
         >
           <Lock className="w-5 h-5 text-zinc-400" />
         </button>
@@ -68,14 +66,11 @@ export function OmniMatrix({ onClose }: { onClose: () => void }) {
       {/* Main Grid */}
       <div className="relative z-10 flex-1 overflow-y-auto p-6 md:p-12">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {systems.map((sys, idx) => (
-            <motion.button
+          {systems.map((sys) => (
+            <button
               key={sys.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.1 }}
               onClick={() => setActiveSystem(sys.id)}
-              className="group relative p-6 bg-zinc-900/40 border border-white/5 rounded-2xl hover:bg-white/5 hover:border-white/20 transition-all text-left overflow-hidden flex flex-col items-center text-center gap-4"
+              className="group relative p-6 bg-zinc-900/40 border border-white/5 rounded-2xl hover:bg-white/5 hover:border-white/20 transition-all text-left overflow-hidden flex flex-col items-center text-center gap-4 cursor-pointer"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               
@@ -95,14 +90,12 @@ export function OmniMatrix({ onClose }: { onClose: () => void }) {
                 <div className="w-1 h-1 bg-emerald-500 rounded-full animate-ping" />
                 <div className="w-1 h-1 bg-emerald-500 rounded-full" />
               </div>
-            </motion.button>
+            </button>
           ))}
         </div>
       </div>
 
-      <AnimatePresence>
-        {activeSystem && renderActiveSystem()}
-      </AnimatePresence>
-    </motion.div>
+      {activeSystem && renderActiveSystem()}
+    </div>
   );
 }

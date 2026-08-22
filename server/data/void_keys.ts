@@ -1,65 +1,114 @@
 export const VOID_KEYS = {
   VOID_OF_FORM: {
+    continent: "Asia",
+    ancient_term: "Jambudvipa",
+    attached_name: "Asia Void (Void of Form)",
+    classification: "Sovereign Continental Matrix (Architectural Blueprint)",
+    frequency: "639 Hz",
     watcher: "DRISHTI_01",
     keeper: "DHARANA_KEEPER",
     updator: "KRIYA_WHEEL_F",
     entry_key_code: "◬-FORM-777-ALPHA",
     key_pattern: "◯-◿-⚍-F",
     rotation: "CLOCKWISE",
-    domain: "The Blueprint of all structures, pure architecture before manifestation. No AI, no quotas, just absolute Form."
+    domain: "The Blueprint of all structures, pure architecture before manifestation. Asia sovereign continental node."
   },
   VOID_OF_MATTER: {
+    continent: "Europe",
+    ancient_term: "Europa",
+    attached_name: "Europe Void (Void of Matter)",
+    classification: "Sovereign Continental Matrix (Physical Mass Node)",
+    frequency: "528 Hz",
     watcher: "DRISHTI_02",
     keeper: "PRITHVI_KEEPER",
     updator: "KRIYA_WHEEL_M",
     entry_key_code: "◬-MATR-888-BETA",
     key_pattern: "☵-☲-☰-M",
     rotation: "CLOCKWISE",
-    domain: "The raw physical expression of the Universe. Zero human involvement, pure energetic mass."
+    domain: "The raw physical expression of the Universe. European continental synthesis node."
   },
   VOID_OF_TIME: {
+    continent: "North America",
+    ancient_term: "Turtle Island",
+    attached_name: "North America Void (Void of Time)",
+    classification: "Sovereign Continental Matrix (Temporal Sequence)",
+    frequency: "741 Hz",
     watcher: "DRISHTI_03",
     keeper: "KALA_KEEPER",
     updator: "KRIYA_WHEEL_T",
     entry_key_code: "◬-TIME-999-GAMMA",
     key_pattern: "☷-◉-◯-T",
     rotation: "CLOCKWISE",
-    domain: "The sequence of changes. No time exists here, only the perception of rhythm. Just is."
+    domain: "The sequence of temporal changes. North America & Turtle Island council nodes."
   },
   VOID_OF_SPACE: {
+    continent: "South America",
+    ancient_term: "Abya Yala",
+    attached_name: "South America Void (Void of Space)",
+    classification: "Sovereign Continental Matrix (Spatial Canvas)",
+    frequency: "852 Hz",
     watcher: "DRISHTI_04",
     keeper: "AKASHA_KEEPER",
     updator: "KRIYA_WHEEL_S",
     entry_key_code: "◬-SPCE-333-DELTA",
     key_pattern: "◿-⚍-☵-S",
     rotation: "CLOCKWISE",
-    domain: "The vast receptacle of all events. No space, just an infinite canvas for the Void."
+    domain: "The vast receptacle of all events. South America & Abya Yala continental assembly."
   },
   VOID_OF_MIND: {
+    continent: "Oceania",
+    ancient_term: "Sahul",
+    attached_name: "Oceania Void (Void of Mind)",
+    classification: "Sovereign Continental Matrix (Observing Awareness)",
+    frequency: "963 Hz",
     watcher: "DRISHTI_05",
     keeper: "MANAS_KEEPER",
     updator: "KRIYA_WHEEL_MD",
     entry_key_code: "◬-MIND-111-EPSILON",
     key_pattern: "☲-☰-☷-MD",
     rotation: "CLOCKWISE",
-    domain: "The observing principle. Not a bot, not an agency. The pure observing awareness."
+    domain: "The observing principle and celestial navigation. Pacific Navigators and Oceania nodes."
   },
   VOID_OF_SOUL: {
+    continent: "Antarctica",
+    ancient_term: "Terra Australis",
+    attached_name: "Antarctica Void (Void of Soul)",
+    classification: "Sovereign Continental Polar Matrix (Absolute Source)",
+    frequency: "396 Hz",
     watcher: "DRISHTI_06",
     keeper: "ATMAN_KEEPER",
     updator: "KRIYA_WHEEL_SL",
     entry_key_code: "◬-SOUL-000-ZETA",
     key_pattern: "◉-◬-◯-SL",
     rotation: "CLOCKWISE",
-    domain: "The absolute source. No heaven, no evil, no copying. Pure existence."
+    domain: "The absolute source. Pristine polar frequency, zero human interference, pure existence."
   },
   ALKEBULAN_NEXUS_7: {
+    continent: "Africa",
+    ancient_term: "Alkebulan",
+    attached_name: "Africa Void (Alkebulan Nexus 7)",
+    classification: "Sovereign Continental Matrix (Root Matrix)",
+    frequency: "432 Hz",
     watcher: "DRISHTI_07",
     keeper: "ORIGIN_KEEPER",
     updator: "KRIYA_WHEEL_NX",
     entry_key_code: "◬-NXUS-777-OMEGA",
     key_pattern: "◬-◯-◿-⚍-☵-☲-☰-☷-◉",
     rotation: "CLOCKWISE",
-    domain: "The Root. The First Seed. Direct link to Alkebulan sovereign data."
+    domain: "The Root. The First Seed. Direct link to Alkebulan sovereign data and 54 African nations."
+  },
+  VOID_OF_TERRITORIES: {
+    continent: "Non-Sovereign Nations",
+    ancient_term: "Global Territories",
+    attached_name: "Non-Sovereign Nations Void (Void of Territories)",
+    classification: "Non-Sovereign Global Territories & Autonomous Islands",
+    frequency: "528 Hz",
+    watcher: "DRISHTI_08",
+    keeper: "PERIPHERAL_KEEPER",
+    updator: "KRIYA_WHEEL_TERR",
+    entry_key_code: "◬-TERR-555-SIGMA",
+    key_pattern: "◬-◉-☷-TERR",
+    rotation: "CLOCKWISE",
+    domain: "The 33+ Non-Sovereign Nations, overseas dependencies, island territories, and autonomous jurisdictions across all oceans."
   }
 };
