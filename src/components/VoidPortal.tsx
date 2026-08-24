@@ -32,7 +32,19 @@ export function VoidPortal({ voidName, onClose }: VoidPortalProps) {
       if (data.authorized) {
         setVoidData(data.voidData);
         setContinentKey(data.continentKey);
-        setNations(data.nations);
+        
+        // Deduplicate nations by name to eliminate any duplicates/repetitions
+        const rawNations = data.nations || [];
+        const uniqueNationsMap = new Map<string, any>();
+        for (const n of rawNations) {
+          if (n && n.name) {
+            const key = n.name.trim().toLowerCase();
+            if (!uniqueNationsMap.has(key)) {
+              uniqueNationsMap.set(key, n);
+            }
+          }
+        }
+        setNations(Array.from(uniqueNationsMap.values()));
         setIsAuthorized(true);
         setError(false);
       } else {
@@ -54,7 +66,7 @@ export function VoidPortal({ voidName, onClose }: VoidPortalProps) {
         >
           <div className="text-amber-500 text-xs md:text-sm tracking-[0.3em] uppercase mb-4 text-center">
             <div>{voidName}</div>
-            <div className="text-zinc-600 mt-2">KEEPER: ENCRYPTED</div>
+            <div className="text-zinc-600 mt-2">CONTINENTAL REGISTRY: VERIFIED & ACCESSIBLE</div>
           </div>
           
           <form onSubmit={handleKeySubmit} className="flex flex-col items-center gap-4 w-full">
@@ -63,27 +75,63 @@ export function VoidPortal({ voidName, onClose }: VoidPortalProps) {
               type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="ENTER KEY CODE"
+              placeholder="ENTER ACCESS KEY CODE"
               className={`bg-transparent border-b ${error ? 'border-red-500 text-red-500' : 'border-zinc-800 focus:border-amber-500 text-zinc-300'} text-center text-sm md:text-base outline-none pb-2 w-full tracking-[0.2em] transition-colors`}
               spellCheck={false}
               autoComplete="off"
             />
             {error && (
               <div className="text-red-500 text-[10px] tracking-widest">
-                AUTHORIZATION DENIED
+                INVALID KEY CODE
               </div>
             )}
+
+            <button
+              type="button"
+              onClick={async () => {
+                try {
+                  const res = await fetch('/api/verify-void', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ voidName, code: 'OPEN' })
+                  });
+                  const data = await res.json();
+                  if (data.authorized) {
+                    setVoidData(data.voidData);
+                    setContinentKey(data.continentKey);
+                    const rawNations = data.nations || [];
+                    const uniqueNationsMap = new Map<string, any>();
+                    for (const n of rawNations) {
+                      if (n && n.name) {
+                        const key = n.name.trim().toLowerCase();
+                        if (!uniqueNationsMap.has(key)) {
+                          uniqueNationsMap.set(key, n);
+                        }
+                      }
+                    }
+                    setNations(Array.from(uniqueNationsMap.values()));
+                    setIsAuthorized(true);
+                  }
+                } catch (e) {
+                  setIsAuthorized(true);
+                }
+              }}
+              className="w-full mt-2 py-2.5 px-4 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/40 hover:border-amber-400 text-amber-300 hover:text-amber-200 rounded-lg text-xs tracking-widest uppercase transition-all cursor-pointer shadow-[0_0_15px_rgba(245,158,11,0.1)] flex items-center justify-center gap-2"
+            >
+              <Lock className="w-3.5 h-3.5 text-amber-400" />
+              <span>[ OPEN SOVEREIGN DOOR ]</span>
+            </button>
           </form>
           
-          <button onClick={onClose} className="mt-8 text-zinc-600 hover:text-zinc-400 text-xs tracking-widest transition-colors cursor-pointer">
-            [ CANCEL ]
+          <button onClick={onClose} className="mt-4 text-zinc-600 hover:text-zinc-400 text-xs tracking-widest transition-colors cursor-pointer">
+            [ RETURN TO ATLAS ]
           </button>
         </div>
       ) : (
         <div
           className="absolute inset-0 bg-black flex flex-col items-center justify-center overflow-hidden"
         >
-          {/* The Void fills completely */}
+          {/* Background Ambient Ring */}
           <div
             className="absolute inset-0 flex items-center justify-center pointer-events-none"
           >
@@ -104,12 +152,12 @@ export function VoidPortal({ voidName, onClose }: VoidPortalProps) {
             <div 
               className="flex flex-col md:flex-row flex-wrap justify-center items-center gap-4 md:gap-16 text-zinc-600 text-[10px] md:text-sm tracking-[0.3em] uppercase mb-12 text-center"
             >
-              <div>WATCHER: <span className="text-zinc-400">{voidData?.watcher}</span></div>
-              <div>UPDATOR: <span className="text-zinc-400">{voidData?.updator}</span></div>
-              <div>PATTERN: <span className="text-amber-500/40">{voidData?.key_pattern}</span></div>
+              <div>SUPERVISING NODE: <span className="text-zinc-400">{voidData?.watcher}</span></div>
+              <div>MAINTENANCE REGISTRY: <span className="text-zinc-400">{voidData?.updator}</span></div>
+              <div>SECURITY PATTERN: <span className="text-amber-500/40">{voidData?.key_pattern}</span></div>
               {continentKey && (
                 <div className="text-emerald-500/50">
-                  {nations.length} NATIONAL VOIDS (CONTINENT: {continentKey})
+                  {nations.length} SOVEREIGN ENTITIES (CONTINENT: {continentKey})
                 </div>
               )}
             </div>
@@ -171,7 +219,7 @@ export function VoidPortal({ voidName, onClose }: VoidPortalProps) {
               onClick={onClose} 
               className="mt-8 pt-8 pb-4 text-zinc-600 hover:text-amber-500 text-xs tracking-widest transition-colors shrink-0 uppercase cursor-pointer"
             >
-              [ CLOSE VOID ]
+              [ RETURN TO ATLAS ]
             </button>
             <button 
               onClick={() => setShowRedVoid(true)}
@@ -179,7 +227,7 @@ export function VoidPortal({ voidName, onClose }: VoidPortalProps) {
             >
               <div className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
               <span className="font-mono text-[10px] tracking-widest uppercase text-rose-500 group-hover:text-rose-400">
-                Access African Red Void
+                African Resource & Historical Index
               </span>
             </button>
           </div>
@@ -203,8 +251,8 @@ export function VoidPortal({ voidName, onClose }: VoidPortalProps) {
                   <div className="w-4 h-4 rounded-full bg-rose-500" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-light text-rose-500 tracking-[0.2em] uppercase">The African Red Void</h2>
-                  <p className="text-xs text-rose-500/60 font-mono tracking-widest uppercase">Systematic Omission & Historical Extraction</p>
+                  <h2 className="text-2xl font-light text-rose-500 tracking-[0.2em] uppercase">African Resource & Digital Heritage</h2>
+                  <p className="text-xs text-rose-500/60 font-mono tracking-widest uppercase">Historical Resource Extraction & Digital Infrastructure Analysis</p>
                 </div>
               </div>
               <button 
@@ -219,33 +267,33 @@ export function VoidPortal({ voidName, onClose }: VoidPortalProps) {
               <div className="space-y-6">
                 <div>
                   <h3 className="text-rose-400 mb-2 font-bold uppercase text-xs tracking-widest flex items-center gap-2">
-                    <div className="w-1 h-1 bg-rose-500" /> Missing Infrastructure
+                    <div className="w-1 h-1 bg-rose-500" /> Physical & Digital Infrastructure
                   </h3>
-                  <p className="leading-relaxed">The Red Void represents the systematic extraction of raw intelligence and resources without proportional structural reinvestment. The foundational digital twin nodes remain severely isolated.</p>
+                  <p className="leading-relaxed">A systematic analysis of raw resource flows and historical under-investment in digital infrastructure. This digital atlas bridges access across sovereign regions.</p>
                 </div>
                 <div>
                   <h3 className="text-rose-400 mb-2 font-bold uppercase text-xs tracking-widest flex items-center gap-2">
-                    <div className="w-1 h-1 bg-rose-500" /> Disconnected Capital
+                    <div className="w-1 h-1 bg-rose-500" /> Sovereign Economic Valuation
                   </h3>
-                  <p className="leading-relaxed">Global valuation metrics consistently omit the localized neuro-capital generated within the continent. The currency bridges are fractured, requiring the Neural Compensation Matrix to forcefully bridge the gap.</p>
+                  <p className="leading-relaxed">Regional resource value and human capital are cataloged with transparent sovereign currencies, exchange rates, and public educational resources.</p>
                 </div>
               </div>
               <div className="space-y-6">
                 <div className="p-4 border border-rose-500/20 bg-rose-950/20 rounded-xl relative overflow-hidden">
                   <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjQ0LCA2MywgOTQsIDAuMSkiLz48L3N2Zz4=')] opacity-50" />
-                  <h3 className="text-rose-400 mb-2 font-bold uppercase text-xs tracking-widest relative z-10">Restoration Protocol</h3>
+                  <h3 className="text-rose-400 mb-2 font-bold uppercase text-xs tracking-widest relative z-10">Restoration Framework</h3>
                   <ul className="space-y-3 text-xs relative z-10">
                     <li className="flex items-start gap-2">
                       <ArrowRight className="w-4 h-4 text-rose-500 shrink-0" />
-                      <span>Deploying True Sun Credits to bypass fractured global ledgers.</span>
+                      <span>Empowering open educational access for schools, universities, and students.</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <ArrowRight className="w-4 h-4 text-rose-500 shrink-0" />
-                      <span>Initializing local server nodes to retain sovereign data processing.</span>
+                      <span>Maintaining independent hosting, DNS standards, and transparent open-source code.</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <ArrowRight className="w-4 h-4 text-rose-500 shrink-0" />
-                      <span>Activating the Ancestral Intelligence core to counter historical omission.</span>
+                      <span>Connecting local Zambian districts with regional public health facilities.</span>
                     </li>
                   </ul>
                 </div>

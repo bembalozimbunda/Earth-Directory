@@ -60,13 +60,7 @@ export function EternalNowMotionHeader() {
   useEffect(() => {
     const update = () => {
       const now = new Date();
-      const lusakaTime = new Date(now.toLocaleString('en-US', { timeZone: 'Africa/Lusaka' }));
-      const timeStr = lusakaTime.toLocaleTimeString('en-US', {
-        hour12: false,
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
-      });
+      const timeStr = now.toISOString().substring(11, 19);
       setCurrentTime(timeStr);
     };
 
@@ -88,10 +82,10 @@ export function EternalNowMotionHeader() {
 
   return (
     <div
-      className="mb-4 flex flex-col items-center justify-center relative z-20 pointer-events-none select-none"
+      className="mb-3 flex flex-col items-center justify-center relative z-20 pointer-events-none select-none"
     >
-      {/* Permanent Header Badge - Same Design, Colored Words, Internal Art, Non-Openable */}
-      <div className="relative flex items-center gap-3 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full bg-gradient-to-r from-zinc-950 via-zinc-900 to-zinc-950 border border-zinc-800 shadow-[0_0_30px_rgba(0,0,0,0.8)] backdrop-blur-xl">
+      {/* Permanent Header Badge - High-Contrast Tri-Harmonic Kinetic Anchor */}
+      <div className="relative flex items-center gap-3 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full bg-gradient-to-r from-zinc-950 via-zinc-900 to-zinc-950 border border-zinc-800/90 shadow-[0_0_35px_rgba(0,0,0,0.85)] backdrop-blur-xl">
         {/* Subtle Tri-Color Border Shimmer (Blue-Green-Red) */}
         <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500/15 via-emerald-500/15 to-red-500/15 pointer-events-none" />
 
@@ -99,7 +93,7 @@ export function EternalNowMotionHeader() {
         <EternalNowInternalArt />
 
         {/* Tri-Color Typography: ETERNAL (Blue), NOW IN (Green), MOTION (Red) */}
-        <div className="flex items-center gap-2 relative z-10">
+        <div className="flex items-center gap-2.5 relative z-10">
           <div className="text-[11px] sm:text-xs font-mono font-bold tracking-[0.25em] sm:tracking-[0.3em] uppercase flex items-center gap-1.5">
             <span className="text-blue-400 drop-shadow-[0_0_8px_rgba(96,165,250,0.6)]">
               Eternal
@@ -112,18 +106,18 @@ export function EternalNowMotionHeader() {
             </span>
           </div>
 
-          <span className="text-zinc-600 font-mono text-[10px] hidden sm:inline">•</span>
+          <span className="text-zinc-700 font-mono text-[10px] hidden sm:inline">•</span>
 
-          {/* Live Synchronized Heartbeat */}
-          <div className="hidden sm:flex items-center gap-1.5 text-[10px] font-mono text-emerald-400/90 bg-emerald-950/40 px-2.5 py-0.5 rounded-full border border-emerald-800/40">
+          {/* Live Synchronized Universal Time */}
+          <div className="hidden sm:flex items-center gap-1.5 text-[10px] font-mono text-emerald-300 bg-emerald-950/60 px-2.5 py-0.5 rounded-full border border-emerald-700/50 shadow-inner">
             <Clock className="w-3 h-3 text-emerald-400" />
-            <span>{currentTime || '12:00:00'} CAT</span>
+            <span>{currentTime || '12:00:00'} UTC</span>
           </div>
 
-          <span className="text-zinc-600 font-mono text-[10px] hidden md:inline">•</span>
+          <span className="text-zinc-700 font-mono text-[10px] hidden md:inline">•</span>
 
-          {/* 963 Hz True Sun Frequency Indicator */}
-          <div className="hidden md:flex items-center gap-1 text-[10px] font-mono text-amber-300/90 bg-amber-950/40 px-2.5 py-0.5 rounded-full border border-amber-800/40">
+          {/* 963 Hz Harmonic Frequency Indicator */}
+          <div className="hidden md:flex items-center gap-1.5 text-[10px] font-mono text-amber-300 bg-amber-950/60 px-2.5 py-0.5 rounded-full border border-amber-700/50 shadow-inner">
             <Radio className="w-3 h-3 text-amber-400" />
             <span>963 Hz Apex</span>
           </div>
@@ -131,19 +125,19 @@ export function EternalNowMotionHeader() {
       </div>
 
       {/* Micro Telemetry Bar Below Badge */}
-      <div className="mt-1.5 flex items-center gap-2 text-[9px] font-mono text-zinc-500 tracking-wider uppercase">
-        <span className="text-blue-400/90 flex items-center gap-1">
-          <span className="w-1 h-1 rounded-full bg-blue-400" />
+      <div className="mt-2 flex items-center gap-2.5 text-[9px] font-mono text-zinc-500 tracking-widest uppercase">
+        <span className="text-blue-400/90 flex items-center gap-1 font-medium">
+          <span className="w-1.5 h-1.5 rounded-full bg-blue-400 shadow-[0_0_6px_rgba(96,165,250,0.8)]" />
           Celestial Frame
         </span>
-        <span>•</span>
-        <span className="text-emerald-400/90 flex items-center gap-1">
-          <span className="w-1 h-1 rounded-full bg-emerald-400" />
-          Lusaka Anchor
+        <span className="text-zinc-700">•</span>
+        <span className="text-emerald-400/90 flex items-center gap-1 font-medium">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]" />
+          Planetary Meridian
         </span>
-        <span>•</span>
-        <span className="text-red-400/90 flex items-center gap-1">
-          <span className="w-1 h-1 rounded-full bg-red-400" />
+        <span className="text-zinc-700">•</span>
+        <span className="text-red-400/90 flex items-center gap-1 font-medium">
+          <span className="w-1.5 h-1.5 rounded-full bg-red-400 shadow-[0_0_6px_rgba(239,68,68,0.8)]" />
           Kinetic Pulse
         </span>
       </div>

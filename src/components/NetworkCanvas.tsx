@@ -23,8 +23,10 @@ export function NetworkCanvas({
     if (!ctx) return;
 
     let animationFrameId: number;
-    let width = canvas.width = canvas.offsetWidth;
-    let height = canvas.height = canvas.offsetHeight;
+    let width = canvas.offsetWidth || canvas.parentElement?.offsetWidth || 800;
+    let height = canvas.offsetHeight || canvas.parentElement?.offsetHeight || 600;
+    canvas.width = width;
+    canvas.height = height;
 
     const particles: { x: number; y: number; vx: number; vy: number; radius: number }[] = [];
     const maxParticles = Math.min(count, maxConnections);

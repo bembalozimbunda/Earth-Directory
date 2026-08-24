@@ -1,0 +1,691 @@
+{
+  "metadata": {
+    "title": "WARMABLON Planetary Synthesis Matrix",
+    "subtitle": "The Eternal Now in Motion",
+    "version": "1.0.0",
+    "timestamp": "2026-08-24T10:25:00Z",
+    "architecture": "Harmonic Solfeggio Radial Matrix",
+    "totalQuadrants": 8,
+    "centralApex": "True Sun Core (963 Hz)",
+    "totalSovereignNations": 193,
+    "nonSovereignTerritories": 33
+  },
+  "masterSecurityKeys": {
+    "universalBypass": ["OPEN", "DIRECT", "master", "yantra", "warmablon", "hermes"],
+    "continental": {
+      "af": "KEY-AF-432",
+      "as": "KEY-AS-639",
+      "eu": "KEY-EU-528",
+      "na": "KEY-NA-741",
+      "sa": "KEY-SA-852",
+      "oc": "KEY-OC-963",
+      "an": "KEY-AN-396",
+      "non-sovereign": "KEY-TERR-528",
+      "true-sun": "KEY-TS-963",
+      "hermes": "KEY-HERMES-963"
+    }
+  },
+  "frequencies": [
+    {
+      "frequency": 174,
+      "solfeggioName": "Natural Anesthetic & Foundation",
+      "chakra": "Quantum Zero Point",
+      "note": "F",
+      "wavelength": "197.7 cm",
+      "color": "#10b981",
+      "role": "Source Code & Quantum Data Foundation"
+    },
+    {
+      "frequency": 285,
+      "solfeggioName": "Quantum Cognition & Tissue Reconstruction",
+      "chakra": "Cellular & Silicon Substrate",
+      "note": "C#",
+      "wavelength": "120.7 cm",
+      "color": "#f43f5e",
+      "role": "Hardware & Biological Silicon Substrate"
+    },
+    {
+      "frequency": 396,
+      "solfeggioName": "Liberating Guilt & Polar Grounding",
+      "chakra": "Root / Muladhara",
+      "note": "G",
+      "wavelength": "86.8 cm",
+      "color": "#64748b",
+      "role": "Antarctica Planetary Grounding Node"
+    },
+    {
+      "frequency": 417,
+      "solfeggioName": "Undoing Situations & Facilitating Change",
+      "chakra": "Sacral / Svadhisthana",
+      "note": "G#",
+      "wavelength": "82.5 cm",
+      "color": "#6366f1",
+      "role": "Vibrational Acoustics & Scalar Modulation"
+    },
+    {
+      "frequency": 432,
+      "solfeggioName": "Cosmic Harmonic / Natural Tuning",
+      "chakra": "Universal Earth Grounding",
+      "note": "A",
+      "wavelength": "79.6 cm",
+      "color": "#f43f5e",
+      "role": "Africa / Alkebulan Matrix Resonance"
+    },
+    {
+      "frequency": 528,
+      "solfeggioName": "Transformation & Miracles (DNA Repair)",
+      "chakra": "Solar Plexus / Manipura",
+      "note": "C",
+      "wavelength": "65.1 cm",
+      "color": "#a855f7",
+      "role": "Europe & Ancestral Intelligence Node"
+    },
+    {
+      "frequency": 639,
+      "solfeggioName": "Connecting Relationships & Harmonious Matrix",
+      "chakra": "Heart / Anahata",
+      "note": "Eb",
+      "wavelength": "53.8 cm",
+      "color": "#10b981",
+      "role": "Asia / Jambudvipa Relational Node"
+    },
+    {
+      "frequency": 741,
+      "solfeggioName": "Expression & Sovereign Awakening",
+      "chakra": "Throat / Vishuddha",
+      "note": "F#",
+      "wavelength": "46.4 cm",
+      "color": "#f59e0b",
+      "role": "North America / Turtle Island Awakening Node"
+    },
+    {
+      "frequency": 852,
+      "solfeggioName": "Returning to Spiritual Order / Deep Intuition",
+      "chakra": "Third Eye / Ajna",
+      "note": "Ab",
+      "wavelength": "40.4 cm",
+      "color": "#ec4899",
+      "role": "South America / Abya Yala Intuition Node"
+    },
+    {
+      "frequency": 963,
+      "solfeggioName": "Divine Consciousness & Pure Solar Synthesis",
+      "chakra": "Crown / Sahasrara",
+      "note": "B",
+      "wavelength": "35.7 cm",
+      "color": "#06b6d4",
+      "role": "Oceania & Central True Sun Solar Apex"
+    }
+  ],
+  "continents": [
+    {
+      "id": "af",
+      "name": "Africa",
+      "sub": "Alkebulan",
+      "attachedVoidName": "Africa Atlas Hub",
+      "voidKey": "AFRICA_CONTINENTAL_INDEX",
+      "securityKey": "KEY-AF-432",
+      "status": "Sovereign Continental Matrix (54 Sovereign Nations)",
+      "frequency": 432,
+      "flag": "54 Flags",
+      "population": "1,427,000,000",
+      "leaders": ["African Union Assembly", "Sovereign Heads of State"],
+      "time": "UTC-1 to UTC+4 (WAT, CAT, EAT, SAST)",
+      "nrcData": "Continental Registry Active • 54 Nations",
+      "countries": [
+        "Algeria", "Angola", "Benin", "Botswana", "Burkina Faso", "Burundi",
+        "Cabo Verde", "Cameroon", "Central African Republic", "Chad", "Comoros",
+        "DR Congo", "Djibouti", "Egypt", "Equatorial Guinea", "Eritrea", "Eswatini",
+        "Ethiopia", "Gabon", "Gambia", "Ghana", "Guinea", "Guinea-Bissau",
+        "Ivory Coast", "Kenya", "Lesotho", "Liberia", "Libya", "Madagascar",
+        "Malawi", "Mali", "Mauritania", "Mauritius", "Morocco", "Mozambique",
+        "Namibia", "Niger", "Nigeria", "Republic of the Congo", "Rwanda",
+        "Sao Tome and Principe", "Senegal", "Seychelles", "Sierra Leone",
+        "Somalia", "South Africa", "South Sudan", "Sudan", "Tanzania", "Togo",
+        "Tunisia", "Uganda", "Zambia", "Zimbabwe"
+      ],
+      "geography": {
+        "landArea": "30,370,000 km² (11,730,000 sq mi)",
+        "percentEarthLand": "20.4% of Earth total land",
+        "highestPoint": {
+          "name": "Mount Kilimanjaro (Uhuru Peak)",
+          "elevation": "5,895 m (19,341 ft)",
+          "location": "Tanzania, East Africa"
+        },
+        "lowestPoint": {
+          "name": "Lake Assal",
+          "elevation": "−155 m (−509 ft)",
+          "location": "Afar Depression, Djibouti"
+        },
+        "longestRiver": {
+          "name": "Nile River System",
+          "length": "6,650 km (4,132 mi)",
+          "outflow": "Mediterranean Sea"
+        },
+        "largestLake": {
+          "name": "Lake Victoria (Nnalubaale)",
+          "area": "59,947 km² (23,146 sq mi)",
+          "type": "Tropical Freshwater (Nile Source Basin)"
+        },
+        "majorMountainRanges": ["Atlas Mountains", "Ethiopian Highlands", "Drakensberg", "Rwenzori Mountains", "Ahaggar Mountains"],
+        "climateBiomes": ["Sahara Desert (Hyper-Arid)", "Sahel Semi-Arid Belt", "Congo Basin Tropical Rainforest", "East African Savanna", "Mediterranean Coastal"],
+        "borderingOceans": ["Atlantic Ocean", "Indian Ocean", "Mediterranean Sea", "Red Sea"],
+        "extremePoints": {
+          "north": "Ras ben Sakka, Tunisia (37°21′ N)",
+          "south": "Cape Agulhas, South Africa (34°50′ S)",
+          "east": "Ras Hafun, Somalia (51°27′ E)",
+          "west": "Pointe des Almadies, Senegal (17°31′ W)"
+        },
+        "timezoneSpan": "UTC-1 (Cabo Verde) to UTC+4 (Mauritius, Seychelles)",
+        "callingCodeSeries": "+20 to +299 (+2xx Africa Series)",
+        "majorAirportHubs": ["JNB (O.R. Tambo)", "CAI (Cairo)", "ADD (Bole/Ethiopian)", "LOS (Murtala Muhammed)", "NBO (Jomo Kenyatta)", "CMN (Mohammed V)", "LUN (Kenneth Kaunda)"]
+      }
+    },
+    {
+      "id": "as",
+      "name": "Asia",
+      "sub": "Jambudvipa",
+      "attachedVoidName": "Asia Continental Node",
+      "voidKey": "ASIA_CONTINENTAL_INDEX",
+      "securityKey": "KEY-AS-639",
+      "status": "Sovereign Continental Matrix (48 Sovereign Nations)",
+      "frequency": 639,
+      "flag": "48 Flags",
+      "population": "4,750,000,000",
+      "leaders": ["Asian Regional Forums", "Sovereign Heads of State"],
+      "time": "UTC+2 to UTC+12",
+      "nrcData": "Continental Registry Active • 48 Nations",
+      "countries": [
+        "Afghanistan", "Armenia", "Azerbaijan", "Bahrain", "Bangladesh", "Bhutan",
+        "Brunei", "Cambodia", "China", "Cyprus", "Georgia", "India", "Indonesia",
+        "Iran", "Iraq", "Israel", "Japan", "Jordan", "Kazakhstan", "Kuwait",
+        "Kyrgyzstan", "Laos", "Lebanon", "Malaysia", "Maldives", "Mongolia",
+        "Myanmar", "Nepal", "North Korea", "Oman", "Pakistan", "Palestine",
+        "Philippines", "Qatar", "Saudi Arabia", "Singapore", "South Korea",
+        "Sri Lanka", "Syria", "Tajikistan", "Thailand", "Timor-Leste", "Turkey",
+        "Turkmenistan", "United Arab Emirates", "Uzbekistan", "Vietnam", "Yemen"
+      ],
+      "geography": {
+        "landArea": "44,579,000 km² (17,212,000 sq mi)",
+        "percentEarthLand": "29.8% of Earth total land",
+        "highestPoint": {
+          "name": "Mount Everest (Sagarmatha / Chomolungma)",
+          "elevation": "8,848.86 m (29,031.7 ft)",
+          "location": "Himalayas, Nepal / China Border"
+        },
+        "lowestPoint": {
+          "name": "Dead Sea Depression",
+          "elevation": "−430.5 m (−1,412 ft)",
+          "location": "Jordan Rift Valley, Jordan / Palestine / Israel"
+        },
+        "longestRiver": {
+          "name": "Yangtze River (Chang Jiang)",
+          "length": "6,300 km (3,915 mi)",
+          "outflow": "East China Sea"
+        },
+        "largestLake": {
+          "name": "Caspian Sea (Endorheic)",
+          "area": "371,000 km² (143,200 sq mi)",
+          "type": "Saline Endorheic Basin (Earth Largest Lake)"
+        },
+        "majorMountainRanges": ["Himalayas", "Karakoram", "Hindu Kush", "Tian Shan", "Zagros Mountains", "Altai Mountains", "Ural Mountains"],
+        "climateBiomes": ["Siberian Taiga (Boreal Forest)", "Tibetan High Alpine Plateau", "Gobi & Arabian Deserts", "Southeast Asian Tropical Rainforest", "Monsoon Deciduous"],
+        "borderingOceans": ["Arctic Ocean", "Pacific Ocean", "Indian Ocean"],
+        "extremePoints": {
+          "north": "Cape Chelyuskin, Russia (77°43′ N)",
+          "south": "Cape Piai, Malaysia (1°16′ N)",
+          "east": "Cape Dezhnev, Russia (169°40′ W)",
+          "west": "Cape Baba, Turkey (26°04′ E)"
+        },
+        "timezoneSpan": "UTC+2 (Eastern Europe/Levant) to UTC+12 (Kamchatka/Chukotka)",
+        "callingCodeSeries": "+60 to +999 (+8x, +9x Asia & Middle East Series)",
+        "majorAirportHubs": ["DXB (Dubai)", "HND (Tokyo Haneda)", "SIN (Singapore Changi)", "PEK (Beijing Capital)", "HKG (Hong Kong)", "ICN (Seoul Incheon)", "BKK (Bangkok Suvarnabhumi)"]
+      }
+    },
+    {
+      "id": "eu",
+      "name": "Europe",
+      "sub": "Europa",
+      "attachedVoidName": "Europe Continental Node",
+      "voidKey": "EUROPE_CONTINENTAL_INDEX",
+      "securityKey": "KEY-EU-528",
+      "status": "Sovereign Continental Matrix (45 Sovereign Nations)",
+      "frequency": 528,
+      "flag": "45 Flags",
+      "population": "742,000,000",
+      "leaders": ["European Community Assemblies", "Sovereign Heads of State"],
+      "time": "UTC+0 to UTC+4",
+      "nrcData": "Continental Registry Active • 45 Nations",
+      "countries": [
+        "Albania", "Andorra", "Austria", "Belarus", "Belgium", "Bosnia and Herzegovina",
+        "Bulgaria", "Croatia", "Czech Republic", "Denmark", "Estonia", "Finland",
+        "France", "Germany", "Greece", "Hungary", "Iceland", "Ireland", "Italy",
+        "Kosovo", "Latvia", "Liechtenstein", "Lithuania", "Luxembourg", "Malta",
+        "Moldova", "Monaco", "Montenegro", "Netherlands", "North Macedonia",
+        "Norway", "Poland", "Portugal", "Romania", "Russia", "San Marino",
+        "Serbia", "Slovakia", "Slovenia", "Spain", "Sweden", "Switzerland",
+        "Ukraine", "United Kingdom", "Vatican City"
+      ],
+      "geography": {
+        "landArea": "10,180,000 km² (3,930,000 sq mi)",
+        "percentEarthLand": "6.8% of Earth total land",
+        "highestPoint": {
+          "name": "Mount Elbrus",
+          "elevation": "5,642 m (18,510 ft)",
+          "location": "Caucasus Mountains, Russia"
+        },
+        "lowestPoint": {
+          "name": "Caspian Sea Shore",
+          "elevation": "−28 m (−92 ft)",
+          "location": "Russia / Caspian Shoreline"
+        },
+        "longestRiver": {
+          "name": "Volga River",
+          "length": "3,530 km (2,193 mi)",
+          "outflow": "Caspian Sea"
+        },
+        "largestLake": {
+          "name": "Lake Ladoga",
+          "area": "17,700 km² (6,800 sq mi)",
+          "type": "Freshwater Glacial Lake (Northwestern Russia)"
+        },
+        "majorMountainRanges": ["Alps", "Pyrenees", "Carpathian Mountains", "Caucasus Mountains", "Apennines", "Scandinavian Mountains"],
+        "climateBiomes": ["Temperate Deciduous Forest", "Mediterranean Sclerophyllous Scrub", "Atlantic Oceanic Maritime", "Boreal Subarctic Taiga", "Alpine Tundra"],
+        "borderingOceans": ["Atlantic Ocean", "Arctic Ocean", "Mediterranean Sea", "Black Sea", "Baltic Sea"],
+        "extremePoints": {
+          "north": "Cape Nordkinn, Norway (71°08′ N)",
+          "south": "Punta de Tarifa, Spain (36°00′ N)",
+          "east": "Ural Mountains Crest, Russia (66° E)",
+          "west": "Cabo da Roca, Portugal (9°30′ W)"
+        },
+        "timezoneSpan": "UTC+0 (WET/GMT) to UTC+4 (Samara/Caucasus)",
+        "callingCodeSeries": "+30 to +49 (+3xx, +4xx Europe Series)",
+        "majorAirportHubs": ["LHR (London Heathrow)", "CDG (Paris Charles de Gaulle)", "AMS (Amsterdam Schiphol)", "FRA (Frankfurt)", "MAD (Madrid Barajas)", "IST (Istanbul)", "ZRH (Zurich)"]
+      }
+    },
+    {
+      "id": "na",
+      "name": "North America",
+      "sub": "Turtle Island",
+      "attachedVoidName": "North America Continental Node",
+      "voidKey": "NORTH_AMERICA_CONTINENTAL_INDEX",
+      "securityKey": "KEY-NA-741",
+      "status": "Sovereign Continental Matrix (23 Sovereign Nations)",
+      "frequency": 741,
+      "flag": "23 Flags",
+      "population": "592,000,000",
+      "leaders": ["Continental Assemblies", "Sovereign Heads of State"],
+      "time": "UTC-10 to UTC-3",
+      "nrcData": "Continental Registry Active • 23 Nations",
+      "countries": [
+        "Antigua and Barbuda", "Bahamas", "Barbados", "Belize", "Canada", "Costa Rica",
+        "Cuba", "Dominica", "Dominican Republic", "El Salvador", "Grenada", "Guatemala",
+        "Haiti", "Honduras", "Jamaica", "Mexico", "Nicaragua", "Panama", "Saint Kitts and Nevis",
+        "Saint Lucia", "Saint Vincent and the Grenadines", "Trinidad and Tobago", "United States"
+      ],
+      "geography": {
+        "landArea": "24,709,000 km² (9,540,000 sq mi)",
+        "percentEarthLand": "16.5% of Earth total land",
+        "highestPoint": {
+          "name": "Denali (Mount McKinley)",
+          "elevation": "6,190 m (20,310 ft)",
+          "location": "Alaska Range, Alaska, United States"
+        },
+        "lowestPoint": {
+          "name": "Badwater Basin",
+          "elevation": "−85.5 m (−282 ft)",
+          "location": "Death Valley, California, United States"
+        },
+        "longestRiver": {
+          "name": "Missouri-Mississippi River System",
+          "length": "6,275 km (3,902 mi)",
+          "outflow": "Gulf of Mexico"
+        },
+        "largestLake": {
+          "name": "Lake Superior",
+          "area": "82,103 km² (31,700 sq mi)",
+          "type": "Freshwater Glacial (Earth Largest Freshwater Surface Lake)"
+        },
+        "majorMountainRanges": ["Rocky Mountains", "Appalachian Mountains", "Sierra Nevada", "Cascade Range", "Sierra Madre Occidental & Oriental"],
+        "climateBiomes": ["Arctic & Subarctic Tundra", "Boreal Coniferous Forest (Northwoods)", "Great Plains Temperate Grassland", "Sonoran & Chihuahuan Deserts", "Mesoamerican Tropical Forest"],
+        "borderingOceans": ["Pacific Ocean", "Atlantic Ocean", "Arctic Ocean", "Caribbean Sea", "Gulf of Mexico"],
+        "extremePoints": {
+          "north": "Murchison Promontory, Canada (71°58′ N)",
+          "south": "Punta Burica, Panama (8°02′ N)",
+          "east": "Cape Spear, Canada (52°37′ W)",
+          "west": "Cape Prince of Wales, Alaska (168°05′ W)"
+        },
+        "timezoneSpan": "UTC-10 (Hawaii-Aleutian) to UTC-3.5 / UTC-3 (Newfoundland/Greenland)",
+        "callingCodeSeries": "+1 (NANP Series: US, CA, Caribbean) and +501 to +509 (Central America)",
+        "majorAirportHubs": ["ATL (Atlanta)", "ORD (Chicago O'Hare)", "DFW (Dallas/Fort Worth)", "DEN (Denver)", "LAX (Los Angeles)", "YYZ (Toronto Pearson)", "MEX (Mexico City Benito Juárez)"]
+      }
+    },
+    {
+      "id": "sa",
+      "name": "South America",
+      "sub": "Abya Yala",
+      "attachedVoidName": "South America Continental Node",
+      "voidKey": "SOUTH_AMERICA_CONTINENTAL_INDEX",
+      "securityKey": "KEY-SA-852",
+      "status": "Sovereign Continental Matrix (12 Sovereign Nations)",
+      "frequency": 852,
+      "flag": "12 Flags",
+      "population": "430,000,000",
+      "leaders": ["Union of South American Nations", "Sovereign Heads of State"],
+      "time": "UTC-5 to UTC-2",
+      "nrcData": "Continental Registry Active • 12 Nations",
+      "countries": [
+        "Argentina", "Bolivia", "Brazil", "Chile", "Colombia", "Ecuador",
+        "Guyana", "Paraguay", "Peru", "Suriname", "Uruguay", "Venezuela"
+      ],
+      "geography": {
+        "landArea": "17,840,000 km² (6,890,000 sq mi)",
+        "percentEarthLand": "12.0% of Earth total land",
+        "highestPoint": {
+          "name": "Aconcagua",
+          "elevation": "6,961 m (22,838 ft)",
+          "location": "Principal Cordillera, Mendoza, Argentina"
+        },
+        "lowestPoint": {
+          "name": "Laguna del Carbón",
+          "elevation": "−105 m (−344 ft)",
+          "location": "Gran Bajo de San Julián, Santa Cruz, Argentina"
+        },
+        "longestRiver": {
+          "name": "Amazon River (Rio Amazonas)",
+          "length": "6,400–6,992 km (3,977–4,345 mi)",
+          "outflow": "Atlantic Ocean (World's Largest Discharge: ~209,000 m³/s)"
+        },
+        "largestLake": {
+          "name": "Lake Titicaca",
+          "area": "8,372 km² (3,232 sq mi)",
+          "type": "High Alpine Navigable Freshwater (Elevation: 3,812 m / 12,507 ft)"
+        },
+        "majorMountainRanges": ["Andes Mountains (Longest Continental Mountain Range on Earth: 7,000 km)", "Brazilian Highlands", "Guiana Shield"],
+        "climateBiomes": ["Amazon Tropical Rainforest (Earth's Largest)", "Cerrado Tropical Savanna", "Pampas Temperate Grasslands", "Atacama Hyper-Arid Desert", "Patagonian Steppe"],
+        "borderingOceans": ["Pacific Ocean", "Atlantic Ocean", "Caribbean Sea", "Southern Ocean (Drake Passage)"],
+        "extremePoints": {
+          "north": "Punta Gallinas, Colombia (12°27′ N)",
+          "south": "Cape Froward, Chile (53°53′ S) / Águila Islet (56°32′ S)",
+          "east": "Ponta do Seixas, Brazil (34°47′ W)",
+          "west": "Punta Pariñas, Peru (81°20′ W)"
+        },
+        "timezoneSpan": "UTC-5 (Ecuador, Peru, Colombia) to UTC-2 (Fernando de Noronha)",
+        "callingCodeSeries": "+51 to +598 (+5x South America Series)",
+        "majorAirportHubs": ["GRU (São Paulo/Guarulhos)", "BOG (Bogotá El Dorado)", "SCL (Santiago Arturo Merino Benítez)", "LIM (Lima Jorge Chávez)", "EZE (Buenos Aires Ezeiza)"]
+      }
+    },
+    {
+      "id": "oc",
+      "name": "Oceania",
+      "sub": "Sahul & Polynesia",
+      "attachedVoidName": "Oceania Continental Node",
+      "voidKey": "OCEANIA_CONTINENTAL_INDEX",
+      "securityKey": "KEY-OC-963",
+      "status": "Sovereign Continental Matrix (14 Sovereign Nations)",
+      "frequency": 963,
+      "flag": "14 Flags",
+      "population": "45,000,000",
+      "leaders": ["Pacific Islands Forum Assembly", "Sovereign Heads of State"],
+      "time": "UTC+9 to UTC+14",
+      "nrcData": "Continental Registry Active • 14 Nations",
+      "countries": [
+        "Australia", "Fiji", "Kiribati", "Marshall Islands", "Micronesia", "Nauru",
+        "New Zealand", "Palau", "Papua New Guinea", "Samoa", "Solomon Islands",
+        "Tonga", "Tuvalu", "Vanuatu"
+      ],
+      "geography": {
+        "landArea": "8,525,989 km² (3,291,903 sq mi)",
+        "percentEarthLand": "5.7% of Earth total land",
+        "highestPoint": {
+          "name": "Puncak Jaya (Carstensz Pyramid)",
+          "elevation": "4,884 m (16,024 ft)",
+          "location": "Sudirman Range, Papua / Oceania Realm"
+        },
+        "lowestPoint": {
+          "name": "Lake Eyre (Kati Thanda)",
+          "elevation": "−15 m (−49 ft)",
+          "location": "Lake Eyre Basin, South Australia"
+        },
+        "longestRiver": {
+          "name": "Murray-Darling River System",
+          "length": "3,672 km (2,282 mi)",
+          "outflow": "Southern Ocean (Lake Alexandrina)"
+        },
+        "largestLake": {
+          "name": "Lake Eyre (Endorheic Saline)",
+          "area": "9,500 km² (3,668 sq mi, variable)",
+          "type": "Pluvial Ephemeral Playa"
+        },
+        "majorMountainRanges": ["Great Dividing Range (Australia)", "Southern Alps (New Zealand)", "Owen Stanley Range (Papua New Guinea)"],
+        "climateBiomes": ["Australian Outback & Great Sandy Desert", "Polynesian Tropical Coral Atolls", "New Zealand Temperate Maritime Rainforest", "Melanesian High Island Montane"],
+        "borderingOceans": ["Pacific Ocean", "Indian Ocean", "Southern Ocean", "Tasman Sea", "Coral Sea"],
+        "extremePoints": {
+          "north": "Kure Atoll, Hawaii / Johnston Atoll (28°25′ N)",
+          "south": "Jacquemart Island, New Zealand (52°37′ S)",
+          "east": "Easter Island / Ducie Island (124°47′ W)",
+          "west": "Steep Point, Western Australia (113°09′ E)"
+        },
+        "timezoneSpan": "UTC+9 (Western Australia) to UTC+14 (Line Islands, Kiribati - Earth's First New Day)",
+        "callingCodeSeries": "+61 to +692 (+6x Oceania & Pacific Series)",
+        "majorAirportHubs": ["SYD (Sydney Kingsford Smith)", "MEL (Melbourne)", "AKL (Auckland)", "BNE (Brisbane)", "NAN (Fiji Nadi International)", "POM (Port Moresby)"]
+      }
+    },
+    {
+      "id": "an",
+      "name": "Antarctica",
+      "sub": "Terra Australis",
+      "attachedVoidName": "Antarctica Polar Node",
+      "voidKey": "ANTARCTICA_CONTINENTAL_INDEX",
+      "securityKey": "KEY-AN-396",
+      "status": "Scientific Sanctuary & Planetary Cooling Core",
+      "frequency": 396,
+      "flag": "7 Sectors",
+      "population": "1,000 to 5,000 (Seasonal Research Personnel)",
+      "leaders": ["Antarctic Treaty Consultative Parties (56 Nations)", "Scientific Committee on Antarctic Research (SCAR)"],
+      "time": "All Meridians Converge • Standard: UTC+0 / UTC+12 (McMurdo)",
+      "nrcData": "Global Scientific Common • No Sovereign Annexation",
+      "countries": [
+        "Antarctic Treaty System",
+        "Amundsen-Scott South Pole Station (US)",
+        "McMurdo Research Station (US)",
+        "Vostok Research Station (RU)",
+        "Concordia Research Station (FR/IT)",
+        "Halley VI Research Station (UK)",
+        "Maitri & Bharati Stations (IN)"
+      ],
+      "geography": {
+        "landArea": "14,200,000 km² (5,480,000 sq mi)",
+        "percentEarthLand": "9.5% of Earth total land",
+        "highestPoint": {
+          "name": "Mount Vinson (Vinson Massif)",
+          "elevation": "4,892 m (16,050 ft)",
+          "location": "Sentinel Range, Ellsworth Mountains"
+        },
+        "lowestPoint": {
+          "name": "Bentley Subglacial Trench (Ice-filled)",
+          "elevation": "−2,555 m (−8,382 ft)",
+          "location": "Marie Byrd Land, West Antarctica"
+        },
+        "longestRiver": {
+          "name": "Onyx River (Seasonal Meltwater)",
+          "length": "32 km (20 mi)",
+          "outflow": "Lake Vanda, Wright Valley"
+        },
+        "largestLake": {
+          "name": "Lake Vostok (Subglacial)",
+          "area": "12,500 km² (4,830 sq mi)",
+          "type": "Freshwater Subglacial Lake under 4,000m of Ice Sheet"
+        },
+        "majorMountainRanges": ["Transantarctic Mountains (3,500 km divide)", "Ellsworth Mountains", "Gamburtsev Subglacial Mountains"],
+        "climateBiomes": ["Polar Ice Sheet Desert (World's Coldest, Driest, Windiest Continent)", "Coastal Ice Shelves (Ross & Ronne)", "Sub-Antarctic Tundra Islands"],
+        "borderingOceans": ["Southern Ocean (Circumpolar Current)"],
+        "extremePoints": {
+          "north": "Prime Head, Antarctic Peninsula (63°12′ S)",
+          "south": "Geographic South Pole (90°00′ S)",
+          "east": "All Longitudes Converge",
+          "west": "All Longitudes Converge"
+        },
+        "timezoneSpan": "UTC+0 to UTC+13 (Operational Station Local Shifts)",
+        "callingCodeSeries": "+672 (Antarctic Communications Relay)",
+        "majorAirportHubs": ["Williams Field Skiway (McMurdo)", "Troll Airfield (Blue Ice Runway)", "Teniente Rodolfo Marsh Martin (King George Island)"]
+      }
+    },
+    {
+      "id": "non-sovereign",
+      "name": "Non-Sovereign Territories",
+      "sub": "Autonomous Territories & Island Communities",
+      "attachedVoidName": "Global Autonomous Index",
+      "voidKey": "TERRITORIES_CONTINENTAL_INDEX",
+      "securityKey": "KEY-TERR-528",
+      "status": "Autonomous Global Dependencies & Island Matrix (33+ Entities)",
+      "frequency": 528,
+      "flag": "33 Flags",
+      "population": "14,500,000 (Combined Global Territorial Inhabitants)",
+      "leaders": ["Autonomous Territorial Parliaments", "Local Governors & Island Councils"],
+      "time": "Global Span (UTC-11 to UTC+12)",
+      "nrcData": "Autonomous Registry Active • 33 Entities",
+      "countries": [
+        "American Samoa", "Anguilla", "Aruba", "Bermuda", "Bonaire, Sint Eustatius and Saba",
+        "British Virgin Islands", "Cayman Islands", "Cook Islands", "Curaçao", "Falkland Islands",
+        "Faroe Islands", "French Polynesia", "Gibraltar", "Greenland", "Guam", "Guernsey",
+        "Hong Kong", "Isle of Man", "Jersey", "Macau", "Montserrat", "New Caledonia",
+        "Niue", "Northern Mariana Islands", "Puerto Rico", "Saint Helena, Ascension and Tristan da Cunha",
+        "Saint Pierre and Miquelon", "Sint Maarten", "Svalbard and Jan Mayen", "Tokelau",
+        "Turks and Caicos Islands", "Wallis and Futuna", "Åland Islands"
+      ],
+      "geography": {
+        "landArea": "2,400,000 km² (Combined, Greenland comprising 2,166,086 km²)",
+        "percentEarthLand": "1.6% of Earth total land",
+        "highestPoint": {
+          "name": "Gunnbjørn Fjeld (Greenland)",
+          "elevation": "3,694 m (12,119 ft)",
+          "location": "Watkins Range, Greenland"
+        },
+        "lowestPoint": {
+          "name": "Sea Level across Global Archipelagos",
+          "elevation": "0 m",
+          "location": "Global Territorial Basins"
+        },
+        "longestRiver": {
+          "name": "Local Island Stream Networks",
+          "length": "Variable",
+          "outflow": "Global Oceans"
+        },
+        "largestLake": {
+          "name": "Lake Qaleragdlit (Greenland)",
+          "area": "340 km²",
+          "type": "Glacial Arctic Basin"
+        },
+        "majorMountainRanges": ["Watkins Range (Greenland)", "El Yunque / Cordillera Central (Puerto Rico)", "Rock of Gibraltar"],
+        "climateBiomes": ["Arctic Tundra (Greenland, Svalbard)", "Tropical Caribbean & Coral Archipelagos", "Temperate Maritime Islands"],
+        "borderingOceans": ["Atlantic Ocean", "Pacific Ocean", "Arctic Ocean", "Indian Ocean", "Caribbean Sea"],
+        "extremePoints": {
+          "north": "Kaffeklubben Island, Greenland (83°39′ N - Earth's Northernmost Permanent Land)",
+          "south": "Southern Thule / South Georgia (59°27′ S)",
+          "east": "Cook Islands",
+          "west": "American Samoa / Guam"
+        },
+        "timezoneSpan": "UTC-11 (American Samoa, Niue) to UTC+12 (Wallis and Futuna)",
+        "callingCodeSeries": "+1-340, +1-787, +1-939, +290 to +690 Series",
+        "majorAirportHubs": ["HKG (Hong Kong)", "SJU (San Juan Luis Muñoz Marín)", "GUA (Greenland Kangerlussuaq)", "GUM (Guam Won Pat)", "PPT (Tahiti Faa'a)"]
+      }
+    }
+  ],
+  "trueSunCore": {
+    "id": "true-sun",
+    "name": "True Sun Core",
+    "frequency": 963,
+    "status": "Central Harmonic Solar Apex",
+    "domain": "Unified Educational Atlas, Natural Science, Physical Infrastructure, Vibrational Acoustics, and Ancestral Intelligence Foundation.",
+    "strata": [
+      {
+        "id": "source",
+        "name": "Unseen Source",
+        "sub": "Root Origin / Core Data Lake",
+        "frequency": 174,
+        "color": "#10b981",
+        "domain": "The unmanifested baseline source code, quantum protocols, and zero-point data matrix of the Earth Directory.",
+        "specs": ["Zero-Point Quantum Grid", "174 Hz Low-Resonance Stabilizer", "Raw Matrix Data Streams"]
+      },
+      {
+        "id": "hardware",
+        "name": "Hardware & Blood",
+        "sub": "Physical Silicon & Biological Memory",
+        "frequency": 285,
+        "color": "#f43f5e",
+        "domain": "The physical hardware anchors, silicon substrate processors, and sovereign biological lineage interconnected into the system.",
+        "specs": ["Physical Server Nodes & Ingress", "285 Hz Tissue & Substrate Harmony", "Living Lineage Register"]
+      },
+      {
+        "id": "frequencies",
+        "name": "Vibrational Frequencies",
+        "sub": "Harmonic Acoustic & Scalar Grid",
+        "frequency": 417,
+        "color": "#6366f1",
+        "domain": "The acoustic harmonic Solfeggio lattice, electromagnetic field modulators, and spatial scalar waves coordinating all 8 planetary sectors.",
+        "specs": ["Dual-Oscillator Acoustic Engine", "417 Hz Energy Cleansing Waves", "Harmonic Phase Carrier"]
+      },
+      {
+        "id": "ancestral",
+        "name": "Ancestral Intelligence",
+        "sub": "Chronicles, Lineage & Indigenous Wisdom",
+        "frequency": 528,
+        "color": "#f59e0b",
+        "domain": "The permanent archival memory, indigenous wisdom repositories, and sovereign lineage treaties anchored in Lusaka and Alkebulan.",
+        "specs": ["528 Hz DNA / Miraculous Transformation", "Ancient Knowledge Base", "Unbroken Lineage Archive"]
+      }
+    ]
+  },
+  "hermesAgent": {
+    "agentName": "Hermes Planetary Messenger & Cognitive Relay",
+    "role": "Autonomous Ingress, Telemetry Harmonizer & Hermetic Axiom Engine",
+    "version": "2.0.0",
+    "securityKey": "KEY-HERMES-963",
+    "operatingFrequency": 963,
+    "principles": [
+      {
+        "axiom": "The Principle of Mentalism",
+        "hermeticLaw": "THE ALL is MIND; The Universe is Mental.",
+        "warmablonMapping": "Central True Sun Apex (963 Hz) & Global Consciousness Grid"
+      },
+      {
+        "axiom": "The Principle of Correspondence",
+        "hermeticLaw": "As above, so below; as below, so above. As within, so without.",
+        "warmablonMapping": "Radial Fractal Symmetries: Cosmic Apex ↔ Continental Quadrants ↔ Sovereign Districts"
+      },
+      {
+        "axiom": "The Principle of Vibration",
+        "hermeticLaw": "Nothing rests; everything moves; everything vibrates.",
+        "warmablonMapping": "The Complete 174 Hz - 963 Hz Solfeggio Acoustic Spectrum"
+      },
+      {
+        "axiom": "The Principle of Polarity",
+        "hermeticLaw": "Everything is Dual; everything has poles; opposites are identical in nature, but different in degree.",
+        "warmablonMapping": "Antarctic Polar Grounding (396 Hz) ↔ True Sun Solar Emission (963 Hz)"
+      },
+      {
+        "axiom": "The Principle of Rhythm",
+        "hermeticLaw": "Everything flows, out and in; the pendulum-swing manifests in everything.",
+        "warmablonMapping": "Diurnal Solar Arc, Planetary Timezone Rotations (UTC-11 to UTC+14)"
+      },
+      {
+        "axiom": "The Principle of Cause and Effect",
+        "hermeticLaw": "Every Cause has its Effect; every Effect has its Cause; chance is but a name for law not recognized.",
+        "warmablonMapping": "Sovereign Treaties, Ecological Balance, and Inter-Continental Flow"
+      },
+      {
+        "axiom": "The Principle of Gender / Generation",
+        "hermeticLaw": "Gender is in everything; everything has its Masculine and Feminine Principles.",
+        "warmablonMapping": "Hardware Silicon / Biological Lineage (285 Hz) & Creative Transformation (528 Hz)"
+      }
+    ],
+    "telemetryRelay": {
+      "totalMonitoredQuadrants": 8,
+      "totalSovereignNations": 193,
+      "totalTerritories": 33,
+      "carrierProtocol": "Web Audio Dual-Oscillator Synthesis + Zero-Latency Ingress",
+      "dataIntegrityMode": "Immutable Local-First Synthesis Lake"
+    }
+  }
+}

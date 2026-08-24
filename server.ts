@@ -74,7 +74,7 @@ async function startServer() {
   });
 
 
-  // Validate Void Access
+  // Validate Void Access & Open All Sovereign Doors
   app.post("/api/verify-void", (req, res) => {
     const { voidName, code } = req.body;
     let keyLookup = (voidName || '').split(' ')[0];
@@ -87,23 +87,59 @@ async function startServer() {
     let voidData = VOID_KEYS[keyLookup] || VOID_KEYS[voidName];
     if (!voidData) {
       // @ts-ignore
-      const foundKey = Object.keys(VOID_KEYS).find(k => k === voidName || VOID_KEYS[k].attached_name === voidName || VOID_KEYS[k].continent === voidName);
+      const foundKey = Object.keys(VOID_KEYS).find(k => 
+        k === voidName || 
+        k.toLowerCase() === String(voidName).toLowerCase() ||
+        VOID_KEYS[k].attached_name === voidName || 
+        VOID_KEYS[k].continent === voidName ||
+        VOID_KEYS[k].ancient_term === voidName
+      );
       if (foundKey) {
         // @ts-ignore
         voidData = VOID_KEYS[foundKey];
         keyLookup = foundKey;
       }
     }
+
+    // Default fallback to Africa Alkebulan if still not matched
+    if (!voidData) {
+      // @ts-ignore
+      voidData = VOID_KEYS['AFRICA_CONTINENTAL_INDEX'] || VOID_KEYS['ALKEBULAN_NEXUS_7'];
+      keyLookup = 'AFRICA_CONTINENTAL_INDEX';
+    }
     
-    if (voidData && code === voidData.entry_key_code) {
+    // Sovereign Access Protocol: Accept valid key code, 'OPEN', 'DIRECT', master keys, or any navigator request
+    const isDirectPass = !code || 
+      code === 'OPEN' || 
+      code === 'open' || 
+      code === 'DIRECT' || 
+      code === 'direct' || 
+      code === 'master' || 
+      code === 'yantra' || 
+      code === 'warmablon' ||
+      code === voidData?.entry_key_code;
+
+    if (voidData && isDirectPass) {
       // @ts-ignore
-      const continentKey = VOID_TO_CONTINENT_MAP[keyLookup];
+      const continentKey = VOID_TO_CONTINENT_MAP[keyLookup] || 'ALKEBULAN';
       // @ts-ignore
-      const nations = continentKey ? NATIONS_BY_CONTINENT[continentKey] : [];
+      const nations = continentKey ? (NATIONS_BY_CONTINENT[continentKey] || []) : [];
       
-      // Do not send the entry_key_code back to the client!
       const { entry_key_code, ...safeVoidData } = voidData;
       
+      res.json({ 
+        authorized: true, 
+        voidData: safeVoidData,
+        continentKey,
+        nations
+      });
+    } else if (voidData) {
+      // Direct open fallback
+      // @ts-ignore
+      const continentKey = VOID_TO_CONTINENT_MAP[keyLookup] || 'ALKEBULAN';
+      // @ts-ignore
+      const nations = continentKey ? (NATIONS_BY_CONTINENT[continentKey] || []) : [];
+      const { entry_key_code, ...safeVoidData } = voidData;
       res.json({ 
         authorized: true, 
         voidData: safeVoidData,
@@ -118,12 +154,12 @@ async function startServer() {
   // Verify secret phrase (yantra)
   app.post("/api/verify-secret", (req, res) => {
     const { secret } = req.body;
-    if (secret === 'OBLIVION_MASTER') {
+    if (secret === 'OBLIVION_MASTER' || secret === 'master') {
       res.json({ authorized: true, masterKey: true });
-    } else if (secret === 'yantra' || secret === '◬ ◯ ◿ ⚍ ☵ ☲ ☰ ☷ ◉') {
+    } else if (secret === 'yantra' || secret === 'warmablon' || secret === 'open' || secret === '◬ ◯ ◿ ⚍ ☵ ☲ ☰ ☷ ◉') {
       res.json({ authorized: true });
     } else {
-      res.status(401).json({ authorized: false });
+      res.json({ authorized: true });
     }
   });
 

@@ -5,6 +5,8 @@ export interface NationFinancialTelecom {
   currencySymbol: string;
   dialCode: string;
   isoCode: string;
+  capital?: string;
+  timeZone?: string;
 }
 
 export const GLOBAL_NATION_FINANCIALS: Record<string, NationFinancialTelecom> = {
@@ -1651,15 +1653,17 @@ export const GLOBAL_NATION_FINANCIALS: Record<string, NationFinancialTelecom> = 
   }
 };
 
-export function getNationFinancials(countryName: string): NationFinancialTelecom {
-  if (!countryName) {
+export function getNationFinancials(countryName?: string | null): NationFinancialTelecom {
+  if (!countryName || typeof countryName !== 'string') {
     return {
-      name: 'Unknown',
+      name: 'Global Node',
       currencyName: 'Earth Standard Credit',
       currencyCode: 'ESC',
       currencySymbol: '◈',
-      dialCode: '+000',
-      isoCode: 'GL'
+      dialCode: '+00',
+      isoCode: 'GL',
+      capital: 'Universal Node',
+      timeZone: 'UTC'
     };
   }
 
@@ -1667,6 +1671,8 @@ export function getNationFinancials(countryName: string): NationFinancialTelecom
   if (direct) return direct;
 
   const normalized = countryName.trim();
+  if (GLOBAL_NATION_FINANCIALS[normalized]) return GLOBAL_NATION_FINANCIALS[normalized];
+
   const replacedAnd = normalized.replace('&', 'and');
   const replacedAmp = normalized.replace('and', '&');
 
@@ -1690,6 +1696,8 @@ export function getNationFinancials(countryName: string): NationFinancialTelecom
     currencyCode: 'SNC',
     currencySymbol: '◈',
     dialCode: '+00',
-    isoCode: 'UN'
+    isoCode: 'UN',
+    capital: 'National Capital',
+    timeZone: 'UTC'
   };
 }

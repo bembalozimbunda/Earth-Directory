@@ -10,7 +10,16 @@ export function DirectoryTree({ onNodeSelect }: DirectoryTreeProps) {
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [keyInput, setKeyInput] = useState('');
 
-  // Listen to keyboard anywhere to unlock the hidden directory
+  // Listen to keyboard or custom event to open the directory
+  useEffect(() => {
+    const handleOpenTree = () => {
+      setIsUnlocked(true);
+      setIsOpen(true);
+    };
+    window.addEventListener('OPEN_DIRECTORY_TREE', handleOpenTree);
+    return () => window.removeEventListener('OPEN_DIRECTORY_TREE', handleOpenTree);
+  }, []);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (isUnlocked) return;
@@ -18,20 +27,9 @@ export function DirectoryTree({ onNodeSelect }: DirectoryTreeProps) {
       setKeyInput(prev => {
         const next = (prev + e.key).slice(-20);
         
-        // Let's verify secret via API rather than hardcoded in the client
-        if (next.includes('yantra') || next.includes('◬ ◯ ◿ ⚍ ☵ ☲ ☰ ☷ ◉')) {
-          fetch('/api/verify-secret', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ secret: 'yantra' }) // Simplified for demo
-          })
-          .then(res => res.json())
-          .then(data => {
-            if (data.authorized) {
-               setIsUnlocked(true);
-            }
-          })
-          .catch(err => console.error(err));
+        if (next.includes('yantra') || next.includes('warmablon') || next.includes('hermes') || next.includes('open') || next.includes('◬ ◯ ◿ ⚍ ☵ ☲ ☰ ☷ ◉')) {
+          setIsUnlocked(true);
+          setIsOpen(true);
         }
         
         return next;
@@ -48,6 +46,8 @@ export function DirectoryTree({ onNodeSelect }: DirectoryTreeProps) {
       type: 'folder',
       isOpen: true,
       children: [
+        { name: 'WARMABLON.md', type: 'file', icon: FileText },
+        { name: 'WARMABLONDATA.json', type: 'file', icon: FileText },
         { name: 'nations.ts', type: 'file', icon: FileText },
         { name: 'continents.ts', type: 'file', icon: FileText },
         { name: 'void_keys.ts', type: 'file', icon: Lock, protected: true },
@@ -129,7 +129,16 @@ export function DirectoryTree({ onNodeSelect }: DirectoryTreeProps) {
     >
       <div className="text-[10px] uppercase tracking-[0.2em] text-zinc-600 mb-6 flex justify-between items-center border-b border-zinc-800/50 pb-2">
         <span>Earth Directory</span>
-        <span className="text-emerald-500/50">V_1.0.0</span>
+        <div className="flex items-center gap-2">
+          <span className="text-emerald-500/50">V_1.0.0</span>
+          <button 
+            onClick={() => setIsUnlocked(false)} 
+            className="text-zinc-500 hover:text-zinc-200 text-xs px-1 hover:bg-zinc-800 rounded cursor-pointer"
+            title="Close Directory Tree"
+          >
+            ✕
+          </button>
+        </div>
       </div>
       
       {tree.map(node => renderNode(node))}

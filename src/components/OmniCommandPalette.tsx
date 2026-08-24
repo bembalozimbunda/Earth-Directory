@@ -7,33 +7,32 @@ import {
   Layers, 
   Sliders, 
   Compass, 
-  HeartHandshake, 
   Coins, 
   Cpu, 
   X,
   Volume2,
   ArrowRight,
-  Crown,
   Phone,
   Shield,
   Zap,
   Terminal,
   Activity,
-  Sparkles
+  Sparkles,
+  Plane,
+  Clock
 } from 'lucide-react';
 import { CONTINENTS, ContinentData } from '../data/continents';
 import { MASTER_FREQUENCY_REGISTRY } from '../data/frequencies';
-import { ZAMBIA_DETAILED_PROVINCES } from '../data/zambiaDistricts';
 import { NATIONS_BY_CONTINENT } from '../data/nations';
 import { getNationFinancials } from '../data/nationFinancials';
-import { SEVEN_LIVING_WORDS } from './SevenLivingWordsPortal';
-import { playHarmonicSynthesisTone, playKwachaDawnHarmonicEmanation } from '../utils/frequencyPhysics';
+import { GLOBAL_TIMEZONE_NODES } from './SevenLivingWordsPortal';
+import { playHarmonicSynthesisTone } from '../utils/frequencyPhysics';
 
 interface SearchItem {
   id: string;
   title: string;
   subtitle: string;
-  category: 'Void' | 'Nation' | 'District' | 'Frequency' | 'System' | 'Living Word';
+  category: 'Continent' | 'Nation' | 'Frequency' | 'System' | 'Time Zone & Travel';
   icon: any;
   flag?: string | null;
   frequency?: number;
@@ -76,7 +75,6 @@ export function OmniCommandPalette({
         e.preventDefault();
         if (isOpen) onClose();
         else {
-          // Open handled by parent or custom event
           window.dispatchEvent(new CustomEvent('TOGGLE_COMMAND_PALETTE'));
         }
       } else if (e.key === 'Escape' && isOpen) {
@@ -91,15 +89,16 @@ export function OmniCommandPalette({
   const allItems: SearchItem[] = useMemo(() => {
     const items: SearchItem[] = [];
 
-    // 1. Continental Voids
+    // 1. Continents
     CONTINENTS.forEach(continent => {
       items.push({
         id: `continent-${continent.id}`,
-        title: continent.name,
-        subtitle: `${continent.voidKey} • ${continent.status}`,
-        category: 'Void',
+        title: `${continent.name} (${continent.sub})`,
+        subtitle: `Land Area: ${continent.geography.landArea} • Time: ${continent.time} • ${continent.status}`,
+        category: 'Continent',
         icon: Globe2,
         frequency: continent.frequency,
+        data: continent,
         action: () => {
           onOpenContinent(continent);
           onClose();
@@ -107,15 +106,14 @@ export function OmniCommandPalette({
       });
     });
 
-    // 2. Comprehensive Nations & Territories with Spoken Languages
+    // 2. Sovereign Nations & Dial Codes
     Object.entries(NATIONS_BY_CONTINENT).forEach(([continentKey, nationsList]) => {
       const matchingContinent = CONTINENTS.find(c => 
-        c.sub.toUpperCase() === continentKey || 
-        c.name.toUpperCase() === continentKey ||
         (continentKey === 'ALKEBULAN' && c.id === 'af') ||
         (continentKey === 'JAMBUDVIIPA' && c.id === 'as') ||
-        (continentKey === 'KRAUNCADVIIPA' && c.id === 'eu') ||
-        (continentKey === 'PLAKSHADVIIPA' && (c.id === 'na' || c.id === 'sa')) ||
+        (continentKey === 'PLAKSHADVIIPA' && c.id === 'eu') ||
+        (continentKey === 'KRAUNCADVIIPA' && c.id === 'na') ||
+        (continentKey === 'SHALMALIDVIIPA' && c.id === 'sa') ||
         (continentKey === 'SHALMALIDVIIPA' && c.id === 'oc')
       );
 
@@ -123,10 +121,11 @@ export function OmniCommandPalette({
         const fin = getNationFinancials(nation.name);
         const dial = nation.dialCode || fin.dialCode;
         const cur = nation.currencyCode || fin.currencyCode;
+        const cap = fin.capital || 'Capital';
         items.push({
           id: `nation-${continentKey}-${nation.name}`,
           title: `${nation.flag} ${nation.name}`,
-          subtitle: `Dial: ${dial} • Currency: ${cur} • Spoken: ${nation.spokenLanguage} • ${continentKey}`,
+          subtitle: `Dial: ${dial} • Currency: ${cur} (${fin.currencySymbol}) • Capital: ${cap} • Spoken: ${nation.spokenLanguage}`,
           category: 'Nation',
           icon: MapPin,
           flag: nation.flag,
@@ -144,26 +143,23 @@ export function OmniCommandPalette({
       });
     });
 
-    // 3. Zambian Detailed Districts
-    ZAMBIA_DETAILED_PROVINCES.forEach(prov => {
-      prov.districts.forEach(dist => {
-        items.push({
-          id: `district-${prov.name}-${dist.name}`,
-          title: dist.name,
-          subtitle: `Province: ${prov.name} • Resource: ${dist.resource} • Pop: ${dist.population.toLocaleString()}`,
-          category: 'District',
-          icon: MapPin,
-          frequency: 432,
-          action: () => {
-            const afContinent = CONTINENTS.find(c => c.id === 'af');
-            if (afContinent) onOpenContinent(afContinent);
-            onClose();
-          }
-        });
+    // 3. Time Zone & Travel Nodes
+    GLOBAL_TIMEZONE_NODES.forEach(node => {
+      items.push({
+        id: `timezone-${node.id}`,
+        title: `0${node.id}. ${node.regionName}`,
+        subtitle: `${node.timeOffset} • ${node.subName} • Calling: ${node.callingPrefix} • Peak: ${node.highestPoint}`,
+        category: 'Time Zone & Travel',
+        icon: Clock,
+        frequency: node.frequencyHz,
+        action: () => {
+          window.dispatchEvent(new CustomEvent('OPEN_SEVEN_LIVING_WORDS'));
+          onClose();
+        }
       });
     });
 
-    // 4. Solfeggio Harmonic Frequencies
+    // 4. Harmonic Audio Frequencies
     Object.values(MASTER_FREQUENCY_REGISTRY).forEach(spec => {
       items.push({
         id: `freq-${spec.id}`,
@@ -178,16 +174,38 @@ export function OmniCommandPalette({
       });
     });
 
-    // 5. Metaphysical & Sovereign Systems
+    // 5. System Tools
     items.push(
       {
-        id: 'sys-living-words',
-        title: 'The Seven Living Words (01 to 07)',
-        subtitle: 'The Sovereign • The Oracle • The Codex • The Forge • The Dance • The Soil • The Mirror',
-        category: 'Living Word',
-        icon: Crown,
+        id: 'sys-calling-codes-matrix',
+        title: 'Nations Calling Codes & Currencies Matrix',
+        subtitle: '198+ Sovereign Nations, International Calling Codes (+1 to +998), Currencies & Capitals',
+        category: 'System',
+        icon: Phone,
         action: () => {
-          onOpenSystem('living-words');
+          window.dispatchEvent(new CustomEvent('OPEN_SYSTEM_CURRENCY'));
+          onClose();
+        }
+      },
+      {
+        id: 'sys-timezone-matrix',
+        title: 'Planetary Time Zones & Continental Travel Matrix',
+        subtitle: '7 Global Continental Zones, Universal UTC Time, Flight Corridors & Geographic Coordinates',
+        category: 'System',
+        icon: Compass,
+        action: () => {
+          window.dispatchEvent(new CustomEvent('OPEN_SEVEN_LIVING_WORDS'));
+          onClose();
+        }
+      },
+      {
+        id: 'sys-internet-sync',
+        title: 'Global Open Internet & Planetary Telemetry',
+        subtitle: 'Live HTTP/3 QUIC connection, planetary IXP gateways, atomic time sync & currency parity',
+        category: 'System',
+        icon: Globe2,
+        action: () => {
+          onOpenSystem('internet-sync');
           onClose();
         }
       },
@@ -203,382 +221,196 @@ export function OmniCommandPalette({
         }
       },
       {
-        id: 'sys-ancient',
-        title: 'Ancient Technology & Consciousness Vault',
-        subtitle: 'Ancestral algorithms, sacred geometry, and metaphysical blueprints',
-        category: 'System',
-        icon: Compass,
-        action: () => {
-          onOpenSystem('ancient');
-          onClose();
-        }
-      },
-      {
         id: 'sys-motor',
         title: 'MotorOS (Automotive Neural Architecture)',
-        subtitle: 'Sovereign vehicular intelligence and power distribution diagnostics',
+        subtitle: 'Vehicular intelligence, electronic control unit (ECU) diagnostics and powertrain mapping',
         category: 'System',
         icon: Sliders,
         action: () => {
           onOpenSystem('motor');
           onClose();
         }
-      },
-      {
-        id: 'sys-health',
-        title: 'Dashes Portal (Zambia Support & Health Network)',
-        subtitle: 'Toll-free Lifeline 933, GBV 116, and national counseling resource nodes',
-        category: 'System',
-        icon: HeartHandshake,
-        action: () => {
-          onOpenSystem('health');
-          onClose();
-        }
-      },
-      {
-        id: 'sys-currency',
-        title: 'Universal Currency & Resource Portal',
-        subtitle: 'Global sovereign currency metrics, exchange, and precious metal values',
-        category: 'System',
-        icon: Coins,
-        action: () => {
-          onOpenSystem('currency');
-          onClose();
-        }
-      },
-      {
-        id: 'sys-earth-value-matrix',
-        title: 'Earth Value Matrix (Currencies & National Dial Codes)',
-        subtitle: '198+ Nations Currency Codes, Dialing Codes (+26 series), Spoken Tongues & Ancestral Protection',
-        category: 'System',
-        icon: Shield,
-        action: () => {
-          window.dispatchEvent(new CustomEvent('OPEN_SYSTEM_CURRENCY'));
-          onClose();
-        }
-      },
-      {
-        id: 'sys-internet-sync',
-        title: 'Global Open Internet: Connected & System Update',
-        subtitle: 'Live HTTP/3 QUIC connection, planetary IXP gateways, atomic time sync & currency parity',
-        category: 'System',
-        icon: Globe2,
-        action: () => {
-          onOpenSystem('internet-sync');
-          onClose();
-        }
-      },
-      {
-        id: 'cmd-force-system-update',
-        title: 'Update System (Full Planetary Internet Sync)',
-        subtitle: 'Run instant synchronization across all 8 Global Gateways, NTP Atomic Clocks & SDR baselines',
-        category: 'System',
-        icon: Sparkles,
-        action: () => {
-          onOpenSystem('internet-sync');
-          onClose();
-        }
       }
     );
-
-    // 6. The Individual Seven Living Words
-    SEVEN_LIVING_WORDS.forEach(word => {
-      items.push({
-        id: `word-${word.id}`,
-        title: `0${word.id}. ${word.moniker} — ${word.title}`,
-        subtitle: `Mythic: ${word.mythicName} • Cybernetic: ${word.cyberneticName} • ${word.role}`,
-        category: 'Living Word',
-        icon: word.icon,
-        action: () => {
-          onOpenSystem('living-words');
-          onClose();
-        }
-      });
-    });
 
     return items;
   }, [onOpenContinent, onOpenSystem, onClose]);
 
-  // Dynamic intelligent multi-parameter query resolution engine
+  // Filter items by query
   const filteredItems = useMemo(() => {
-    const rawQ = query.trim();
-    if (!rawQ) {
-      // Default baseline: prominent living words, key solfeggio frequencies, and core systems
-      return allItems.filter(item => item.category === 'Living Word' || item.category === 'Frequency' || item.category === 'Void' || item.category === 'System').slice(0, 14);
+    if (!query.trim()) {
+      return allItems.slice(0, 30);
     }
+    const q = query.toLowerCase().trim();
+    return allItems.filter(item => {
+      return (
+        item.title.toLowerCase().includes(q) ||
+        item.subtitle.toLowerCase().includes(q) ||
+        item.category.toLowerCase().includes(q) ||
+        (item.frequency && item.frequency.toString().includes(q))
+      );
+    }).slice(0, 60);
+  }, [allItems, query]);
 
-    const q = rawQ.toLowerCase();
-    const tokens = q.split(/[\s,+/]+/).filter(Boolean);
-
-    // Intent detection
-    const wantsPlay = /play|tune|sound|tone|frequency|hz|listen/i.test(q);
-    const wantsCurrency = /currency|money|forex|kwacha|usd|zmw|euro|val|gold|coin|exchange/i.test(q);
-    const wantsDial = /\+|\b26\b|dial|call|prefix|phone|tel/i.test(q);
-    const wantsDistrict = /district|province|council|zambia|town|mining/i.test(q);
-
-    // Dynamic quick actions injected at top if intent matched
-    const quickActions: SearchItem[] = [];
-
-    // Frequency quick actions
-    const freqMatch = q.match(/\b(174|285|396|432|528|639|741|852|963)\b/);
-    if (freqMatch) {
-      const fNum = parseInt(freqMatch[1], 10);
-      quickActions.push({
-        id: `quick-freq-${fNum}`,
-        title: `Execute Harmonic Tone (${fNum} Hz)`,
-        subtitle: `Instant Acoustic Synthesizer Resonance • Web Audio Wave Generator`,
-        category: 'Frequency',
-        icon: Volume2,
-        frequency: fNum,
-        action: () => {
-          playHarmonicSynthesisTone(fNum, 3.5, 0.28);
-          onClose();
-        }
-      });
-    }
-
-    // Kwacha Dawn sequence quick action
-    if (/amplify|dawn|emanation|wave|kwacha/i.test(q)) {
-      quickActions.push({
-        id: 'quick-kwacha-dawn',
-        title: 'Trigger Kwacha Dawn Harmonic Outward Emanation',
-        subtitle: '432 Hz Root (Zambia) ➔ 528 Hz Regional Ring (+26 SADC) ➔ 963 Hz Planetary Crown',
-        category: 'System',
-        icon: Zap,
-        action: () => {
-          playKwachaDawnHarmonicEmanation();
-          window.dispatchEvent(new CustomEvent('OPEN_SYSTEM_CURRENCY'));
-          onClose();
-        }
-      });
-    }
-
-    // Score and rank all registry items
-    const scoredItems = allItems.map(item => {
-      let score = 0;
-      const titleLower = item.title.toLowerCase();
-      const subLower = item.subtitle.toLowerCase();
-      const catLower = item.category.toLowerCase();
-      const combined = `${titleLower} ${subLower} ${catLower}`;
-
-      // Exact full match
-      if (titleLower === q) score += 200;
-      else if (titleLower.startsWith(q)) score += 120;
-      else if (titleLower.includes(q)) score += 80;
-
-      // Token intersection scoring
-      let tokenMatches = 0;
-      tokens.forEach(tok => {
-        if (titleLower.includes(tok)) {
-          score += 45;
-          tokenMatches++;
-        } else if (subLower.includes(tok)) {
-          score += 25;
-          tokenMatches++;
-        } else if (catLower.includes(tok)) {
-          score += 15;
-          tokenMatches++;
-        }
-      });
-
-      // Boost if all tokens matched
-      if (tokens.length > 1 && tokenMatches >= tokens.length) {
-        score += 60;
-      }
-
-      // Frequency matching boost
-      if (item.frequency) {
-        const freqStr = `${item.frequency}`;
-        if (tokens.some(tok => freqStr.includes(tok) || tok === `${freqStr}hz`)) {
-          score += 110;
-        }
-        if (wantsPlay) score += 30;
-      }
-
-      // Category intent alignments
-      if (wantsCurrency && (item.category === 'Nation' || item.id === 'sys-currency' || item.id === 'sys-earth-value-matrix')) {
-        score += 35;
-      }
-      if (wantsDial && item.category === 'Nation') {
-        score += 40;
-      }
-      if (wantsDistrict && item.category === 'District') {
-        score += 35;
-      }
-
-      return { item, score };
-    });
-
-    const ranked = scoredItems
-      .filter(({ score }) => score > 0)
-      .sort((a, b) => b.score - a.score)
-      .map(({ item }) => item);
-
-    // Merge quick actions ahead of ranked results, avoiding duplicate IDs
-    const finalItems = [...quickActions];
-    const seenIds = new Set(quickActions.map(a => a.id));
-    for (const itm of ranked) {
-      if (!seenIds.has(itm.id)) {
-        seenIds.add(itm.id);
-        finalItems.push(itm);
-      }
-      if (finalItems.length >= 28) break;
-    }
-
-    return finalItems;
-  }, [allItems, query, onClose]);
-
-  // Reset selected index when filtered results change
+  // Keyboard navigation up/down/enter
   useEffect(() => {
-    setSelectedIndex(0);
-  }, [filteredItems]);
+    const handleListKeys = (e: KeyboardEvent) => {
+      if (!isOpen) return;
 
-  // Keyboard navigation within list
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      setSelectedIndex(prev => (prev + 1) % Math.max(1, filteredItems.length));
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      setSelectedIndex(prev => (prev - 1 + filteredItems.length) % Math.max(1, filteredItems.length));
-    } else if (e.key === 'Enter') {
-      e.preventDefault();
-      if (filteredItems[selectedIndex]) {
-        filteredItems[selectedIndex].action();
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        setSelectedIndex(prev => (prev + 1) % Math.max(1, filteredItems.length));
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        setSelectedIndex(prev => (prev - 1 + filteredItems.length) % Math.max(1, filteredItems.length));
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (filteredItems[selectedIndex]) {
+          filteredItems[selectedIndex].action();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleListKeys);
+    return () => window.removeEventListener('keydown', handleListKeys);
+  }, [isOpen, filteredItems, selectedIndex]);
+
+  // Scroll active item into view
+  useEffect(() => {
+    if (listRef.current) {
+      const activeEl = listRef.current.children[selectedIndex] as HTMLElement;
+      if (activeEl) {
+        activeEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
       }
     }
-  };
+  }, [selectedIndex]);
 
   if (!isOpen) return null;
 
   return (
     <div
-      id="omni-command-palette-modal"
-      className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-black/80 backdrop-blur-md"
+      className="fixed inset-0 z-[99999] flex items-start justify-center pt-16 sm:pt-24 p-3 bg-black/80 backdrop-blur-md"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-2xl bg-zinc-950/95 border border-zinc-800/90 rounded-2xl shadow-[0_0_50px_rgba(0,0,0,0.9)] overflow-hidden flex flex-col max-h-[75vh]"
-        onClick={e => e.stopPropagation()}
+        className="relative w-full max-w-2xl bg-zinc-950/98 border border-zinc-700/80 rounded-2xl shadow-[0_0_80px_rgba(0,0,0,0.9)] overflow-hidden flex flex-col max-h-[80vh]"
+        onClick={(e) => e.stopPropagation()}
       >
-          {/* Header Search Bar */}
-          <div className="flex items-center gap-3 px-5 py-4 border-b border-zinc-800/80 bg-zinc-900/40">
-            <Search className="w-5 h-5 text-zinc-400 shrink-0" />
-            <input
-              ref={inputRef}
-              type="text"
-              value={query}
-              onChange={e => setQuery(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder="Search nations, districts, Solfeggio tones, systems... (e.g. 432, Zambia, Solwezi, Kwacha, +260)"
-              className="flex-1 bg-transparent text-sm md:text-base text-zinc-100 placeholder-zinc-500 focus:outline-none font-sans"
-            />
-            {query && (
-              <button 
-                onClick={() => setQuery('')} 
-                className="text-zinc-500 hover:text-zinc-300 transition-colors p-1"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            )}
-            <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-400">
-              <span>ESC to exit</span>
-            </div>
-          </div>
-
-          {/* Results List */}
-          <div 
-            ref={listRef}
-            className="flex-1 overflow-y-auto p-2 divide-y divide-zinc-900/50 scrollbar-thin scrollbar-thumb-zinc-800 scrollbar-track-transparent"
+        {/* Search Input Header */}
+        <div className="p-3 sm:p-4 border-b border-zinc-800 flex items-center gap-3 bg-zinc-900/60">
+          <Search className="w-5 h-5 text-amber-400 shrink-0" />
+          <input
+            ref={inputRef}
+            type="text"
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setSelectedIndex(0);
+            }}
+            placeholder="Search Nations (+260, +44, +1), Currencies (USD, EUR, ZMW), Continents, Time Zones..."
+            className="w-full bg-transparent text-white font-mono text-sm placeholder-zinc-500 outline-none"
+          />
+          {query && (
+            <button
+              onClick={() => setQuery('')}
+              className="p-1 text-zinc-500 hover:text-zinc-300 text-xs font-mono"
+            >
+              Clear
+            </button>
+          )}
+          <button
+            onClick={onClose}
+            className="p-1 rounded-lg bg-zinc-800 text-zinc-400 hover:text-white"
           >
-            {filteredItems.length === 0 ? (
-              <div className="py-12 text-center text-zinc-500 text-xs font-mono">
-                No matching nodes found in the universal directory.
-              </div>
-            ) : (
-              filteredItems.map((item, index) => {
-                const isSelected = index === selectedIndex;
-                const IconComponent = item.icon;
+            <X className="w-4 h-4" />
+          </button>
+        </div>
 
-                return (
-                  <button
-                    key={item.id}
-                    onClick={item.action}
-                    onMouseEnter={() => setSelectedIndex(index)}
-                    className={`w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl text-left transition-all group ${
-                      isSelected 
-                        ? 'bg-zinc-800/90 text-white shadow-lg border border-zinc-700/60' 
-                        : 'text-zinc-400 hover:bg-zinc-900/60 hover:text-zinc-200 border border-transparent'
-                    }`}
-                  >
-                    <div className="flex items-center gap-3.5 min-w-0">
-                      <div className={`p-2 rounded-lg shrink-0 ${
-                        item.category === 'Living Word'
-                          ? 'bg-amber-950/50 text-amber-300 border border-amber-500/50 shadow-[0_0_10px_rgba(245,158,11,0.2)]'
-                          : item.category === 'Frequency' 
-                          ? 'bg-amber-950/40 text-amber-400 border border-amber-800/40' 
-                          : item.category === 'Void'
-                          ? 'bg-blue-950/40 text-blue-400 border border-blue-800/40'
-                          : item.category === 'District'
-                          ? 'bg-emerald-950/40 text-emerald-400 border border-emerald-800/40'
-                          : 'bg-zinc-900 text-zinc-300 border border-zinc-800'
-                      }`}>
-                        <IconComponent className="w-4 h-4" />
-                      </div>
+        {/* Results List */}
+        <div
+          ref={listRef}
+          className="flex-1 overflow-y-auto p-2 sm:p-3 space-y-1.5 custom-scrollbar"
+        >
+          {filteredItems.length === 0 ? (
+            <div className="p-8 text-center text-zinc-500 font-mono text-xs">
+              No results found for "{query}". Try searching a country (e.g. France, Japan, Zambia), calling code (+260, +44), or currency (USD, ZMW).
+            </div>
+          ) : (
+            filteredItems.map((item, idx) => {
+              const isSelected = idx === selectedIndex;
+              const Icon = item.icon;
 
-                      <div className="flex flex-col min-w-0">
-                        <div className="flex items-center gap-2">
-                          <span className="font-medium text-sm text-zinc-100 truncate">
-                            {item.title}
-                          </span>
-                          {item.frequency && (
-                            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400/90 border border-amber-500/20 shrink-0">
-                              {item.frequency} Hz
-                            </span>
-                          )}
-                        </div>
-                        <span className="text-xs text-zinc-500 truncate font-mono mt-0.5">
-                          {item.subtitle}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-2 shrink-0">
-                      <span className={`text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-full ${
-                        item.category === 'Living Word'
-                          ? 'text-amber-300 bg-amber-950/50 border border-amber-800/40 font-semibold'
-                          : item.category === 'Frequency' 
-                          ? 'text-amber-400 bg-amber-950/30' 
-                          : item.category === 'Void'
-                          ? 'text-blue-400 bg-blue-950/30'
-                          : item.category === 'District'
-                          ? 'text-emerald-400 bg-emerald-950/30'
-                          : 'text-zinc-400 bg-zinc-900'
-                      }`}>
-                        {item.category}
-                      </span>
-                      {isSelected && (
-                        <ArrowRight className="w-4 h-4 text-emerald-400 animate-pulse" />
+              return (
+                <div
+                  key={item.id}
+                  onClick={() => item.action()}
+                  onMouseEnter={() => setSelectedIndex(idx)}
+                  className={`p-2.5 sm:p-3 rounded-xl transition-all cursor-pointer flex items-center justify-between gap-3 font-mono border ${
+                    isSelected
+                      ? 'bg-zinc-900 border-amber-500/60 text-white shadow-md'
+                      : 'bg-zinc-950/50 hover:bg-zinc-900/50 border-zinc-850 text-zinc-300'
+                  }`}
+                >
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
+                      isSelected ? 'bg-amber-500 text-black' : 'bg-zinc-900 text-zinc-400 border border-zinc-800'
+                    }`}>
+                      {item.flag ? (
+                        <span className="text-base select-none">{item.flag}</span>
+                      ) : (
+                        <Icon className="w-4 h-4" />
                       )}
                     </div>
-                  </button>
-                );
-              })
-            )}
-          </div>
 
-          {/* Footer Controls & Instructions */}
-          <div className="flex items-center justify-between px-5 py-2.5 bg-zinc-950 border-t border-zinc-800/80 text-[10px] font-mono text-zinc-500 select-none">
-            <div className="flex items-center gap-3">
-              <span>↑↓ Navigate</span>
-              <span>↵ Authorize / Execute</span>
-            </div>
-            <div className="flex items-center gap-1.5 text-zinc-400">
-              <Terminal className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Universal Directory Coordinate & Resonant Ingress</span>
-            </div>
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs sm:text-sm font-bold text-white truncate">
+                          {item.title}
+                        </span>
+                        <span className={`text-[9px] px-1.5 py-0.2 rounded uppercase tracking-wider shrink-0 ${
+                          item.category === 'Continent' ? 'bg-blue-950 text-blue-300 border border-blue-800' :
+                          item.category === 'Nation' ? 'bg-emerald-950 text-emerald-300 border border-emerald-800' :
+                          item.category === 'Time Zone & Travel' ? 'bg-purple-950 text-purple-300 border border-purple-800' :
+                          item.category === 'Frequency' ? 'bg-amber-950 text-amber-300 border border-amber-800' :
+                          'bg-zinc-800 text-zinc-300'
+                        }`}>
+                          {item.category}
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-zinc-400 truncate mt-0.5">
+                        {item.subtitle}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 shrink-0">
+                    {item.frequency && (
+                      <span className="text-[10px] text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded border border-amber-800/50 hidden sm:inline-block">
+                        {item.frequency} Hz
+                      </span>
+                    )}
+                    <ArrowRight className={`w-4 h-4 transition-transform ${
+                      isSelected ? 'text-amber-400 translate-x-1' : 'text-zinc-600'
+                    }`} />
+                  </div>
+                </div>
+              );
+            })
+          )}
+        </div>
+
+        {/* Footer Navigation Hints */}
+        <div className="p-3 bg-zinc-950 border-t border-zinc-800 flex items-center justify-between text-[10px] font-mono text-zinc-500">
+          <div className="flex items-center gap-3">
+            <span>↑↓ Navigate</span>
+            <span>↵ Select</span>
+            <span>Esc Close</span>
           </div>
+          <span className="text-amber-500">
+            {filteredItems.length} Available Entries
+          </span>
         </div>
       </div>
+    </div>
   );
 }

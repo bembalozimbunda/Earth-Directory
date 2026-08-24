@@ -258,8 +258,16 @@ export const MASTER_FREQUENCY_REGISTRY: Record<string, FrequencyNodeSpec> = {
 };
 
 /**
- * Returns the frequency node specification for a given ID.
+ * Returns the frequency node specification for a given ID or frequency number.
  */
-export function getFrequencySpec(id: string): FrequencyNodeSpec {
-  return MASTER_FREQUENCY_REGISTRY[id] || MASTER_FREQUENCY_REGISTRY['af'];
+export function getFrequencySpec(idOrFreq: string | number): FrequencyNodeSpec {
+  if (typeof idOrFreq === 'number') {
+    const match = Object.values(MASTER_FREQUENCY_REGISTRY).find(s => s.frequency === idOrFreq);
+    if (match) return match;
+  }
+  const idStr = String(idOrFreq);
+  if (MASTER_FREQUENCY_REGISTRY[idStr]) return MASTER_FREQUENCY_REGISTRY[idStr];
+  const byFreq = Object.values(MASTER_FREQUENCY_REGISTRY).find(s => s.frequency.toString() === idStr);
+  if (byFreq) return byFreq;
+  return MASTER_FREQUENCY_REGISTRY['af'];
 }

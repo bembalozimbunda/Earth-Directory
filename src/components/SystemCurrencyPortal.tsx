@@ -1,15 +1,36 @@
 import React, { useState, useMemo } from 'react';
-import { Shield, Globe, Lock, X, Search, Phone, Coins, Filter, CheckCircle2, Volume2, Radio, Zap } from 'lucide-react';
+import { Phone, Globe, X, Search, Coins, Filter, CheckCircle2, Copy, ArrowRightLeft, Clock, MapPin, Check } from 'lucide-react';
 import { NATIONS_BY_CONTINENT } from '../data/nations';
 import { getNationFinancials } from '../data/nationFinancials';
-import { playHarmonicSynthesisTone, playKwachaDawnHarmonicEmanation } from '../utils/frequencyPhysics';
+import { playHarmonicSynthesisTone } from '../utils/frequencyPhysics';
+
+interface ContinentTab {
+  id: string;
+  label: string;
+  sub: string;
+  codePrefix: string;
+}
+
+const CONTINENT_TABS: ContinentTab[] = [
+  { id: 'ALL', label: 'All Continents', sub: '198+ Sovereign Nations', codePrefix: 'All (+1..+998)' },
+  { id: 'AFRICA', label: 'Africa', sub: '54 Sovereign Nations', codePrefix: '+20 to +29' },
+  { id: 'ASIA', label: 'Asia', sub: '48 Sovereign Nations', codePrefix: '+60 to +98' },
+  { id: 'EUROPE', label: 'Europe', sub: '45 Sovereign Nations', codePrefix: '+30 to +49' },
+  { id: 'NORTH AMERICA', label: 'North America', sub: '23 Sovereign Nations', codePrefix: '+1 Series' },
+  { id: 'SOUTH AMERICA', label: 'South America', sub: '12 Sovereign Nations', codePrefix: '+50 to +59' },
+  { id: 'OCEANIA', label: 'Oceania & Pacific', sub: '14 Sovereign Nations', codePrefix: '+61 to +69' },
+  { id: 'TERRITORIES', label: 'Territories', sub: '33+ Autonomous Islands', codePrefix: 'Global' }
+];
 
 export function SystemCurrencyPortal() {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedContinent, setSelectedContinent] = useState<string>('ALL');
-  const [amplifyingStep, setAmplifyingStep] = useState<null | 'kwacha_root' | 'sadc_expansion' | 'planetary_crown'>(null);
-  const [isAmplifying, setIsAmplifying] = useState(false);
+  const [copiedCode, setCopiedCode] = useState<string | null>(null);
+  
+  // Quick currency calculator state for travelers
+  const [calcBaseAmount, setCalcBaseAmount] = useState<number>(100);
+  const [calcBaseCurrency, setCalcBaseCurrency] = useState<'USD' | 'EUR' | 'GBP'>('USD');
 
   React.useEffect(() => {
     const handleOpen = () => setIsOpen(true);
@@ -17,7 +38,6 @@ export function SystemCurrencyPortal() {
     return () => window.removeEventListener('OPEN_SYSTEM_CURRENCY', handleOpen);
   }, []);
 
-  // Listen to Escape key to close simulation
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
@@ -28,7 +48,6 @@ export function SystemCurrencyPortal() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen]);
 
-  // One-tap toggle
   const handleToggle = () => {
     setIsOpen(prev => !prev);
   };
@@ -37,37 +56,33 @@ export function SystemCurrencyPortal() {
     setIsOpen(false);
   };
 
-  // Trigger Kwacha Dawn Harmonic Outward Emanation
-  const handleAmplifyKwacha = () => {
-    if (isAmplifying) return;
-    setIsAmplifying(true);
-    setAmplifyingStep('kwacha_root');
-
-    const cleanup = playKwachaDawnHarmonicEmanation(0.24, (step) => {
-      setAmplifyingStep(step);
-    });
-
-    setTimeout(() => {
-      setIsAmplifying(false);
-      setAmplifyingStep(null);
-    }, 4200);
+  const handleCopy = (code: string) => {
+    navigator.clipboard.writeText(code);
+    setCopiedCode(code);
+    setTimeout(() => setCopiedCode(null), 2000);
   };
 
-  // Play individual nation harmonic tone (e.g. 432Hz for Kwacha, 528Hz for Africa, 963Hz for Global)
-  const handlePlayNationTone = (nationName: string, dialCode: string) => {
-    if (nationName === 'Zambia' || dialCode === '+260') {
-      playHarmonicSynthesisTone(432, 2.5, 0.22);
-    } else if (dialCode.startsWith('+26') || dialCode.startsWith('+2')) {
-      playHarmonicSynthesisTone(528, 2.2, 0.2);
+  const handlePlayNationTone = (dialCode: string) => {
+    if (dialCode.startsWith('+26') || dialCode.startsWith('+2')) {
+      playHarmonicSynthesisTone(432, 1.8, 0.18);
+    } else if (dialCode.startsWith('+3') || dialCode.startsWith('+4')) {
+      playHarmonicSynthesisTone(528, 1.8, 0.18);
+    } else if (dialCode.startsWith('+8') || dialCode.startsWith('+9')) {
+      playHarmonicSynthesisTone(639, 1.8, 0.18);
+    } else if (dialCode.startsWith('+1')) {
+      playHarmonicSynthesisTone(741, 1.8, 0.18);
+    } else if (dialCode.startsWith('+5')) {
+      playHarmonicSynthesisTone(852, 1.8, 0.18);
     } else {
-      playHarmonicSynthesisTone(963, 2.0, 0.18);
+      playHarmonicSynthesisTone(963, 1.8, 0.18);
     }
   };
 
-  // Compile all nations with financials and dial codes
+  // Compile all nations with normalized continent names
   const allNationsWithData = useMemo(() => {
     const list: Array<{
-      continent: string;
+      continentCategory: string;
+      rawContinent: string;
       name: string;
       flag: string;
       spokenLanguage: string;
@@ -76,16 +91,47 @@ export function SystemCurrencyPortal() {
       currencySymbol: string;
       dialCode: string;
       isoCode: string;
-      value: string;
-      status: string;
+      capital: string;
+      timezone: string;
+      exchangeRateToUSD: number;
       isTerritory?: boolean;
     }> = [];
 
-    Object.entries(NATIONS_BY_CONTINENT).forEach(([continent, nations]) => {
+    // Helper to map continent keys
+    const getNormalizedCategory = (rawKey: string, isTerritory?: boolean): string => {
+      if (isTerritory) return 'TERRITORIES';
+      if (rawKey === 'ALKEBULAN') return 'AFRICA';
+      if (rawKey === 'JAMBUDVIIPA') return 'ASIA';
+      if (rawKey === 'PLAKSHADVIIPA') return 'EUROPE';
+      if (rawKey === 'KRAUNCADVIIPA') return 'NORTH AMERICA';
+      if (rawKey === 'SHALMALIDVIIPA') return 'SOUTH AMERICA';
+      return 'OTHER';
+    };
+
+    Object.entries(NATIONS_BY_CONTINENT).forEach(([continentKey, nations]) => {
       nations.forEach(nation => {
         const financials = getNationFinancials(nation.name);
+        const normCat = getNormalizedCategory(continentKey, nation.isTerritory);
+
+        // Approximate representative exchange rate for calculator
+        let rateToUSD = 1.0;
+        if (nation.name === 'Zambia' || financials.currencyCode === 'ZMW') rateToUSD = 27.5;
+        else if (financials.currencyCode === 'EUR') rateToUSD = 0.92;
+        else if (financials.currencyCode === 'GBP') rateToUSD = 0.78;
+        else if (financials.currencyCode === 'JPY') rateToUSD = 155.0;
+        else if (financials.currencyCode === 'CAD') rateToUSD = 1.38;
+        else if (financials.currencyCode === 'AUD') rateToUSD = 1.52;
+        else if (financials.currencyCode === 'CNY') rateToUSD = 7.24;
+        else if (financials.currencyCode === 'INR') rateToUSD = 83.5;
+        else if (financials.currencyCode === 'ZAR') rateToUSD = 18.2;
+        else if (financials.currencyCode === 'NGN') rateToUSD = 1500.0;
+        else if (financials.currencyCode === 'KES') rateToUSD = 130.0;
+        else if (financials.currencyCode === 'EGP') rateToUSD = 48.0;
+        else if (financials.currencyCode === 'BRL') rateToUSD = 5.6;
+
         list.push({
-          continent,
+          continentCategory: normCat,
+          rawContinent: continentKey,
           name: nation.name,
           flag: nation.flag,
           spokenLanguage: nation.spokenLanguage,
@@ -94,8 +140,9 @@ export function SystemCurrencyPortal() {
           currencySymbol: nation.currencySymbol || financials.currencySymbol,
           dialCode: nation.dialCode || financials.dialCode,
           isoCode: financials.isoCode,
-          value: nation.value || 'PRICELESS',
-          status: nation.status || 'PROTECTED_BY_ANCESTORS',
+          capital: financials.capital || 'National Capital',
+          timezone: financials.timeZone || 'Standard Time',
+          exchangeRateToUSD: rateToUSD,
           isTerritory: nation.isTerritory
         });
       });
@@ -104,11 +151,11 @@ export function SystemCurrencyPortal() {
     return list;
   }, []);
 
-  // Filtered nations based on search and continent filter
+  // Filtered nations
   const filteredNations = useMemo(() => {
     const q = searchQuery.toLowerCase().trim();
     return allNationsWithData.filter(item => {
-      const matchContinent = selectedContinent === 'ALL' || item.continent === selectedContinent;
+      const matchContinent = selectedContinent === 'ALL' || item.continentCategory === selectedContinent;
       if (!matchContinent) return false;
 
       if (!q) return true;
@@ -120,351 +167,271 @@ export function SystemCurrencyPortal() {
         item.dialCode.toLowerCase().includes(q) ||
         item.spokenLanguage.toLowerCase().includes(q) ||
         item.isoCode.toLowerCase().includes(q) ||
-        item.continent.toLowerCase().includes(q)
+        item.capital.toLowerCase().includes(q)
       );
     });
   }, [allNationsWithData, searchQuery, selectedContinent]);
-
-  const continentKeys = ['ALL', 'ALKEBULAN', 'JAMBUDVIIPA', 'KRAUNCADVIIPA', 'PLAKSHADVIIPA', 'SHALMALIDVIIPA'];
 
   return (
     <div className="fixed top-3 left-3 sm:top-4 sm:left-4 z-50">
       {/* Top Left Trigger Button (One-Tap Open) */}
       <button
         onClick={handleToggle}
-        title="Open Earth Value Matrix (Currencies & National Contact Codes)"
-        className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all shadow-xl backdrop-blur-md cursor-pointer border ${
+        title="Open Nations Calling Codes & Currencies Directory (198+ Nations)"
+        className={`flex items-center gap-2.5 px-3 py-2 rounded-xl transition-all shadow-xl backdrop-blur-md cursor-pointer border ${
           isOpen
             ? 'bg-amber-500 text-black border-amber-400 font-bold shadow-[0_0_25px_rgba(245,158,11,0.5)]'
             : 'bg-zinc-950/90 text-amber-400 hover:text-amber-300 border-amber-500/40 hover:border-amber-400/80 shadow-[0_0_15px_rgba(0,0,0,0.8)]'
         }`}
       >
         <div className="relative flex items-center justify-center">
-          <Shield className="w-4 h-4" />
+          <Phone className="w-4 h-4 text-amber-400" />
           <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
         </div>
         <div className="flex flex-col text-left">
-          <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-wider font-semibold">
-            EARTH VALUE MATRIX
+          <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-wider font-bold text-amber-300">
+            NATIONS CALLING CODES
           </span>
-          <span className={`text-[8px] font-mono tracking-widest hidden sm:inline ${isOpen ? 'text-black/80' : 'text-zinc-400'}`}>
-            CURRENCY & DIAL CODES
+          <span className={`text-[8px] font-mono tracking-wider hidden sm:inline ${isOpen ? 'text-black/80' : 'text-zinc-400'}`}>
+            & Currencies Matrix (198+)
           </span>
         </div>
       </button>
 
-      {/* Earth Value Matrix Modal Simulation */}
+      {/* Nations Calling Codes & Currencies Modal */}
       {isOpen && (
         <>
           {/* Backdrop Dimmer */}
           <div
             onClick={handleClose}
-            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-40"
+            className="fixed inset-0 bg-black/80 backdrop-blur-md z-40"
           />
 
-          {/* Portal Container strictly anchored in top-left */}
+          {/* Modal Container anchored in top-left */}
           <div
-            className="fixed top-3 left-3 sm:top-4 sm:left-4 z-50 w-[95vw] max-w-2xl max-h-[90vh] flex flex-col bg-zinc-950/98 backdrop-blur-2xl border border-amber-500/40 rounded-xl shadow-[0_0_50px_rgba(245,158,11,0.2)] overflow-hidden"
+            className="fixed top-3 left-3 sm:top-4 sm:left-4 z-50 w-[95vw] max-w-4xl max-h-[90vh] flex flex-col bg-zinc-950/98 backdrop-blur-2xl border border-amber-500/50 rounded-2xl shadow-[0_0_60px_rgba(245,158,11,0.25)] overflow-hidden"
           >
             {/* Header Bar */}
-            <div className="p-3.5 sm:p-4 border-b border-zinc-800/80 bg-gradient-to-r from-amber-500/15 via-zinc-900/60 to-zinc-950 flex items-center justify-between gap-3">
+            <div className="p-4 border-b border-zinc-800/80 bg-gradient-to-r from-amber-500/15 via-zinc-900/80 to-zinc-950 flex items-center justify-between gap-3 shrink-0">
               <div className="flex items-center gap-3 min-w-0">
-                <div className="w-9 h-9 rounded-lg bg-amber-500/20 flex items-center justify-center border border-amber-500/50 shrink-0">
-                  <Globe className="w-5 h-5 text-amber-400" />
+                <div className="w-10 h-10 rounded-xl bg-amber-500/20 flex items-center justify-center border border-amber-500/50 shrink-0 text-amber-400">
+                  <Phone className="w-5 h-5" />
                 </div>
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
-                    <h3 className="text-white font-mono text-sm uppercase tracking-widest font-bold truncate">
-                      EARTH VALUE MATRIX
+                    <h3 className="text-white font-mono text-sm sm:text-base uppercase tracking-wider font-bold truncate">
+                      Nations Calling Codes & Currencies Matrix
                     </h3>
-                    <span className="px-1.5 py-0.5 rounded bg-emerald-950/80 border border-emerald-500/40 text-emerald-400 font-mono text-[9px] uppercase tracking-wider shrink-0">
-                      Live Simulation
+                    <span className="px-2 py-0.5 rounded-full bg-emerald-950 border border-emerald-500/40 text-emerald-400 font-mono text-[9px] uppercase tracking-wider font-semibold shrink-0">
+                      198+ Nations
                     </span>
                   </div>
-                  <p className="text-zinc-400 font-mono text-[10px] uppercase tracking-wider truncate">
-                    198+ Nations Currency Matrix & National Dialing (+26 Series)
+                  <p className="text-zinc-400 font-mono text-[10px] sm:text-xs truncate mt-0.5">
+                    International Dialing (+1 to +998), Sovereign Currencies, Exchange Values & Capital Cities for Travelers
                   </p>
                 </div>
               </div>
 
-                {/* X Exit Simulation Button */}
-                <button
-                  onClick={handleClose}
-                  title="Close Simulation (Exit Portal)"
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900/90 hover:bg-red-950/80 border border-zinc-700/80 hover:border-red-500 text-zinc-300 hover:text-red-300 transition-all cursor-pointer group shrink-0 shadow-sm"
-                >
-                  <X className="w-4 h-4 text-zinc-400 group-hover:text-red-400 group-hover:rotate-90 transition-transform duration-200" />
-                  <span className="font-mono text-[10px] uppercase tracking-wider font-semibold">
-                    Exit [✕]
-                  </span>
-                </button>
-              </div>
+              {/* Close Button */}
+              <button
+                onClick={handleClose}
+                title="Close Matrix [Esc]"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900/90 hover:bg-red-950/80 border border-zinc-700/80 hover:border-red-500 text-zinc-300 hover:text-red-300 transition-all cursor-pointer group shrink-0 shadow-sm"
+              >
+                <X className="w-4 h-4 text-zinc-400 group-hover:text-red-400 group-hover:rotate-90 transition-transform duration-200" />
+                <span className="font-mono text-[10px] uppercase tracking-wider font-semibold">
+                  Close [✕]
+                </span>
+              </button>
+            </div>
 
-              {/* Ancestral Synchronization Pledge Banner */}
-              <div className="px-4 py-2.5 bg-zinc-900/40 border-b border-zinc-800/60 text-center">
-                <p className="text-zinc-300 font-mono text-[10px] leading-relaxed uppercase">
-                  "Any external force trying to kill, steal, destroy, accuse Africans even from Silicon Valley, we render useless through ancestral spirit. We are all synchronized."
-                </p>
-                <div className="mt-2 flex flex-wrap justify-center items-center gap-2">
-                  <span className="text-amber-400 font-mono text-[9px] uppercase tracking-widest bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded">
-                    ONE ZAMBIA (+260)
-                  </span>
-                  <span className="text-amber-400 font-mono text-[9px] uppercase tracking-widest bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded">
-                    SOUTHERN AFRICA (+26x)
-                  </span>
-                  <span className="text-amber-400 font-mono text-[9px] uppercase tracking-widest bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded">
-                    ONE AFRICA
-                  </span>
-                  <span className="text-amber-400 font-mono text-[9px] uppercase tracking-widest bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded">
-                    ONE EARTH
-                  </span>
-                </div>
-              </div>
-
-              {/* Kwacha Dawn Harmonic Resonance Amplifier (Outward Wave Generator) */}
-              <div className="p-3 bg-gradient-to-r from-amber-950/40 via-zinc-900/80 to-cyan-950/40 border-b border-amber-500/30">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-                  <div className="flex items-center gap-2.5">
-                    <div className="relative flex items-center justify-center w-8 h-8 rounded-lg bg-amber-500/20 border border-amber-500/40 shrink-0">
-                      <Radio className={`w-4 h-4 text-amber-400 ${isAmplifying ? 'animate-spin' : ''}`} />
-                      {isAmplifying && (
-                        <span className="absolute inset-0 rounded-lg border border-amber-400 animate-ping opacity-75" />
-                      )}
-                    </div>
-                    <div className="flex flex-col">
-                      <div className="flex items-center gap-2">
-                        <span className="font-mono text-xs text-amber-300 font-bold uppercase tracking-wider">
-                          KWACHA DAWN FREQUENCY AMPLIFIER
-                        </span>
-                        <span className="text-[9px] font-mono text-emerald-400 px-1.5 py-0.2 rounded bg-emerald-950/80 border border-emerald-800/60 uppercase">
-                          432 Hz ➔ 528 Hz ➔ 963 Hz
-                        </span>
-                      </div>
-                      <span className="font-mono text-[9px] text-zinc-400 uppercase tracking-widest">
-                        Epicenter: Kwacha ("The Dawn") • Emanating Outward across +26 SADC & Earth
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Trigger Kwacha Wave Button */}
-                  <button
-                    onClick={handleAmplifyKwacha}
-                    disabled={isAmplifying}
-                    className={`flex items-center justify-center gap-2 px-3.5 py-1.5 rounded-lg font-mono text-[10px] uppercase tracking-wider font-bold transition-all cursor-pointer shadow-md ${
-                      isAmplifying
-                        ? 'bg-amber-400 text-black border border-amber-300 shadow-[0_0_20px_rgba(245,158,11,0.6)]'
-                        : 'bg-zinc-900 hover:bg-amber-500/20 text-amber-400 hover:text-amber-300 border border-amber-500/50 hover:border-amber-400'
-                    }`}
-                  >
-                    <Zap className={`w-3.5 h-3.5 ${isAmplifying ? 'text-black fill-current animate-bounce' : 'text-amber-400'}`} />
-                    <span>{isAmplifying ? 'AMPLIFYING FREQUENCIES...' : '⚡ AMPLIFY KWACHA FREQUENCY'}</span>
-                  </button>
-                </div>
-
-                {/* Live Resonance Stage Visualizer */}
-                <div className="grid grid-cols-3 gap-1.5 mt-2.5 pt-2 border-t border-zinc-800/80">
-                  <div
-                    className={`p-1.5 rounded border text-center transition-all ${
-                      amplifyingStep === 'kwacha_root'
-                        ? 'bg-amber-500/30 border-amber-400 text-amber-200 shadow-[0_0_10px_rgba(245,158,11,0.4)]'
-                        : 'bg-zinc-900/50 border-zinc-800 text-zinc-400'
-                    }`}
-                  >
-                    <span className="block font-mono text-[8px] uppercase tracking-widest font-semibold">
-                      1. KWACHA ROOT (ZMW)
-                    </span>
-                    <span className="block font-mono text-[9px] text-amber-400 font-bold">
-                      432 Hz • The Dawn
-                    </span>
-                  </div>
-
-                  <div
-                    className={`p-1.5 rounded border text-center transition-all ${
-                      amplifyingStep === 'sadc_expansion'
-                        ? 'bg-cyan-500/30 border-cyan-400 text-cyan-200 shadow-[0_0_10px_rgba(6,182,212,0.4)]'
-                        : 'bg-zinc-900/50 border-zinc-800 text-zinc-400'
-                    }`}
-                  >
-                    <span className="block font-mono text-[8px] uppercase tracking-widest font-semibold">
-                      2. SADC +26 RING
-                    </span>
-                    <span className="block font-mono text-[9px] text-cyan-400 font-bold">
-                      528 Hz • Regional DNA
-                    </span>
-                  </div>
-
-                  <div
-                    className={`p-1.5 rounded border text-center transition-all ${
-                      amplifyingStep === 'planetary_crown'
-                        ? 'bg-purple-500/30 border-purple-400 text-purple-200 shadow-[0_0_10px_rgba(168,85,247,0.4)]'
-                        : 'bg-zinc-900/50 border-zinc-800 text-zinc-400'
-                    }`}
-                  >
-                    <span className="block font-mono text-[8px] uppercase tracking-widest font-semibold">
-                      3. PLANETARY CROWN
-                    </span>
-                    <span className="block font-mono text-[9px] text-purple-300 font-bold">
-                      963 Hz • True Sun Unity
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Search & Continent Filters */}
-              <div className="p-3 border-b border-zinc-800/80 bg-zinc-950 flex flex-col gap-2.5">
-                <div className="relative">
-                  <Search className="w-4 h-4 text-zinc-500 absolute left-3 top-1/2 -translate-y-1/2" />
+            {/* Travel Quick Calculator Bar */}
+            <div className="px-4 py-2.5 bg-zinc-900/60 border-b border-zinc-800/80 flex flex-wrap items-center justify-between gap-3 text-xs font-mono shrink-0">
+              <div className="flex items-center gap-2">
+                <Coins className="w-4 h-4 text-amber-400 shrink-0" />
+                <span className="text-zinc-300 font-semibold">Traveler Quick Currency Reference:</span>
+                <div className="flex items-center gap-1 bg-zinc-950 px-2 py-1 rounded border border-zinc-800">
+                  <span className="text-zinc-400">Base:</span>
                   <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={e => setSearchQuery(e.target.value)}
-                    placeholder="Search nation, currency (ZMW, USD, EUR), dial code (+260, +26, +234, +1)..."
-                    className="w-full pl-9 pr-8 py-2 bg-zinc-900/90 border border-zinc-800 focus:border-amber-500/80 focus:ring-1 focus:ring-amber-500/50 rounded-lg text-xs font-mono text-zinc-200 placeholder:text-zinc-500 focus:outline-none transition-all"
+                    type="number"
+                    value={calcBaseAmount}
+                    onChange={(e) => setCalcBaseAmount(Math.max(1, Number(e.target.value)))}
+                    className="w-16 bg-transparent text-amber-300 font-bold outline-none text-right"
                   />
-                  {searchQuery && (
-                    <button
-                      onClick={() => setSearchQuery('')}
-                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 p-1"
-                    >
-                      <X className="w-3.5 h-3.5" />
-                    </button>
-                  )}
-                </div>
-
-                {/* Continent Filter Chips */}
-                <div className="flex items-center gap-1.5 overflow-x-auto pb-1 custom-scrollbar">
-                  {continentKeys.map(cKey => (
-                    <button
-                      key={cKey}
-                      onClick={() => setSelectedContinent(cKey)}
-                      className={`px-2.5 py-1 rounded-md text-[9px] font-mono uppercase tracking-wider whitespace-nowrap transition-all cursor-pointer ${
-                        selectedContinent === cKey
-                          ? 'bg-amber-500 text-black font-bold shadow-sm'
-                          : 'bg-zinc-900/80 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 border border-zinc-800'
-                      }`}
-                    >
-                      {cKey === 'ALL' ? '🌍 ALL NATIONS' : cKey}
-                    </button>
-                  ))}
+                  <select
+                    value={calcBaseCurrency}
+                    onChange={(e) => setCalcBaseCurrency(e.target.value as any)}
+                    className="bg-zinc-900 text-zinc-200 rounded px-1 outline-none text-xs border border-zinc-700"
+                  >
+                    <option value="USD">USD ($)</option>
+                    <option value="EUR">EUR (€)</option>
+                    <option value="GBP">GBP (£)</option>
+                  </select>
                 </div>
               </div>
 
-              {/* Nations Matrix List */}
-              <div className="flex-1 overflow-y-auto p-3 custom-scrollbar flex flex-col gap-2 min-h-[220px]">
-                {filteredNations.length === 0 ? (
-                  <div className="py-12 text-center text-zinc-500 font-mono text-xs flex flex-col items-center gap-2">
-                    <Search className="w-6 h-6 text-zinc-600" />
-                    <span>No nation or currency matched "{searchQuery}"</span>
-                  </div>
-                ) : (
-                  filteredNations.map((nation, idx) => (
-                    <div
-                      key={`${nation.continent}-${nation.name}-${idx}`}
-                      className="flex flex-col sm:flex-row sm:items-center justify-between p-3 rounded-lg bg-zinc-900/60 hover:bg-zinc-900/90 border border-zinc-800/70 hover:border-amber-500/50 transition-all gap-2 group"
-                    >
-                      {/* Left: Flag, Name, Spoken Language */}
-                      <div className="flex items-start gap-3 min-w-0 flex-1">
-                        <span className="text-2xl sm:text-3xl drop-shadow-[0_0_10px_rgba(255,255,255,0.1)] group-hover:scale-110 transition-transform shrink-0 mt-0.5">
-                          {nation.flag}
-                        </span>
-                        <div className="flex flex-col min-w-0">
-                          <div className="flex items-center gap-2 flex-wrap">
-                            <span className="text-zinc-100 group-hover:text-amber-300 font-mono text-xs uppercase tracking-wider font-bold transition-colors">
-                              {nation.name}
-                            </span>
-                            {nation.isTerritory && (
-                              <span className="px-1.5 py-0.2 rounded bg-cyan-950/80 border border-cyan-800/60 text-cyan-400 font-mono text-[8px] uppercase tracking-widest">
-                                Territory
-                              </span>
-                            )}
-                            <span className="px-1.5 py-0.2 rounded bg-zinc-800 text-zinc-400 font-mono text-[8px] uppercase tracking-wider">
-                              {nation.continent}
-                            </span>
-                          </div>
-                          <span className="text-zinc-400 group-hover:text-zinc-300 font-mono text-[10px] tracking-normal leading-tight mt-0.5">
-                            Spoken: <span className="text-emerald-400/90">{nation.spokenLanguage}</span>
-                          </span>
-                        </div>
-                      </div>
+              <div className="text-[11px] text-zinc-400 flex items-center gap-2">
+                <span>International dialing standard:</span>
+                <span className="px-2 py-0.5 rounded bg-zinc-950 border border-zinc-800 text-emerald-400 font-bold">
+                  +[Calling Code] [Area Code] [Number]
+                </span>
+              </div>
+            </div>
 
-                      {/* Right: Currency Code & National Dial Code Badges */}
-                      <div className="flex items-center gap-2 sm:gap-2.5 shrink-0 flex-wrap justify-between sm:justify-end border-t sm:border-t-0 border-zinc-800/60 pt-2 sm:pt-0 mt-1 sm:mt-0">
-                        {/* National Calling / Dial Code */}
-                        <div
-                          title={`National Calling Dial Code for ${nation.name}`}
-                          className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-cyan-950/40 border border-cyan-800/50 text-cyan-300"
-                        >
-                          <Phone className="w-3 h-3 text-cyan-400 shrink-0" />
-                          <span className="font-mono text-[10px] font-bold tracking-wider">
-                            {nation.dialCode}
-                          </span>
-                        </div>
-
-                        {/* National Currency & Code */}
-                        <div
-                          title={`Currency: ${nation.currencyName} (${nation.currencyCode})`}
-                          className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-amber-950/40 border border-amber-800/50 text-amber-300"
-                        >
-                          <Coins className="w-3 h-3 text-amber-400 shrink-0" />
-                          <span className="font-mono text-[10px] font-bold tracking-wider">
-                            {nation.currencyCode} ({nation.currencySymbol})
-                          </span>
-                        </div>
-
-                        {/* Harmonic Tone Play Button */}
-                        <button
-                          onClick={() => handlePlayNationTone(nation.name, nation.dialCode)}
-                          title={`Harmonize ${nation.name} (${nation.currencyCode}) with Kwacha Dawn frequency`}
-                          className="flex items-center gap-1 px-2 py-1 rounded bg-zinc-800/80 hover:bg-amber-500/20 text-zinc-400 hover:text-amber-300 border border-zinc-700/60 hover:border-amber-500/50 transition-colors cursor-pointer"
-                        >
-                          <Volume2 className="w-3 h-3" />
-                          <span className="font-mono text-[8px] uppercase tracking-wider">
-                            {nation.name === 'Zambia' ? '432Hz' : nation.dialCode.startsWith('+26') ? '528Hz' : '963Hz'}
-                          </span>
-                        </button>
-
-                        {/* Protection Status */}
-                        <div className="flex items-center gap-1 text-emerald-400 px-2 py-1 rounded bg-emerald-950/30 border border-emerald-900/40">
-                          <Lock className="w-3 h-3 text-emerald-400" />
-                          <span className="font-mono text-[9px] uppercase tracking-wider">
-                            {nation.value === 'PRICELESS' ? 'Priceless' : nation.value}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  ))
+            {/* Search and Continent Filter Bar */}
+            <div className="p-4 border-b border-zinc-800/80 bg-zinc-950/90 flex flex-col gap-3 shrink-0">
+              {/* Search input */}
+              <div className="relative">
+                <Search className="w-4 h-4 text-zinc-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search by country, dial code (+1, +44, +260, +81), currency (USD, EUR, ZMW), capital, or language..."
+                  className="w-full pl-10 pr-10 py-2.5 bg-zinc-900/90 border border-zinc-700 focus:border-amber-500 rounded-xl text-zinc-200 placeholder-zinc-500 font-mono text-xs outline-none transition-colors"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery('')}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-white text-xs"
+                  >
+                    Clear
+                  </button>
                 )}
               </div>
 
-              {/* Bottom Footer & Exit Portal Button */}
-              <div className="p-3 border-t border-zinc-800 bg-zinc-950/95 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <div className="flex flex-col gap-0.5">
-                  <div className="flex items-center gap-3">
-                    <span className="text-cyan-400 font-mono text-[9px] uppercase tracking-wider flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
-                      Power: Hydro-Resonance
-                    </span>
-                    <span className="text-emerald-400 font-mono text-[9px] uppercase tracking-wider">
-                      Matrix: 198+ Nodes Verified
-                    </span>
-                  </div>
-                  <span className="text-zinc-500 font-mono text-[8px] uppercase tracking-widest">
-                    Telemetry: Lusaka Core Anchor • Yandex • Baidu • Google
-                  </span>
-                </div>
-
-                {/* Primary Closing Portal Button (Memory of X) */}
-                <button
-                  onClick={handleClose}
-                  className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-zinc-900 hover:bg-red-950 border border-zinc-700 hover:border-red-500 text-zinc-200 hover:text-white font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer shadow-md group"
-                >
-                  <X className="w-4 h-4 text-red-400 group-hover:rotate-90 transition-transform duration-200" />
-                  <span>Exit Simulation Portal [✕]</span>
-                </button>
+              {/* Continent Filter Tabs */}
+              <div className="flex items-center gap-1.5 overflow-x-auto pb-1 custom-scrollbar">
+                {CONTINENT_TABS.map(tab => {
+                  const isActive = selectedContinent === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => setSelectedContinent(tab.id)}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono whitespace-nowrap transition-all cursor-pointer shrink-0 border ${
+                        isActive
+                          ? 'bg-amber-500 text-black border-amber-400 font-bold shadow-md'
+                          : 'bg-zinc-900/80 text-zinc-400 hover:text-zinc-200 border-zinc-800 hover:border-zinc-700'
+                      }`}
+                    >
+                      <span>{tab.label}</span>
+                      <span className={`text-[10px] px-1 py-0.2 rounded ${isActive ? 'bg-black/20 text-black' : 'bg-zinc-800 text-zinc-500'}`}>
+                        {tab.codePrefix}
+                      </span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
-          </>
-        )}
+
+            {/* Results List */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-2.5 custom-scrollbar">
+              <div className="text-xs font-mono text-zinc-400 mb-2 flex items-center justify-between">
+                <span>Displaying {filteredNations.length} sovereign nations & territories</span>
+                <span className="text-[11px] text-zinc-500">Click any calling code to copy</span>
+              </div>
+
+              {filteredNations.length === 0 ? (
+                <div className="p-12 text-center text-zinc-500 font-mono text-xs">
+                  No matching nation, calling code, currency, or capital found for "{searchQuery}".
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {filteredNations.map((item, idx) => {
+                    const isCopied = copiedCode === item.dialCode;
+                    // Compute travel currency estimation
+                    const convertedAmount = (calcBaseAmount * item.exchangeRateToUSD).toLocaleString(undefined, {
+                      maximumFractionDigits: 2
+                    });
+
+                    return (
+                      <div
+                        key={`${item.name}-${idx}`}
+                        className="p-3.5 bg-zinc-900/50 hover:bg-zinc-900/90 border border-zinc-800/80 hover:border-amber-500/50 rounded-xl transition-all flex flex-col justify-between gap-3 group"
+                      >
+                        {/* Top: Country Name, Flag & Dial Code */}
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            <span className="text-2xl shrink-0 select-none">{item.flag}</span>
+                            <div className="min-w-0">
+                              <h4 className="font-mono font-bold text-zinc-100 text-sm truncate flex items-center gap-1.5">
+                                <span>{item.name}</span>
+                                {item.isTerritory && (
+                                  <span className="text-[9px] px-1 py-0.2 rounded bg-blue-950 border border-blue-800 text-blue-300 font-normal">
+                                    Territory
+                                  </span>
+                                )}
+                              </h4>
+                              <span className="text-zinc-400 font-mono text-[10px] flex items-center gap-1">
+                                <MapPin className="w-3 h-3 text-zinc-500" />
+                                {item.capital} • {item.timezone}
+                              </span>
+                            </div>
+                          </div>
+
+                          {/* Dial Code Button with Copy */}
+                          <button
+                            onClick={() => handleCopy(item.dialCode)}
+                            title={`Copy calling code ${item.dialCode} for ${item.name}`}
+                            className={`flex items-center gap-1 px-2.5 py-1 rounded-lg font-mono text-xs font-bold transition-all cursor-pointer shrink-0 border ${
+                              isCopied
+                                ? 'bg-emerald-500 text-black border-emerald-400 shadow-md'
+                                : 'bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 border-emerald-700/60'
+                            }`}
+                          >
+                            {isCopied ? <Check className="w-3.5 h-3.5" /> : <Phone className="w-3 h-3" />}
+                            <span>{item.dialCode}</span>
+                          </button>
+                        </div>
+
+                        {/* Middle: Currency & Financial Specifications */}
+                        <div className="grid grid-cols-2 gap-2 pt-2 border-t border-zinc-800/60 text-xs font-mono">
+                          <div className="bg-zinc-950/70 p-2 rounded-lg border border-zinc-800/50">
+                            <span className="text-zinc-500 text-[9px] uppercase tracking-wider block">Sovereign Currency</span>
+                            <span className="text-amber-300 font-bold flex items-center gap-1 mt-0.5">
+                              <span>{item.currencyCode}</span>
+                              <span className="text-zinc-400 font-normal">({item.currencySymbol})</span>
+                            </span>
+                            <span className="text-zinc-400 text-[10px] block truncate">{item.currencyName}</span>
+                          </div>
+
+                          <div className="bg-zinc-950/70 p-2 rounded-lg border border-zinc-800/50">
+                            <span className="text-zinc-500 text-[9px] uppercase tracking-wider block">Travel Valuation</span>
+                            <span className="text-zinc-200 font-bold mt-0.5 block">
+                              ≈ {convertedAmount} {item.currencyCode}
+                            </span>
+                            <span className="text-zinc-500 text-[9px] block">For {calcBaseAmount} {calcBaseCurrency}</span>
+                          </div>
+                        </div>
+
+                        {/* Bottom: Spoken Languages & Audio Frequency */}
+                        <div className="flex items-center justify-between gap-2 text-[10px] font-mono text-zinc-400 pt-1">
+                          <span className="truncate">
+                            <strong className="text-zinc-300">Language:</strong> {item.spokenLanguage}
+                          </span>
+                          <button
+                            onClick={() => handlePlayNationTone(item.dialCode)}
+                            title="Play harmonic tone resonance"
+                            className="px-2 py-0.5 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-[9px] shrink-0 cursor-pointer"
+                          >
+                            Tone ♬
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            {/* Footer Summary */}
+            <div className="p-3 bg-zinc-950 border-t border-zinc-800 flex items-center justify-between text-[11px] font-mono text-zinc-400 shrink-0">
+              <span>Universal Earth Directory • Global Calling Codes & Currencies Matrix</span>
+              <span className="text-amber-400">All 7 Continents Synchronized</span>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

@@ -83,12 +83,21 @@ export function ZambiaGatekeeper() {
           ))}
         </div>
         
-        <button
-          onClick={handleClear}
-          className="w-full py-3 mt-2 bg-zinc-900 border border-zinc-800 hover:border-zinc-600 hover:bg-zinc-800 text-zinc-500 hover:text-zinc-300 font-mono text-xs uppercase tracking-widest rounded transition-all active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.4)]"
-        >
-          Clear
-        </button>
+        <div className="flex items-center gap-2 w-full mt-2">
+          <button
+            onClick={() => setUnlocked(true)}
+            className="flex-1 py-3 bg-emerald-950/80 border border-emerald-500/50 hover:border-emerald-400 hover:bg-emerald-900/90 text-emerald-300 font-mono text-xs uppercase tracking-widest rounded transition-all active:scale-95 shadow-[0_0_15px_rgba(16,185,129,0.2)] cursor-pointer font-bold"
+          >
+            [ OPEN ZAMBIA SOVEREIGN NODE ]
+          </button>
+          
+          <button
+            onClick={handleClear}
+            className="py-3 px-4 bg-zinc-900 border border-zinc-800 hover:border-zinc-600 hover:bg-zinc-800 text-zinc-500 hover:text-zinc-300 font-mono text-xs uppercase tracking-widest rounded transition-all active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.4)] cursor-pointer"
+          >
+            Clear
+          </button>
+        </div>
       </div>
     </div>
   );
