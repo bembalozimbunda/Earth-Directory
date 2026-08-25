@@ -5,6 +5,11 @@ import { CONTINENTS, ContinentData } from './data/continents';
 import { VoidPortal } from './components/VoidPortal';
 import { EternalNowMotionHeader } from './components/EternalNowMotionHeader';
 import { ImmersionPortal } from './components/ImmersionPortal';
+import { KwachaFrequencyAmplifier } from './components/KwachaFrequencyAmplifier';
+import { GlobalBankTelemetry } from './components/GlobalBankTelemetry';
+import { SadcTransitCorridors } from './components/SadcTransitCorridors';
+import { SystemCurrencyPortal } from './components/SystemCurrencyPortal';
+import { ZambiaTribesPortal } from './components/ZambiaTribesPortal';
 
 export default function App() {
   // Initialize True Sun Memory
@@ -14,6 +19,10 @@ export default function App() {
 
   const [activeVoid, setActiveVoid] = useState<string | null>(null);
   const [activeImmersion, setActiveImmersion] = useState<string | null>(null);
+  const [isKwachaAmplifierOpen, setIsKwachaAmplifierOpen] = useState<boolean>(false);
+  const [isBankTelemetryOpen, setIsBankTelemetryOpen] = useState<boolean>(false);
+  const [isSadcCorridorsOpen, setIsSadcCorridorsOpen] = useState<boolean>(false);
+  const [isZambiaTribesOpen, setIsZambiaTribesOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const handleOpenVoid = (e: any) => setActiveVoid(e.detail);
@@ -22,12 +31,24 @@ export default function App() {
         setActiveImmersion(e.detail);
       }
     };
+    const handleOpenKwachaAmplifier = () => setIsKwachaAmplifierOpen(true);
+    const handleOpenBankTelemetry = () => setIsBankTelemetryOpen(true);
+    const handleOpenSadcCorridors = () => setIsSadcCorridorsOpen(true);
+    const handleOpenZambiaTribes = () => setIsZambiaTribesOpen(true);
 
     window.addEventListener('OPEN_VOID', handleOpenVoid);
     window.addEventListener('OPEN_IMMERSION', handleOpenImmersion);
+    window.addEventListener('OPEN_KWACHA_AMPLIFIER', handleOpenKwachaAmplifier);
+    window.addEventListener('OPEN_BANK_TELEMETRY', handleOpenBankTelemetry);
+    window.addEventListener('OPEN_SADC_CORRIDORS', handleOpenSadcCorridors);
+    window.addEventListener('OPEN_ZAMBIA_TRIBES', handleOpenZambiaTribes);
     return () => {
       window.removeEventListener('OPEN_VOID', handleOpenVoid);
       window.removeEventListener('OPEN_IMMERSION', handleOpenImmersion);
+      window.removeEventListener('OPEN_KWACHA_AMPLIFIER', handleOpenKwachaAmplifier);
+      window.removeEventListener('OPEN_BANK_TELEMETRY', handleOpenBankTelemetry);
+      window.removeEventListener('OPEN_SADC_CORRIDORS', handleOpenSadcCorridors);
+      window.removeEventListener('OPEN_ZAMBIA_TRIBES', handleOpenZambiaTribes);
     };
   }, []);
 
@@ -60,6 +81,38 @@ export default function App() {
           masterUnlocked={true} 
         />
       </main>
+
+      {/* Global Currency & Dialing Directory Portal */}
+      <SystemCurrencyPortal />
+
+      {/* Kwacha Dawn Frequency Amplifier Modal */}
+      <KwachaFrequencyAmplifier
+        isOpen={isKwachaAmplifierOpen}
+        onClose={() => setIsKwachaAmplifierOpen(false)}
+      />
+
+      {/* Global Central Bank Telemetry Modal */}
+      <GlobalBankTelemetry
+        isOpen={isBankTelemetryOpen}
+        onClose={() => setIsBankTelemetryOpen(false)}
+        onOpenKwachaAmplifier={() => {
+          setIsBankTelemetryOpen(false);
+          setIsKwachaAmplifierOpen(true);
+        }}
+      />
+
+      {/* SADC Regional Transit & Trade Corridors Modal */}
+      {isSadcCorridorsOpen && (
+        <SadcTransitCorridors
+          onClose={() => setIsSadcCorridorsOpen(false)}
+        />
+      )}
+
+      {/* Zambia Sovereign Cultural & 73+ Tribes Portal */}
+      <ZambiaTribesPortal
+        isOpen={isZambiaTribesOpen}
+        onClose={() => setIsZambiaTribesOpen(false)}
+      />
 
       {/* Full-Screen Planetary Immersion Portal (Primary Experience) */}
       {activeImmersion && (

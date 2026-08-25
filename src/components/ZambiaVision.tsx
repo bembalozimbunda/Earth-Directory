@@ -67,11 +67,20 @@ export function ZambiaVision() {
               </button>
               <button
                 onClick={() => setNeuralCompOpen(true)}
-                className="flex items-center gap-2 px-3 py-1.5 bg-amber-500/10 border border-amber-500/30 hover:border-amber-500/80 rounded transition-all group"
+                className="flex items-center gap-2 px-3 py-1.5 bg-amber-500/10 border border-amber-500/30 hover:border-amber-500/80 rounded transition-all group cursor-pointer"
               >
                 <Coins className="w-4 h-4 text-amber-500 group-hover:text-amber-400" />
                 <span className="font-mono text-[10px] tracking-widest uppercase text-amber-500 group-hover:text-amber-400">
                   Neural Payout
+                </span>
+              </button>
+              <button
+                onClick={() => window.dispatchEvent(new CustomEvent('OPEN_KWACHA_AMPLIFIER'))}
+                className="flex items-center gap-2 px-3 py-1.5 bg-emerald-500/15 border border-emerald-500/50 hover:border-emerald-400 rounded transition-all group cursor-pointer"
+              >
+                <Zap className="w-4 h-4 text-emerald-400 group-hover:text-emerald-300" />
+                <span className="font-mono text-[10px] tracking-widest uppercase text-emerald-300 group-hover:text-white font-bold">
+                  Kwacha Amplifier
                 </span>
               </button>
               <button

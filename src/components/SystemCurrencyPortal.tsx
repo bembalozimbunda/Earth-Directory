@@ -270,10 +270,46 @@ export function SystemCurrencyPortal() {
                 </div>
               </div>
 
-              <div className="text-[11px] text-zinc-400 flex items-center gap-2">
-                <span>International dialing standard:</span>
-                <span className="px-2 py-0.5 rounded bg-zinc-950 border border-zinc-800 text-emerald-400 font-bold">
-                  +[Calling Code] [Area Code] [Number]
+              <div className="text-[11px] text-zinc-400 flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    handleClose();
+                    window.dispatchEvent(new CustomEvent('OPEN_BANK_TELEMETRY'));
+                  }}
+                  className="px-2.5 py-1 rounded bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/50 hover:border-cyan-400 text-cyan-300 font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+                  title="Open Global Central Bank Telemetry Synchronization"
+                >
+                  <span>🏛️</span>
+                  <span>Central Banks (198+)</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    handleClose();
+                    window.dispatchEvent(new CustomEvent('OPEN_SADC_CORRIDORS'));
+                  }}
+                  className="px-2.5 py-1 rounded bg-purple-950/80 hover:bg-purple-900 border border-purple-500/50 hover:border-purple-400 text-purple-300 font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+                  title="Open SADC Transit & Trade Corridors Matrix"
+                >
+                  <span>🚛</span>
+                  <span>SADC Corridors & Ledger</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    handleClose();
+                    window.dispatchEvent(new CustomEvent('OPEN_KWACHA_AMPLIFIER'));
+                  }}
+                  className="px-2.5 py-1 rounded bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-500/50 hover:border-emerald-400 text-emerald-300 font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+                >
+                  <span>🇿🇲</span>
+                  <span>Kwacha Amplifier</span>
+                </button>
+                <span className="hidden md:inline text-zinc-600">•</span>
+                <span className="hidden md:inline">Dialing:</span>
+                <span className="hidden md:inline px-2 py-0.5 rounded bg-zinc-950 border border-zinc-800 text-emerald-400 font-bold">
+                  +[Calling Code] [Number]
                 </span>
               </div>
             </div>

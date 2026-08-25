@@ -1,6 +1,7 @@
 # Universal Earth Directory (WARMABLON)
+**Planetary Cartographic, Sovereign Monetary Telemetry & Trade Corridors Engine**
 
-A sovereign, full-stack digital planetary atlas and traveler intelligence system interconnecting 7 continents, 198+ sovereign nations, international calling codes (+1 to +998), sovereign currencies, universal time zones (UTC-12 to UTC+14), and physical geography.
+A sovereign, full-stack digital planetary atlas, central banking telemetry grid, and regional trade corridor intelligence system interconnecting 7 continents, 236 sovereign states and autonomous territories, 10 Zambian provinces, 116 municipal districts, 198+ central banking authorities, international calling codes (ITU-T E.164), sovereign currencies (ISO 4217), universal time zones (UTC-12 to UTC+14), and an append-only SHA-256 cryptographic audit ledger.
 
 ---
 
@@ -16,34 +17,32 @@ A sovereign, full-stack digital planetary atlas and traveler intelligence system
    - **Antarctica (Terra Australis)**: Polar scientific matrix, +672 calling code, Mount Vinson, universal longitude convergence, 396 Hz frequency.
    - **Autonomous Territories**: 33+ non-sovereign islands, dependencies, and autonomous overseas jurisdictions across all oceans.
 
-2. **Nations Calling Codes & Currencies Matrix (Top-Left)**:
-   - Complete directory of 198+ nations with flag emojis, international dial codes, official currencies with codes and symbols, capital cities, ISO codes, and official spoken languages.
-   - Live travel currency converter with USD, EUR, and GBP baseline conversion.
+2. **Global Central Bank Telemetry & Sovereign Monetary Grid**:
+   - **198+ Central Bank Registry**: Active policy benchmarks, reserve currencies, and international financial authorities (Bank of Zambia, Federal Reserve, European Central Bank, Bank of England, South African Reserve Bank, People's Bank of China, Bank of Japan, Swiss National Bank, etc.).
+   - **BoZ Kwacha Dawn & Commodity Parity**: Anchored to the Bank of Zambia (`ZMW` @ 432 Hz) with real-time commodity parity baselines (LME Copper, Fort Knox Gold, Swiss Alpine Bullion).
+   - **Sovereign Frequency Lattice**: All 198+ banking nodes mapped to calibrated Solfeggio acoustic harmonics.
 
-3. **Planetary Time Zones & Flight Corridors (Top-Right)**:
-   - Coordinated Universal Time (UTC) real-time standard with live Greenwich meridian synchronization.
-   - 7 global time & flight zones covering WAT, CAT, EAT, CET, IST, JST, PST, EST, BRT, and polar convergence.
-   - Major international aviation hubs (LHR, HND, DXB, SIN, ATL, JNB, CDG, FRA) and travel guidance.
+3. **SADC Regional Transit & Trade Corridors Matrix**:
+   - **6 Monitored Freight Corridors**: Lobito Atlantic (1,739 km), Walvis Bay / Trans-Caprivi (2,150 km), TAZARA / Dar es Salaam (1,860 km), North-South Durban (2,650 km), Beira Corridor (1,054 km), and Nacala Deepwater Corridor (1,750 km).
+   - **One-Stop Border Post (OSBP) Telemetry**: Live operational monitoring of Kazungula Quadripoint Bridge, Chirundu OSBP, Kasumbalesa Commercial Border, Nakonde / Tunduma, and Mwami / Mchinji borders.
+   - **AfCFTA / SADC / COMESA Tariff Calculator**: Rules of Origin value-addition threshold (35%-40%) and duty phase-down simulator.
 
-4. **True Sun Planetary Core**:
-   - Central solar harmonic synthesis compiling 4 fundamental architectural strata:
-     - **Source & Science (174 Hz)**: Baseline data protocols and data lakes.
-     - **Hardware & Biological Substrate (285 Hz)**: Silicon processors, server nodes, and living lineage.
-     - **Harmonic Frequency Lattice (417 Hz)**: Acoustic Solfeggio grid and wave resonance.
-     - **Civics & Lineage Archives (528 Hz)**: Ancestral memory, civic education, and constitutional sovereignty.
+4. **Zero-Trust Append-Only Cryptographic Audit Ledger**:
+   - SHA-256 block chain linkage (`previousHash` ➔ `blockHash` with validator node digital signatures) recording telemetry sweeps and system state snapshots.
+   - Tamper-evident ledger integrity accessible via REST API (`/api/audit/integrity-ledger` and `/api/audit/integrity-sweep`) and CLI tools.
 
-5. **Traveler's Geographic Toolkit**:
-   - Dual time zone converter for real-time travel planning.
-   - International dialing guide and emergency reference.
-   - Continental physical geography reference (highest peaks, deepest depressions, longest rivers, largest lakes, major mountain ranges, and climate biomes).
+5. **Traveler's Geographic & Aviation Toolkit**:
+   - Dual time-zone converter for real-time travel planning.
+   - International dialing guide (ITU-T E.164) and emergency services directory.
+   - Continental physical geography reference (peaks, rifts, rivers, lakes, biomes).
 
 ---
 
 ## Technical Stack & Runtime
 
-- **Frontend**: React 18, Vite, TypeScript, Tailwind CSS, Lucide Icons, Web Audio API (dual-oscillator harmonic acoustic synthesis).
-- **Backend**: Express.js server on Node.js (bypassing strict ES Module runtime via tsx and esbuild cjs bundling).
-- **Database & Persistence**: Firebase Firestore with persistent observer sync and local volatile memory matrix fallback.
+- **Frontend**: React 19, Vite, TypeScript, Tailwind CSS, Lucide Icons, Web Audio API (dual-oscillator harmonic acoustic synthesis).
+- **Backend**: Express.js server on Node.js (bundled to CommonJS `dist/server.cjs` via esbuild and executed with tsx in dev).
+- **Database & Persistence**: Google Cloud Firestore multi-region persistence with local volatile memory fallback.
 - **Port & Host**: Hardcoded to bind to `0.0.0.0:3000` behind reverse proxy.
 
 ---
@@ -52,6 +51,7 @@ A sovereign, full-stack digital planetary atlas and traveler intelligence system
 
 ### Requirements
 - Node.js >= 18
+- Python 3 (for integrity verification scripts)
 
 ### Installation
 ```bash
@@ -62,7 +62,22 @@ npm install
 ```bash
 npm run dev
 ```
-Starts the full-stack server serving both the backend API endpoints (`/api/verify-void`, `/api/heartbeat`, `/api/frequency-scan`, `/api/security-status`, `/api/kwacha-frequency-amplifier`) and the Vite React frontend on port 3000.
+Starts the full-stack server serving the backend API endpoints and Vite React frontend on port 3000.
+
+### Verification & Audit CLI Commands
+```bash
+# Execute Zero-Trust Cryptographic Audit Sweep
+npm run audit:integrity-sweep
+
+# Run Global Central Bank Telemetry Synchronization
+npm run system:sync-global-banks
+
+# Run Python Sovereign Node & Cryptographic Integrity Verifier
+npm run verify:banks
+
+# Run WARMABLON Registry Schema Validation
+npm run tools
+```
 
 ### Production Build
 ```bash
@@ -72,9 +87,11 @@ npm start
 
 ---
 
-## Security & Verification Protocols
+## System Documentation
 
-- **Zero Client-Side Secret Leakage**: All cryptographic keys, security indexes, and administrative overrides are validated server-side.
-- **Uniform Continental Parity**: All sovereign nations and continents are mapped with equal precision and geographic neutrality.
-- **Encrypted Local Storage**: Transient client preferences remain strictly client-side.
+- `WARMABLON.md`: Master Universal Subject Specification, 9 Canonical Pillars, and Comprehensive Multi-Industry Adoption Blueprint for Zambia, Africa, and Earth.
+- `SECURITY.md`: Security Policy, Anti-Espionage Mandate, Harmonic Frequency Scan Audit, and Vulnerability Disclosure.
 
+---
+
+*Universal Earth Directory (WARMABLON) • Open Architecture for Sovereign Digital Intelligence.*

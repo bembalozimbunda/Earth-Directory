@@ -3,8 +3,11 @@ import {
   X, BookOpen, ShieldCheck, Coins, Globe, Landmark, 
   HelpCircle, Building2, CheckCircle2, Copy, Check, 
   ExternalLink, FileText, ArrowRight, Sparkles, Phone, 
-  Heart, Download, Terminal, Layers
+  Heart, Download, Terminal, Layers, GraduationCap,
+  RefreshCw, AlertTriangle, Cpu, Radio, Award, Compass
 } from 'lucide-react';
+import { ALL_UNIVERSITY_FRAMEWORKS, ACADEMIC_DISCIPLINES_MATRIX } from '../data/universityFrameworks.ts';
+import { executeResurrectionProtocol, ResurrectionReport } from '../utils/resurrection.ts';
 
 interface EducationalAtlasPortalProps {
   isOpen: boolean;
@@ -12,8 +15,11 @@ interface EducationalAtlasPortalProps {
 }
 
 export function EducationalAtlasPortal({ isOpen, onClose }: EducationalAtlasPortalProps) {
-  const [activeTab, setActiveTab] = useState<'atlas' | 'pacra' | 'kwacha' | 'deployment'>('atlas');
+  const [activeTab, setActiveTab] = useState<'atlas' | 'pacra' | 'kwacha' | 'deployment' | 'universities' | 'resurrection'>('atlas');
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
+  const [selectedRegion, setSelectedRegion] = useState<'All' | 'Zambia' | 'Africa' | 'Global Earth'>('All');
+  const [resurrectionReport, setResurrectionReport] = useState<ResurrectionReport | null>(null);
+  const [isResurrecting, setIsResurrecting] = useState(false);
 
   if (!isOpen) return null;
 
@@ -22,6 +28,31 @@ export function EducationalAtlasPortal({ isOpen, onClose }: EducationalAtlasPort
     setCopiedKey(key);
     setTimeout(() => setCopiedKey(null), 2500);
   };
+
+  const handleExecuteResurrection = async () => {
+    setIsResurrecting(true);
+    try {
+      // Trigger backend log sweep
+      try {
+        await fetch('/api/system/resurrection-sweep', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ trigger: 'USER_INTERFACE_RECOVERY', timestamp: new Date().toISOString() })
+        });
+      } catch {
+        // Continue client flush even if offline
+      }
+
+      const report = await executeResurrectionProtocol();
+      setResurrectionReport(report);
+    } finally {
+      setIsResurrecting(false);
+    }
+  };
+
+  const filteredUniversities = selectedRegion === 'All' 
+    ? ALL_UNIVERSITY_FRAMEWORKS 
+    : ALL_UNIVERSITY_FRAMEWORKS.filter(u => u.region === selectedRegion);
 
   return (
     <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 sm:p-6 bg-zinc-950/90 backdrop-blur-xl overflow-y-auto">
@@ -39,11 +70,11 @@ export function EducationalAtlasPortal({ isOpen, onClose }: EducationalAtlasPort
                   Civic & Educational Handbook
                 </span>
                 <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-[9px] font-mono text-emerald-400">
-                  Open Atlas Reference
+                  Open Atlas & Higher Ed Framework
                 </span>
               </div>
               <h2 className="text-xl sm:text-2xl font-light text-zinc-100 uppercase tracking-wider mt-0.5">
-                Educational Atlas & Civic Foundation
+                Educational Atlas & University Matrix
               </h2>
             </div>
           </div>
@@ -68,7 +99,19 @@ export function EducationalAtlasPortal({ isOpen, onClose }: EducationalAtlasPort
             }`}
           >
             <Globe className="w-3.5 h-3.5" />
-            <span>01. Atlas & Civics Purpose</span>
+            <span>01. Atlas Purpose</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('universities')}
+            className={`px-4 py-2.5 rounded-t-lg font-mono text-xs uppercase tracking-wider transition-all border-b-2 whitespace-nowrap flex items-center gap-2 ${
+              activeTab === 'universities'
+                ? 'border-indigo-400 text-indigo-300 bg-zinc-900/60 font-semibold'
+                : 'border-transparent text-zinc-400 hover:text-zinc-200'
+            }`}
+          >
+            <GraduationCap className="w-3.5 h-3.5" />
+            <span>02. University Frameworks</span>
           </button>
 
           <button
@@ -80,7 +123,7 @@ export function EducationalAtlasPortal({ isOpen, onClose }: EducationalAtlasPort
             }`}
           >
             <Landmark className="w-3.5 h-3.5" />
-            <span>02. PACRA & Legal Registration</span>
+            <span>03. PACRA & Legal</span>
           </button>
 
           <button
@@ -92,7 +135,7 @@ export function EducationalAtlasPortal({ isOpen, onClose }: EducationalAtlasPort
             }`}
           >
             <Coins className="w-3.5 h-3.5" />
-            <span>03. Kwacha (ZMW) Donations</span>
+            <span>04. Kwacha (ZMW)</span>
           </button>
 
           <button
@@ -104,7 +147,19 @@ export function EducationalAtlasPortal({ isOpen, onClose }: EducationalAtlasPort
             }`}
           >
             <Terminal className="w-3.5 h-3.5" />
-            <span>04. Independent Hosting & Domains</span>
+            <span>05. Hosting & Domains</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('resurrection')}
+            className={`px-4 py-2.5 rounded-t-lg font-mono text-xs uppercase tracking-wider transition-all border-b-2 whitespace-nowrap flex items-center gap-2 ${
+              activeTab === 'resurrection'
+                ? 'border-rose-400 text-rose-300 bg-zinc-900/60 font-semibold'
+                : 'border-transparent text-rose-400/70 hover:text-rose-200'
+            }`}
+          >
+            <RefreshCw className="w-3.5 h-3.5" />
+            <span>06. Resurrection Protocol</span>
           </button>
         </div>
 
@@ -345,6 +400,233 @@ export function EducationalAtlasPortal({ isOpen, onClose }: EducationalAtlasPort
                     <div>npm start</div>
                   </div>
                 </div>
+              </div>
+            </div>
+          )}
+
+          {/* TAB 5: UNIVERSITY & HIGHER EDUCATION FRAMEWORKS */}
+          {activeTab === 'universities' && (
+            <div className="space-y-6">
+              <div className="p-4 bg-indigo-950/20 border border-indigo-500/30 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <h3 className="text-indigo-300 font-mono text-sm font-semibold uppercase tracking-wider flex items-center gap-2 mb-1">
+                    <GraduationCap className="w-4 h-4 text-indigo-400" />
+                    University & Higher Education Frameworks (Zambia, Africa, Earth)
+                  </h3>
+                  <p className="text-zinc-300 text-xs sm:text-sm leading-relaxed">
+                    Integrated academic curriculum matrix, research chairs, geospatial laboratories, and monetary telemetry integration across higher learning institutions.
+                  </p>
+                </div>
+                <div className="flex items-center gap-1.5 shrink-0 bg-zinc-950 p-1.5 rounded-xl border border-zinc-800">
+                  {(['All', 'Zambia', 'Africa', 'Global Earth'] as const).map((r) => (
+                    <button
+                      key={r}
+                      onClick={() => setSelectedRegion(r)}
+                      className={`px-3 py-1.5 rounded-lg text-[11px] font-mono transition-all cursor-pointer ${
+                        selectedRegion === r
+                          ? 'bg-indigo-600 text-white font-bold shadow'
+                          : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900'
+                      }`}
+                    >
+                      {r}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Cross-Discipline Competency Matrix */}
+              <div className="p-4 bg-zinc-950/60 border border-zinc-800 rounded-xl space-y-3">
+                <div className="text-xs font-mono uppercase tracking-widest text-indigo-300 font-bold flex items-center gap-2">
+                  <Compass className="w-4 h-4 text-indigo-400" />
+                  Academic Cross-Discipline Integration Matrix
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {ACADEMIC_DISCIPLINES_MATRIX.map((disc, idx) => (
+                    <div key={idx} className="p-3 bg-zinc-900/70 border border-zinc-800 rounded-lg space-y-1.5">
+                      <div className="text-xs font-semibold text-zinc-100 font-mono flex items-center justify-between">
+                        <span>{disc.discipline}</span>
+                      </div>
+                      <div className="text-[11px] text-indigo-400 font-mono">
+                        Lead: {disc.keyInstitutions.join(' • ')}
+                      </div>
+                      <ul className="text-[11px] text-zinc-400 space-y-0.5 list-disc pl-4 font-mono">
+                        {disc.coreCompetencies.slice(0, 2).map((c, cIdx) => (
+                          <li key={cIdx}>{c}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Institution Cards */}
+              <div className="space-y-4">
+                {filteredUniversities.map((inst) => (
+                  <div key={inst.id} className="p-4 bg-zinc-950/70 border border-zinc-800 rounded-xl space-y-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-800/80 pb-3">
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-base font-bold text-zinc-100">{inst.name}</span>
+                          <span className="px-2 py-0.5 rounded bg-indigo-500/10 border border-indigo-500/30 text-[10px] font-mono text-indigo-300 font-bold">
+                            {inst.acronym}
+                          </span>
+                          <span className="px-2 py-0.5 rounded bg-zinc-800 text-[10px] font-mono text-zinc-400">
+                            Est. {inst.established}
+                          </span>
+                        </div>
+                        <div className="text-[11px] font-mono text-zinc-400 mt-0.5">
+                          {inst.jurisdiction} • {inst.campusLocations.join(' | ')}
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <span className="px-2 py-1 rounded bg-amber-500/10 border border-amber-500/30 text-[10px] font-mono text-amber-300 block">
+                          {inst.harmonicNode}
+                        </span>
+                        <span className="text-[10px] font-mono text-zinc-500 italic mt-0.5 block">
+                          "{inst.motto}"
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Faculties */}
+                    <div className="space-y-2">
+                      <div className="text-[11px] font-mono uppercase tracking-widest text-zinc-400 font-bold flex items-center gap-1.5">
+                        <Layers className="w-3.5 h-3.5 text-indigo-400" />
+                        Key Faculties & Applied Disciplines
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                        {inst.faculties.map((fac, fIdx) => (
+                          <div key={fIdx} className="p-2.5 bg-zinc-900/50 border border-zinc-800/60 rounded-lg space-y-1">
+                            <div className="text-xs font-semibold text-zinc-200 font-mono">{fac.name}</div>
+                            <div className="text-[10px] text-zinc-400 font-mono">
+                              Depts: {fac.departments.join(', ')}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Research Chairs & Curricula */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+                      <div className="p-3 bg-indigo-950/10 border border-indigo-500/20 rounded-lg space-y-1.5">
+                        <div className="text-[11px] font-mono uppercase tracking-widest text-indigo-300 font-bold flex items-center gap-1">
+                          <Award className="w-3.5 h-3.5 text-indigo-400" />
+                          Research Chairs & Labs
+                        </div>
+                        {inst.researchChairs.map((rc, rcIdx) => (
+                          <div key={rcIdx} className="text-xs font-mono text-zinc-300">
+                            <span className="font-semibold text-indigo-200">{rc.title}</span>
+                            <span className="block text-[11px] text-zinc-400">Focus: {rc.focusArea}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="p-3 bg-emerald-950/10 border border-emerald-500/20 rounded-lg space-y-1.5">
+                        <div className="text-[11px] font-mono uppercase tracking-widest text-emerald-300 font-bold flex items-center gap-1">
+                          <BookOpen className="w-3.5 h-3.5 text-emerald-400" />
+                          Curriculum Course Code
+                        </div>
+                        {inst.specializedCurricula.map((sc, scIdx) => (
+                          <div key={scIdx} className="text-xs font-mono text-zinc-300">
+                            <span className="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-300 rounded text-[10px] font-bold mr-1.5">
+                              {sc.code}
+                            </span>
+                            <span className="font-semibold">{sc.title}</span>
+                            <span className="block text-[11px] text-zinc-400 mt-0.5">
+                              Integration: {sc.warmablonIntegration}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* TAB 6: RESURRECTION PROTOCOL & SW / DEV-DIST ANALYSIS */}
+          {activeTab === 'resurrection' && (
+            <div className="space-y-6">
+              <div className="p-4 bg-rose-950/20 border border-rose-500/30 rounded-xl">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-rose-300 font-mono text-sm font-semibold uppercase tracking-wider flex items-center gap-2">
+                    <RefreshCw className="w-4 h-4 text-rose-400 animate-spin" />
+                    System Resurrection Protocol & Service Worker Audit
+                  </h3>
+                  <span className="px-2 py-0.5 rounded bg-rose-500/20 border border-rose-500/40 text-rose-300 text-[10px] font-mono font-bold uppercase">
+                    Root Recovery Mode
+                  </span>
+                </div>
+                <p className="text-zinc-300 text-xs sm:text-sm leading-relaxed mt-2">
+                  When a system experiences a frozen preview, white screen, or dead network responses, it is almost always caused by a <strong>stale Service Worker cache lock</strong> or outdated <strong>dev-dist/sw.js</strong> workbox precache intercepting requests in development.
+                </p>
+              </div>
+
+              {/* Technical Root-Cause Breakdown */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="p-4 bg-zinc-950/60 border border-zinc-800 rounded-xl space-y-2">
+                  <div className="text-xs font-mono uppercase tracking-widest text-zinc-200 font-bold flex items-center gap-2">
+                    <AlertTriangle className="w-4 h-4 text-amber-400" />
+                    Root Cause: Why dev-dist/sw.js Causes Deadlocks
+                  </div>
+                  <ul className="text-xs text-zinc-400 space-y-1.5 list-disc pl-4 font-mono leading-relaxed">
+                    <li><strong>Precache Collisions:</strong> In dev mode, Vite dynamically re-compiles modules. Service workers precache <code className="text-amber-300">index.html</code> with outdated chunk hashes.</li>
+                    <li><strong>Fetch Interception:</strong> Workbox traps browser network requests and serves stale HTML instead of live Vite modules.</li>
+                    <li><strong>IFrame Isolation:</strong> AI Studio iframe containers isolate the preview; a zombie worker on the origin prevents fresh scripts from evaluating.</li>
+                  </ul>
+                </div>
+
+                <div className="p-4 bg-zinc-950/60 border border-zinc-800 rounded-xl space-y-2">
+                  <div className="text-xs font-mono uppercase tracking-widest text-zinc-200 font-bold flex items-center gap-2">
+                    <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                    Resurrection Watchdog Remediation
+                  </div>
+                  <ul className="text-xs text-zinc-400 space-y-1.5 list-disc pl-4 font-mono leading-relaxed">
+                    <li><strong>Disabled in Dev:</strong> <code className="text-emerald-300">devOptions: &#123; enabled: false &#125;</code> prevents dev worker generation.</li>
+                    <li><strong>Startup Watchdog:</strong> <code className="text-emerald-300">initResurrectionWatchdog()</code> proactively unregisters all dev workers on boot.</li>
+                    <li><strong>Emergency Flush:</strong> Clears all <code className="text-emerald-300">caches.keys()</code> and resets ephemeral memory.</li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Interactive Resurrection Action */}
+              <div className="p-5 bg-zinc-950/80 border border-rose-500/40 rounded-xl space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div>
+                    <h4 className="text-sm font-mono font-bold text-zinc-100 uppercase tracking-wider">
+                      Execute Zero-Trust System Resurrection
+                    </h4>
+                    <p className="text-xs font-mono text-zinc-400 mt-1">
+                      Unregisters all active Service Workers, purges browser CacheStorage, flushes corrupt storage keys, and resets state.
+                    </p>
+                  </div>
+                  <button
+                    onClick={handleExecuteResurrection}
+                    disabled={isResurrecting}
+                    className="px-6 py-3 rounded-xl bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 text-white font-mono text-xs uppercase tracking-widest font-bold shadow-[0_0_30px_rgba(225,29,72,0.4)] transition-all cursor-pointer flex items-center gap-2 shrink-0 disabled:opacity-50"
+                  >
+                    <RefreshCw className={`w-4 h-4 ${isResurrecting ? 'animate-spin' : ''}`} />
+                    <span>{isResurrecting ? 'Resurrecting...' : 'Initiate Resurrection'}</span>
+                  </button>
+                </div>
+
+                {/* Report Display */}
+                {resurrectionReport && (
+                  <div className="p-3.5 bg-zinc-900 border border-zinc-700 rounded-lg space-y-2 font-mono text-xs">
+                    <div className="flex items-center justify-between text-emerald-400 font-bold">
+                      <span className="flex items-center gap-1.5">
+                        <CheckCircle2 className="w-4 h-4" />
+                        Status: {resurrectionReport.status}
+                      </span>
+                      <span className="text-[10px] text-zinc-500">{resurrectionReport.timestamp}</span>
+                    </div>
+                    <p className="text-zinc-300">{resurrectionReport.details}</p>
+                    <div className="text-[11px] text-zinc-400">
+                      Cleared Caches: {resurrectionReport.clearedCacheKeys.length > 0 ? resurrectionReport.clearedCacheKeys.join(', ') : 'None (Already Clean)'}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}

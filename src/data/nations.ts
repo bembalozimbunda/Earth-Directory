@@ -1541,3 +1541,13 @@ export const VOID_TO_CONTINENT_MAP: Record<string, keyof typeof NATIONS_BY_CONTI
   'VOID_OF_TERRITORIES': 'ALKEBULAN',
   'ns': 'ALKEBULAN'
 };
+
+export function getNationSpokenLanguage(countryName: string): string {
+  if (!countryName) return "Official Language";
+  const lower = countryName.toLowerCase().trim();
+  for (const list of Object.values(NATIONS_BY_CONTINENT)) {
+    const match = list.find(n => n.name.toLowerCase().trim() === lower || n.name.toLowerCase().includes(lower) || lower.includes(n.name.toLowerCase()));
+    if (match && match.spokenLanguage) return match.spokenLanguage;
+  }
+  return "Official / Regional Languages";
+}

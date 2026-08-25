@@ -134,14 +134,40 @@ export function TravelGeographicMatrix({ onClose }: { onClose?: () => void }) {
           </div>
         </div>
 
-        {onClose && (
+        <div className="flex items-center gap-2">
           <button
-            onClick={onClose}
-            className="self-end sm:self-center p-2 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-white cursor-pointer transition-colors"
+            type="button"
+            onClick={() => {
+              if (onClose) onClose();
+              window.dispatchEvent(new CustomEvent('OPEN_BANK_TELEMETRY'));
+            }}
+            className="px-2.5 py-1.5 rounded-lg bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/50 hover:border-cyan-400 text-cyan-300 text-xs font-mono font-bold transition-colors cursor-pointer flex items-center gap-1.5"
+            title="Open Global Central Bank Telemetry"
           >
-            <X className="w-4 h-4" />
+            <span>🏛️</span>
+            <span className="hidden sm:inline">Central Banks</span>
           </button>
-        )}
+          <button
+            type="button"
+            onClick={() => {
+              if (onClose) onClose();
+              window.dispatchEvent(new CustomEvent('OPEN_SADC_CORRIDORS'));
+            }}
+            className="px-2.5 py-1.5 rounded-lg bg-purple-950/80 hover:bg-purple-900 border border-purple-500/50 hover:border-purple-400 text-purple-300 text-xs font-mono font-bold transition-colors cursor-pointer flex items-center gap-1.5"
+            title="Open SADC Transit Corridors & Ledger"
+          >
+            <span>🚛</span>
+            <span className="hidden sm:inline">SADC Corridors</span>
+          </button>
+          {onClose && (
+            <button
+              onClick={onClose}
+              className="p-2 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-white cursor-pointer transition-colors"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Navigation Tabs */}

@@ -8,7 +8,10 @@
     "build": "vite build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs",
     "start": "node dist/server.cjs",
     "lint": "tsc --noEmit",
-    "tools": "node scripts/warmablon_tools.cjs"
+    "tools": "node scripts/warmablon_tools.cjs",
+    "system:sync-global-banks": "tsx scripts/sync_global_banks.ts",
+    "audit:integrity-sweep": "tsx scripts/audit_logger.ts",
+    "verify:banks": "python3 scripts/verify_banks.py"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",

@@ -1,0 +1,101 @@
+{
+  "ledgerName": "Universal Earth Directory (Warmablon) Zero-Trust Audit Ledger",
+  "version": "1.0.0-SOVEREIGN",
+  "genesisTimestamp": "2026-08-25T00:00:00.000Z",
+  "lastVerifiedTimestamp": "2026-08-25T13:49:29.784Z",
+  "totalSweeps": 5,
+  "chainIntegrity": "VERIFIED",
+  "currentChainHeadHash": "df772ef48ac15f39aeb89fb5619a5301d67f03854972d55c3a47c456b23ad927",
+  "blocks": [
+    {
+      "index": 0,
+      "timestamp": "2026-08-25T00:00:00.000Z",
+      "previousHash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "blockHash": "9506178c8788ba24a76e47994f877af7ad323927fa27c40b5bb85e983ad30e1a",
+      "validatorNode": "WARMABLON-SOVEREIGN-NODE-001 [LUSAKA-EPICENTER]",
+      "signature": "250ee1aa5795420a66bfe84979b2a4a0b57ce9b858a1d29ffb93e50308548510",
+      "activeBanksCount": 37,
+      "primaryAnchor": "Bank of Zambia (BoZ) Kwacha Root",
+      "frequencyLock": "432 Hz SADC Harmonic Grid",
+      "commodityParity": {
+        "copperPriceLmeUSD": 9840,
+        "copperKwachaParity": 270600,
+        "goldSpotUSD": 2510
+      },
+      "samplePayloadDigest": "999d2f7d9451a460f120ea56ee5f022fbd934bd1d389dc869204578063cd54ef",
+      "status": "VERIFIED"
+    },
+    {
+      "index": 1,
+      "timestamp": "2026-08-25T13:28:00.720Z",
+      "previousHash": "9506178c8788ba24a76e47994f877af7ad323927fa27c40b5bb85e983ad30e1a",
+      "blockHash": "f8f6c8fc7962020d2f73be7ce3db7fc1c26ee10b05b292e4190eaa03f134aac9",
+      "validatorNode": "WARMABLON-CLI-VALIDATOR-990",
+      "signature": "8043610dd851dd76d92c4c94ad3af0706b126761e7b68f6f2cc7c11daa8129af",
+      "activeBanksCount": 37,
+      "primaryAnchor": "Bank of Zambia (BoZ) Kwacha Root",
+      "frequencyLock": "432 Hz SADC Harmonic Grid",
+      "commodityParity": {
+        "copperPriceLmeUSD": 9825,
+        "copperKwachaParity": 270616,
+        "goldSpotUSD": 2512
+      },
+      "samplePayloadDigest": "999d2f7d9451a460f120ea56ee5f022fbd934bd1d389dc869204578063cd54ef",
+      "status": "TAMPER_PROOF"
+    },
+    {
+      "index": 2,
+      "timestamp": "2026-08-25T13:30:18.370Z",
+      "previousHash": "f8f6c8fc7962020d2f73be7ce3db7fc1c26ee10b05b292e4190eaa03f134aac9",
+      "blockHash": "4b50a0df3593552028cb7f52a2da01e404a0b696c2373d45be7c20e30432958f",
+      "validatorNode": "CURL-TEST-VALIDATOR",
+      "signature": "6eeb51647fa0640d8f85babd022b801716824e91c3cb3918906ad488f5450379",
+      "activeBanksCount": 37,
+      "primaryAnchor": "Bank of Zambia (BoZ) Kwacha Root",
+      "frequencyLock": "432 Hz SADC Harmonic Grid",
+      "commodityParity": {
+        "copperPriceLmeUSD": 9853,
+        "copperKwachaParity": 270862,
+        "goldSpotUSD": 2508
+      },
+      "samplePayloadDigest": "999d2f7d9451a460f120ea56ee5f022fbd934bd1d389dc869204578063cd54ef",
+      "status": "TAMPER_PROOF"
+    },
+    {
+      "index": 3,
+      "timestamp": "2026-08-25T13:40:07.887Z",
+      "previousHash": "4b50a0df3593552028cb7f52a2da01e404a0b696c2373d45be7c20e30432958f",
+      "blockHash": "c3273d2a4abd029c78ba696f84e433c88001b07a1e4227e99252a7f2191f8491",
+      "validatorNode": "WARMABLON-CLI-VALIDATOR-1480",
+      "signature": "bb7cd5322a2ce2d2afbbea0956c6b54b9704ea1185cb736cef32b7cc237983ae",
+      "activeBanksCount": 37,
+      "primaryAnchor": "Bank of Zambia (BoZ) Kwacha Root",
+      "frequencyLock": "432 Hz SADC Harmonic Grid",
+      "commodityParity": {
+        "copperPriceLmeUSD": 9823,
+        "copperKwachaParity": 270271,
+        "goldSpotUSD": 2507
+      },
+      "samplePayloadDigest": "999d2f7d9451a460f120ea56ee5f022fbd934bd1d389dc869204578063cd54ef",
+      "status": "TAMPER_PROOF"
+    },
+    {
+      "index": 4,
+      "timestamp": "2026-08-25T13:49:29.784Z",
+      "previousHash": "c3273d2a4abd029c78ba696f84e433c88001b07a1e4227e99252a7f2191f8491",
+      "blockHash": "df772ef48ac15f39aeb89fb5619a5301d67f03854972d55c3a47c456b23ad927",
+      "validatorNode": "WARMABLON-CLI-VALIDATOR-1707",
+      "signature": "a194f1671af64db5fb55b062bcca6299e2912046b8a9c2aacaba9cd7ee68a3f3",
+      "activeBanksCount": 37,
+      "primaryAnchor": "Bank of Zambia (BoZ) Kwacha Root",
+      "frequencyLock": "432 Hz SADC Harmonic Grid",
+      "commodityParity": {
+        "copperPriceLmeUSD": 9839,
+        "copperKwachaParity": 270381,
+        "goldSpotUSD": 2503
+      },
+      "samplePayloadDigest": "999d2f7d9451a460f120ea56ee5f022fbd934bd1d389dc869204578063cd54ef",
+      "status": "TAMPER_PROOF"
+    }
+  ]
+}
