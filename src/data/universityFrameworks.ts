@@ -1,8 +1,6 @@
-/**
- * WARMABLON Academic & Higher Education Frameworks Matrix
- * Unified registry of Universities, Faculties, Research Chairs,
- * GIS/Geospatial Nodes & Academic Curricula across Zambia, Africa, and Earth.
- */
+// WARMABLON Academic & Higher Education Frameworks Matrix
+// Unified registry of Universities, Faculties, Research Chairs,
+// GIS/Geospatial Nodes & Academic Curricula across Zambia, Africa, and Earth.
 
 export interface AcademicFaculty {
   name: string;

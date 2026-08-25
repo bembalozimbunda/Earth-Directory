@@ -1,10 +1,8 @@
-/**
- * WARMABLON Unified System & Data Integrity Tooling
- * Merged & consolidated from legacy scratchpad scripts.
- * 
- * Provides verification, diagnostics, registry counts, duplicate checks,
- * flag validations, and WARMABLONDATA schema integrity assertions.
- */
+// WARMABLON Unified System & Data Integrity Tooling
+// Merged & consolidated from legacy scratchpad scripts.
+//
+// Provides verification, diagnostics, registry counts, duplicate checks,
+// flag validations, and WARMABLONDATA schema integrity assertions.
 
 const fs = require('fs');
 const path = require('path');
@@ -25,9 +23,7 @@ function loadWarmablonData() {
   }
 }
 
-/**
- * 1. Validate Core WARMABLON Schema and Continental Nodes
- */
+// 1. Validate Core WARMABLON Schema and Continental Nodes
 function validateWarmablon() {
   console.log('--- WARMABLON Data Matrix Validation ---');
   const data = loadWarmablonData();
@@ -81,9 +77,7 @@ function validateWarmablon() {
   return true;
 }
 
-/**
- * 2. Check Solfeggio Harmonic Frequency Specifications
- */
+// 2. Check Solfeggio Harmonic Frequency Specifications
 function checkFrequencies() {
   console.log('\n--- Harmonic Frequencies Verification ---');
   const data = loadWarmablonData();
@@ -94,9 +88,7 @@ function checkFrequencies() {
   });
 }
 
-/**
- * 3. Security Key Diagnostics
- */
+// 3. Security Key Diagnostics
 function checkSecurityKeys() {
   console.log('\n--- Security Keys Diagnostics ---');
   const data = loadWarmablonData();

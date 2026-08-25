@@ -1,6 +1,4 @@
-/**
- * Utility for parsing and calculating real-time local clock times for global sovereign nations.
- */
+// Utility for parsing and calculating real-time local clock times for global sovereign nations.
 
 export interface NationTimeInfo {
   timeFormatted: string; // e.g. "20:54"

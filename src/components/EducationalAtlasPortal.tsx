@@ -392,11 +392,11 @@ export function EducationalAtlasPortal({ isOpen, onClose }: EducationalAtlasPort
                     3. Build & Run Commands
                   </div>
                   <div className="p-3 bg-zinc-900 border border-zinc-800 rounded font-mono text-[11px] text-emerald-400 space-y-1">
-                    <div># Install dependencies</div>
+                    <div className="text-zinc-500">// Install dependencies</div>
                     <div>npm install</div>
-                    <div># Production build</div>
+                    <div className="text-zinc-500">// Production build</div>
                     <div>npm run build</div>
-                    <div># Start standalone server</div>
+                    <div className="text-zinc-500">// Start standalone server</div>
                     <div>npm start</div>
                   </div>
                 </div>

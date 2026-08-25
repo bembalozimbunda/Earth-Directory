@@ -1,12 +1,10 @@
-/**
- * Global Central Bank Telemetry Synchronization CLI Runner
- * 
- * Implements the 4-Tier Validation Loop across the Sovereign Matrix:
- * 1. Recruit ISO Codes (198+ Nations)
- * 2. Map Central Banks (BoZ, Fed, ECB, BoE, SARB, PBOC, BOJ, etc.)
- * 3. Ping Stream Channels (Zero-Trust Local Verification)
- * 4. Amplify Harmonics (Blend Spreads with Solfeggio 432 Hz Root Tone)
- */
+// Global Central Bank Telemetry Synchronization CLI Runner
+// 
+// Implements the 4-Tier Validation Loop across the Sovereign Matrix:
+// 1. Recruit ISO Codes (198+ Nations)
+// 2. Map Central Banks (BoZ, Fed, ECB, BoE, SARB, PBOC, BOJ, etc.)
+// 3. Ping Stream Channels (Zero-Trust Local Verification)
+// 4. Amplify Harmonics (Blend Spreads with Solfeggio 432 Hz Root Tone)
 
 import { CENTRAL_BANK_REGISTRY } from '../src/data/centralBanks.js';
 

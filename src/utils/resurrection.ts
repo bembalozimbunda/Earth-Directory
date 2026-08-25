@@ -1,9 +1,7 @@
-/**
- * WARMABLON System Resurrection & Cache Purge Protocol
- * 
- * Analyzes and resolves browser freeze/stale lockup states caused by
- * rogue service workers, dev-dist precache collisions, or stale Workbox caches.
- */
+// WARMABLON System Resurrection & Cache Purge Protocol
+// 
+// Analyzes and resolves browser freeze/stale lockup states caused by
+// rogue service workers, dev-dist precache collisions, or stale Workbox caches.
 
 export interface ResurrectionReport {
   timestamp: string;
@@ -13,11 +11,9 @@ export interface ResurrectionReport {
   details: string;
 }
 
-/**
- * Execute the full System Resurrection Protocol
- * Purges all active service workers, flushes CacheStorage, clears corrupted local cache keys,
- * and resets reactive state.
- */
+// Execute the full System Resurrection Protocol
+// Purges all active service workers, flushes CacheStorage, clears corrupted local cache keys,
+// and resets reactive state.
 export async function executeResurrectionProtocol(): Promise<ResurrectionReport> {
   const clearedCacheKeys: string[] = [];
   let unregisteredCount = 0;
@@ -88,10 +84,8 @@ export async function executeResurrectionProtocol(): Promise<ResurrectionReport>
   }
 }
 
-/**
- * Autonomous Resurrection Watchdog
- * Runs on application startup to ensure no ghost service workers hijack dev mode.
- */
+// Autonomous Resurrection Watchdog
+// Runs on application startup to ensure no ghost service workers hijack dev mode.
 export function initResurrectionWatchdog(): void {
   // In development mode, aggressively purge any rogue service worker registrations
   if (typeof window !== 'undefined') {

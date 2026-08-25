@@ -17,12 +17,10 @@ export interface ResonanceBridge {
   strength: number; // 0.0 to 1.0
 }
 
-/**
- * Calculates real-time frequency-driven harmonic floating physics.
- * Grounded in mathematical wave equations:
- * dx(t) = A_x * sin(2π * f_float * t + phi) + B_x * sin(2π * f_sub * t)
- * dy(t) = A_y * cos(2π * f_float * t + phi) + B_y * sin(2π * f_micro * t)
- */
+// Calculates real-time frequency-driven harmonic floating physics.
+// Grounded in mathematical wave equations:
+// dx(t) = A_x * sin(2π * f_float * t + phi) + B_x * sin(2π * f_sub * t)
+// dy(t) = A_y * cos(2π * f_float * t + phi) + B_y * sin(2π * f_micro * t)
 export function calculateHarmonicFloat(
   id: string,
   timeSeconds: number,
@@ -70,9 +68,7 @@ export function calculateHarmonicFloat(
   };
 }
 
-/**
- * Determines harmonic resonance bridges between active nodes.
- */
+// Determines harmonic resonance bridges between active nodes.
 export function getHarmonicResonances(activeIds: string[]): ResonanceBridge[] {
   const bridges: ResonanceBridge[] = [];
   
@@ -135,9 +131,7 @@ export function getHarmonicResonances(activeIds: string[]): ResonanceBridge[] {
   return bridges;
 }
 
-/**
- * Web Audio Engine: Synthesizes high-fidelity harmonic tone with fundamental + subtle overtone.
- */
+// Web Audio Engine: Synthesizes high-fidelity harmonic tone with fundamental + subtle overtone.
 let sharedAudioCtx: AudioContext | null = null;
 let sharedAnalyserNode: AnalyserNode | null = null;
 
@@ -246,12 +240,10 @@ export function playHarmonicSynthesisTone(
   }
 }
 
-/**
- * Synthesizes the Kwacha Dawn Outward Emanation Harmonic Sequence:
- * Core: Kwacha Root (432 Hz - The Dawn Awakening)
- * Outward Ring 1: SADC / Southern Africa (528 Hz - DNA Harmony)
- * Outward Ring 2: Continental & Global Sovereign Earth Matrix (963 Hz - True Sun Crown)
- */
+// Synthesizes the Kwacha Dawn Outward Emanation Harmonic Sequence:
+// Core: Kwacha Root (432 Hz - The Dawn Awakening)
+// Outward Ring 1: SADC / Southern Africa (528 Hz - DNA Harmony)
+// Outward Ring 2: Continental & Global Sovereign Earth Matrix (963 Hz - True Sun Crown)
 export function playKwachaDawnHarmonicEmanation(
   volume: number = 0.22,
   onStepChange?: (step: 'kwacha_root' | 'sadc_expansion' | 'planetary_crown') => void

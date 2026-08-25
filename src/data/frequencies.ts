@@ -257,9 +257,7 @@ export const MASTER_FREQUENCY_REGISTRY: Record<string, FrequencyNodeSpec> = {
   }
 };
 
-/**
- * Returns the frequency node specification for a given ID or frequency number.
- */
+// Returns the frequency node specification for a given ID or frequency number.
 export function getFrequencySpec(idOrFreq: string | number): FrequencyNodeSpec {
   if (typeof idOrFreq === 'number') {
     const match = Object.values(MASTER_FREQUENCY_REGISTRY).find(s => s.frequency === idOrFreq);

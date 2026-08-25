@@ -81,7 +81,7 @@ export function SadcTransitCorridors({ onClose }: { onClose?: () => void }) {
       });
       if (res.ok) {
         const result = await res.json();
-        setSweepFeedback(`✓ Block #${result.block.index} signed & chained (${result.block.blockHash.substring(0, 16)}...)`);
+        setSweepFeedback(`✓ Block ${result.block.index} signed & chained (${result.block.blockHash.substring(0, 16)}...)`);
         await fetchLedger();
       } else {
         setSweepFeedback('Sweep execution error');
@@ -679,7 +679,7 @@ export function SadcTransitCorridors({ onClose }: { onClose?: () => void }) {
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   <div className="p-3 rounded-xl bg-zinc-900 border border-zinc-800">
                     <span className="text-[10px] text-zinc-500 font-mono block">TOTAL AUDIT SWEEPS</span>
-                    <span className="text-base font-mono font-bold text-purple-300">#{ledgerData.totalSweeps}</span>
+                    <span className="text-base font-mono font-bold text-purple-300">Sweep {ledgerData.totalSweeps}</span>
                   </div>
                   <div className="p-3 rounded-xl bg-zinc-900 border border-zinc-800">
                     <span className="text-[10px] text-zinc-500 font-mono block">CHAIN INTEGRITY</span>
@@ -699,7 +699,7 @@ export function SadcTransitCorridors({ onClose }: { onClose?: () => void }) {
                     <div className="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-800/80 pb-2">
                       <div className="flex items-center gap-2">
                         <span className="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-bold border border-purple-500/40">
-                          BLOCK #{block.index}
+                          BLOCK {block.index}
                         </span>
                         <span className="text-zinc-400 text-[11px]">
                           {new Date(block.timestamp).toLocaleString()}
