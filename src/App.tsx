@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { GeminiIntelligence } from './components/GeminiIntelligence';
 import { TRUE_SUN_MEMORY } from './data/TrueSunMemory';
 import { SynthesisCore } from './components/SynthesisCore';
 import { CONTINENTS, ContinentData } from './data/continents';
@@ -62,6 +63,8 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-zinc-950 flex flex-col items-center justify-between py-6 sm:py-8 px-4 relative overflow-hidden font-sans select-none">
+      
+      <GeminiIntelligence />
       
       {/* Background Ambience */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(24,24,27,1)_0%,rgba(9,9,11,1)_100%)] pointer-events-none" />
