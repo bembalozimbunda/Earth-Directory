@@ -1,4 +1,5 @@
 import express from "express";
+import { GoogleGenAI } from "@google/genai";
 import path from "path";
 import { createServer as createViteServer } from "vite";
 import { VOID_KEYS } from "./server/data/void_keys.js";
@@ -715,6 +716,62 @@ CREATE INDEX IF NOT EXISTS idx_zambia_districts_province ON zambia_districts(pro
       message: "Resurrection Sweep broadcasted. Rogue service workers, stale Workbox locks, and corrupt buffers marked for destruction.",
       timestamp: new Date().toISOString()
     });
+  });
+
+
+  // --- WARMABLON GEMINI INTELLIGENCE API ---
+  // The API key stays on the server; it is never sent to the browser.
+  const geminiRequestTimes = new Map<string, number[]>();
+  app.get("/api/ai/gemini-status", (_req, res) => {
+    res.json({
+      provider: "Google Gemini",
+      configured: Boolean(process.env.GEMINI_API_KEY),
+      model: process.env.GEMINI_MODEL || "gemini-3.8-flash",
+      keyExposure: "SERVER_ONLY"
+    });
+  });
+
+  app.post("/api/ai/gemini", async (req, res) => {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      return res.status(503).json({ error: "Gemini is not configured. Add GEMINI_API_KEY to the server environment." });
+    }
+
+    const prompt = typeof req.body?.prompt === "string" ? req.body.prompt.trim() : "";
+    if (!prompt) return res.status(400).json({ error: "A prompt is required." });
+    if (prompt.length > 10000) return res.status(413).json({ error: "Prompt is too long. Maximum length is 10,000 characters." });
+
+    const clientKey = String(req.ip || req.socket.remoteAddress || "unknown");
+    const now = Date.now();
+    const recent = (geminiRequestTimes.get(clientKey) || []).filter(time => now - time < 60_000);
+    if (recent.length >= 12) {
+      return res.status(429).json({ error: "Request limit reached. Please wait a minute before trying again." });
+    }
+    recent.push(now);
+    geminiRequestTimes.set(clientKey, recent);
+
+    try {
+      const ai = new GoogleGenAI({ apiKey });
+      const response = await ai.models.generateContent({
+        model: process.env.GEMINI_MODEL || "gemini-3.8-flash",
+        contents: prompt,
+        config: {
+          systemInstruction: [
+            "You are the Gemini intelligence service inside Universal Earth Directory (WARMABLON).",
+            "Support research, reasoning, education, software development, geography, African and Zambian context, and content planning.",
+            "Distinguish verified facts from estimates, proposals, simulations, and creative concepts.",
+            "Do not invent live data, official endorsements, credentials, or completed actions.",
+            "Respect the user's authorship and preserve established project context while challenging weak reasoning constructively."
+          ].join(" ")
+        }
+      });
+      const text = response.text?.trim();
+      if (!text) return res.status(502).json({ error: "Gemini returned no text. Please try again." });
+      res.json({ provider: "Google Gemini", model: process.env.GEMINI_MODEL || "gemini-3.8-flash", text });
+    } catch (error: any) {
+      SILENT_SYSTEM_LOG("GEMINI_ERROR", "Gemini request failed", String(error?.message || error));
+      res.status(502).json({ error: "Gemini request failed. Check the server key, model access, quota and network configuration." });
+    }
   });
 
   // Vite middleware for development
